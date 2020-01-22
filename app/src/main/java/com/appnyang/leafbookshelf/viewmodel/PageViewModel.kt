@@ -19,9 +19,9 @@ import java.io.InputStreamReader
  */
 class PageViewModel : ViewModel() {
 
-    private val _rawText = MutableLiveData<String>()
+    private val _rawText = MutableLiveData<CharSequence>()
 
-    val rawText: LiveData<String> = _rawText
+    val rawText: LiveData<CharSequence> = _rawText
 
     /**
      * Read text file from uri.
