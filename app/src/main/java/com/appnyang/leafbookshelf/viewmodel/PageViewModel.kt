@@ -2,6 +2,10 @@ package com.appnyang.leafbookshelf.viewmodel
 
 import android.content.ContentResolver
 import android.net.Uri
+import android.os.Build
+import android.text.Layout
+import android.text.StaticLayout
+import android.text.TextPaint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,8 +24,10 @@ import java.io.InputStreamReader
 class PageViewModel : ViewModel() {
 
     private val _rawText = MutableLiveData<CharSequence>()
+    private val _pagedBook = MutableLiveData<List<CharSequence>>()
 
     val rawText: LiveData<CharSequence> = _rawText
+    val pagedBook: LiveData<List<CharSequence>> = _pagedBook
 
     /**
      * Read text file from uri.
@@ -55,5 +61,54 @@ class PageViewModel : ViewModel() {
         }
 
         _rawText.postValue(builder.toString())
+    }
+
+    /**
+     * Paginating function should be called AFTER the view is laid out,
+     * because it needs the view's height to get list of pages.
+     * In regard to the limitation above, we assume that reading files takes much time than drawing ui.
+     *
+     * @param width Screen width of the paged view in px.
+     * @param height Screen height of the paged view in px.
+     * @param paint TextPaint object of the paged view.
+     * @param spacingMult LineSpacingMultiplier of the paged view.
+     * @param spacingExtra LineSpacingExtra of the paged view.
+     * @param includePad IncludeFontPadding of the paged view.
+     */
+    suspend fun paginateBook(
+        width: Int, height: Int, paint: TextPaint,
+        spacingMult: Float, spacingExtra: Float, includePad: Boolean)
+            = withContext(Dispatchers.Default) {
+
+        val layout: StaticLayout = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            StaticLayout(_rawText.value, paint, width, Layout.Alignment.ALIGN_NORMAL, spacingMult, spacingExtra, includePad)
+        } else {
+            StaticLayout.Builder
+                .obtain(_rawText.value!!, 0, rawText.value!!.length, paint, width)
+                .setAlignment(Layout.Alignment.ALIGN_NORMAL)
+                .setLineSpacing(spacingExtra, spacingMult)
+                .setIncludePad(includePad)
+                .build()
+        }
+
+        val pagedSequence = mutableListOf<CharSequence>()
+        var beginOffset = 0
+        var heightThreshold = height
+        for (i in 0 until layout.lineCount) {
+            // When the line has been exceeded single page,
+            if (heightThreshold < layout.getLineBottom(i)) {
+                pagedSequence.add(_rawText.value!!.subSequence(beginOffset until layout.getLineStart(i)))
+                beginOffset = layout.getLineStart(i)
+                heightThreshold = layout.getLineTop(i) + height
+            }
+        }
+
+        // Add rest of the sequence.
+        if (beginOffset != layout.getLineEnd(layout.lineCount - 1)) {
+            pagedSequence
+                .add(_rawText.value!!.subSequence(beginOffset until layout.getLineEnd(layout.lineCount - 1)))
+        }
+
+        _pagedBook.postValue(pagedSequence)
     }
 }
