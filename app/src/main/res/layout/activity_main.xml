@@ -23,6 +23,8 @@
                 android:layout_height="200dp"
                 app:contentScrim="#ffffff"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:collapsedTitleTextAppearance="@style/TextAppearance.ToolBarTitle.Collapsed"
+                app:expandedTitleTextAppearance="@style/TextAppearance.ToolBarTitle.Expanded"
                 app:expandedTitleGravity="center"
                 app:collapsedTitleGravity="center">
 

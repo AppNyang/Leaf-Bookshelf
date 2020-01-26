@@ -8,4 +8,16 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- Text Appearance -->
+    <style name="TextAppearance.ToolBarTitle.Collapsed" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:fontFamily">@font/nanum_square</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextAppearance.ToolBarTitle.Expanded" parent="TextAppearance.Design.CollapsingToolbar.Expanded">
+        <item name="android:textColor">@android:color/transparent</item>
+        <item name="android:fontFamily">@font/nanum_square</item>
+    </style>
+
 </resources>
