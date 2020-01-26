@@ -33,6 +33,8 @@ class MainActivity : AppCompatActivity() {
             lifecycleOwner = this@MainActivity
         }
 
+        toolBar.title = resources.getString(R.string.app_name)
+
         initStatusBar()
         // Set top margin of AppBar to avoid overlapping status bar.
         ViewCompat.setOnApplyWindowInsetsListener(appBar) { _, insets ->
