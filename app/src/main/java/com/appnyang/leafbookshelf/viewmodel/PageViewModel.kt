@@ -26,8 +26,12 @@ class PageViewModel : ViewModel() {
     private val _rawText = MutableLiveData<CharSequence>()
     private val _pagedBook = MutableLiveData<List<CharSequence>>()
 
+    private val _currentPage = MutableLiveData(0)
+
     val rawText: LiveData<CharSequence> = _rawText
     val pagedBook: LiveData<List<CharSequence>> = _pagedBook
+
+    val currentPage: LiveData<Int> = _currentPage
 
     /**
      * Read text file from uri.

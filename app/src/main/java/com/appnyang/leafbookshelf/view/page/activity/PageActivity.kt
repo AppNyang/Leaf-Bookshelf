@@ -32,8 +32,21 @@ class PageActivity : AppCompatActivity() {
 
         viewModel.rawText.observe(this, Observer {
             lifecycleScope.launch {
-                pagerView.buildPagedText(it)
+                textContent.apply {
+                    viewModel.paginateBook(
+                        width,
+                        height,
+                        paint,
+                        lineSpacingMultiplier,
+                        lineSpacingExtra,
+                        includeFontPadding
+                    )
+                }
             }
+        })
+
+        viewModel.pagedBook.observe(this, Observer {
+            textContent.text = it[viewModel.currentPage.value!!]
         })
     }
 
