@@ -20,7 +20,7 @@
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="170dp"
                 app:contentScrim="#ffffff"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:collapsedTitleTextAppearance="@style/TextAppearance.ToolBarTitle.Collapsed"
@@ -30,7 +30,7 @@
 
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="170dp"
                     android:src="@drawable/banner_app_bar"
                     android:scaleType="centerCrop"
                     app:layout_collapseMode="parallax" />
