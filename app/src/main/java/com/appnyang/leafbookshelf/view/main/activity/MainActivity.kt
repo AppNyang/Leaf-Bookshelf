@@ -5,8 +5,11 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.updateLayoutParams
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.appnyang.leafbookshelf.R
@@ -31,6 +34,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         initStatusBar()
+        // Set top margin of AppBar to avoid overlapping status bar.
+        ViewCompat.setOnApplyWindowInsetsListener(appBar) { _, insets ->
+            toolBar.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                topMargin = insets.systemWindowInsetTop
+            }
+            insets.consumeSystemWindowInsets()
+        }
 
         viewModel.readText.observe(this, Observer {
             startActivity(Intent(this, PageActivity::class.java))
