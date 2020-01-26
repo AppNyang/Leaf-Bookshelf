@@ -2,4 +2,9 @@
     <string name="app_name">Leaf Bookshelf</string>
 
     <string name="empty_shelf">Your bookshelf is empty yet.\nOpen a new book now!</string>
+
+    <!-- Fab ids -->
+    <item name="fab_folder" type="id" />
+    <item name="fab_google_drive" type="id" />
+    <item name="fab_dropbox" type="id" />
 </resources>

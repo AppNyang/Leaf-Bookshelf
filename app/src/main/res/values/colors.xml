@@ -5,6 +5,7 @@
     <color name="colorAccent">#D81B60</color>
 
     <!-- Theme colors -->
+    <color name="lightForest">#64A446</color>
     <color name="lightLeaf">#AAD047</color>
 
     <color name="white">#FFFFFF</color>

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.updateLayoutParams
 import androidx.databinding.DataBindingUtil
@@ -17,6 +18,7 @@ import com.appnyang.leafbookshelf.databinding.ActivityMainBinding
 import com.appnyang.leafbookshelf.view.page.activity.PageActivity
 import com.appnyang.leafbookshelf.viewmodel.MainViewModel
 import com.google.android.material.appbar.AppBarLayout
+import com.leinardi.android.speeddial.SpeedDialActionItem
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.math.abs
@@ -47,6 +49,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.readText.observe(this, Observer {
             startActivity(Intent(this, PageActivity::class.java))
         })
+        initFab()
     }
 
     /**
@@ -73,4 +76,46 @@ class MainActivity : AppCompatActivity() {
             })
         }
     }
+
+    /**
+     * Initialize the Floating Action Button.
+     */
+    private fun initFab() {
+        dialFab.addAllActionItems(buildFabItems())
+
+        // Add the fab click listener.
+        dialFab.setOnActionSelectedListener { item ->
+            when (item.id) {
+                R.id.fab_folder -> {
+                    startActivity(Intent(this, PageActivity::class.java))
+                }
+                R.id.fab_google_drive -> {}
+                R.id.fab_dropbox -> {}
+            }
+
+            dialFab.close()
+
+            true
+        }
+    }
+
+    /**
+     * Return the list of sub-items of fab.
+     *
+     * @return List of sub-items of fab.
+     */
+    private fun buildFabItems() = listOf<SpeedDialActionItem>(
+        SpeedDialActionItem.Builder(R.id.fab_folder, R.drawable.ic_folder)
+            .setFabBackgroundColor(ResourcesCompat.getColor(resources, R.color.lightLeaf, theme))
+            .setFabImageTintColor(ResourcesCompat.getColor(resources, R.color.white, theme))
+            .create(),
+        SpeedDialActionItem.Builder(R.id.fab_google_drive, R.drawable.ic_google_drive)
+            .setFabBackgroundColor(ResourcesCompat.getColor(resources, R.color.lightLeaf, theme))
+            .setFabImageTintColor(ResourcesCompat.getColor(resources, R.color.white, theme))
+            .create(),
+        SpeedDialActionItem.Builder(R.id.fab_dropbox, R.drawable.ic_dropbox)
+            .setFabBackgroundColor(ResourcesCompat.getColor(resources, R.color.lightLeaf, theme))
+            .setFabImageTintColor(ResourcesCompat.getColor(resources, R.color.white, theme))
+            .create()
+    )
 }

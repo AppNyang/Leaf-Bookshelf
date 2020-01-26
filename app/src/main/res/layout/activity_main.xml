@@ -72,5 +72,15 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
+
+        <com.leinardi.android.speeddial.SpeedDialView
+            android:id="@+id/dialFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            app:sdMainFabClosedBackgroundColor="@color/lightForest"
+            app:sdMainFabClosedSrc="@drawable/ic_book"
+            app:sdMainFabClosedIconColor="@color/white"
+            app:layout_behavior="com.leinardi.android.speeddial.SpeedDialView$ScrollingViewSnackbarBehavior" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
