@@ -12,7 +12,6 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.updateLayoutParams
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import com.appnyang.leafbookshelf.R
 import com.appnyang.leafbookshelf.databinding.ActivityMainBinding
 import com.appnyang.leafbookshelf.view.page.activity.PageActivity
@@ -46,9 +45,6 @@ class MainActivity : AppCompatActivity() {
             insets.consumeSystemWindowInsets()
         }
 
-        viewModel.readText.observe(this, Observer {
-            startActivity(Intent(this, PageActivity::class.java))
-        })
         initFab()
     }
 
