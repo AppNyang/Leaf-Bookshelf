@@ -50,6 +50,7 @@
             android:layout_height="match_parent"
             android:fillViewport="true"
             app:behavior_overlapTop="30dp"
+            android:background="@drawable/round_top_background"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
