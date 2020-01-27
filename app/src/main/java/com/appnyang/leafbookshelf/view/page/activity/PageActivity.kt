@@ -31,29 +31,5 @@ class PageActivity : AppCompatActivity() {
                 pagerView.buildPagedText(it)
             }
         })
-
-        openBook()
-    }
-
-    private fun openBook() {
-        Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-            addCategory(Intent.CATEGORY_OPENABLE)
-            type = "text/*"
-
-            startActivityForResult(this, PICK_TEXT_FILE)
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == PICK_TEXT_FILE && resultCode == Activity.RESULT_OK) {
-            // TODO: Grant persist permission(https://developer.android.com/training/data-storage/shared/documents-files#persist-permissions)
-            data?.data?.also { viewModel.readBookFromUri(it, applicationContext.contentResolver) }
-        }
-    }
-
-    companion object {
-        const val PICK_TEXT_FILE = 1000
     }
 }

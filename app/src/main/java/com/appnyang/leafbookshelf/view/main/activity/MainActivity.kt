@@ -1,5 +1,6 @@
 package com.appnyang.leafbookshelf.view.main.activity
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
@@ -14,7 +15,6 @@ import androidx.core.view.updateLayoutParams
 import androidx.databinding.DataBindingUtil
 import com.appnyang.leafbookshelf.R
 import com.appnyang.leafbookshelf.databinding.ActivityMainBinding
-import com.appnyang.leafbookshelf.view.page.activity.PageActivity
 import com.appnyang.leafbookshelf.viewmodel.MainViewModel
 import com.google.android.material.appbar.AppBarLayout
 import com.leinardi.android.speeddial.SpeedDialActionItem
@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity() {
         dialFab.setOnActionSelectedListener { item ->
             when (item.id) {
                 R.id.fab_folder -> {
-                    startActivity(Intent(this, PageActivity::class.java))
+                    openFromStorage()
                 }
                 R.id.fab_google_drive -> {}
                 R.id.fab_dropbox -> {}
@@ -114,4 +114,31 @@ class MainActivity : AppCompatActivity() {
             .setFabImageTintColor(ResourcesCompat.getColor(resources, R.color.white, theme))
             .create()
     )
+
+    /**
+     * Show file picker.
+     */
+    private fun openFromStorage() {
+        Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "text/*"
+
+            startActivityForResult(this, PICK_FILE_STORAGE)
+        }
+    }
+
+    /**
+     * Get the file and pass it to PageActivity.
+     */
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == PICK_FILE_STORAGE && resultCode == Activity.RESULT_OK) {
+            // TODO: Grant persist permission(https://developer.android.com/training/data-storage/shared/documents-files#persist-permissions)
+        }
+    }
+
+    companion object {
+        const val PICK_FILE_STORAGE = 1000
+    }
 }
