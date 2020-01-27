@@ -134,7 +134,13 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == PICK_FILE_STORAGE && resultCode == Activity.RESULT_OK) {
-            // TODO: Grant persist permission(https://developer.android.com/training/data-storage/shared/documents-files#persist-permissions)
+            data?.data?.also {
+                val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+
+                // Take persist permissions to access the file across device restarts.
+                applicationContext.contentResolver.takePersistableUriPermission(it, takeFlags)
+            }
         }
     }
 
