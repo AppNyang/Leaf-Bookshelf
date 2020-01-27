@@ -1,7 +1,6 @@
 package com.appnyang.leafbookshelf.view.page.activity
 
-import android.app.Activity
-import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -26,10 +25,28 @@ class PageActivity : AppCompatActivity() {
             lifecycleOwner = this@PageActivity
         }
 
+        // Open files depends on file type.
+        if (savedInstanceState == null) {
+            openBook()
+        }
+
         viewModel.rawText.observe(this, Observer {
             lifecycleScope.launch {
                 pagerView.buildPagedText(it)
             }
         })
+    }
+
+    /**
+     * Open files depends on file type.
+     */
+    private fun openBook() {
+        intent.extras?.getParcelable<Uri>(KEY_FILE_URI)?.let {
+            viewModel.readBookFromUri(it, applicationContext.contentResolver)
+        }
+    }
+
+    companion object {
+        const val KEY_FILE_URI = "KEY_FILE_URI"
     }
 }

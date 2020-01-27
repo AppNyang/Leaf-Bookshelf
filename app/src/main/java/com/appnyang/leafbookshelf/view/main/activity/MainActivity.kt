@@ -15,6 +15,7 @@ import androidx.core.view.updateLayoutParams
 import androidx.databinding.DataBindingUtil
 import com.appnyang.leafbookshelf.R
 import com.appnyang.leafbookshelf.databinding.ActivityMainBinding
+import com.appnyang.leafbookshelf.view.page.activity.PageActivity
 import com.appnyang.leafbookshelf.viewmodel.MainViewModel
 import com.google.android.material.appbar.AppBarLayout
 import com.leinardi.android.speeddial.SpeedDialActionItem
@@ -140,6 +141,11 @@ class MainActivity : AppCompatActivity() {
 
                 // Take persist permissions to access the file across device restarts.
                 applicationContext.contentResolver.takePersistableUriPermission(it, takeFlags)
+
+                // Open a PageActivity with uri.
+                startActivity(Intent(this, PageActivity::class.java).apply {
+                    putExtra(PageActivity.KEY_FILE_URI, it)
+                })
             }
         }
     }
