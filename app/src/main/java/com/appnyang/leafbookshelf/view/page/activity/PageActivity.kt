@@ -2,12 +2,16 @@ package com.appnyang.leafbookshelf.view.page.activity
 
 import android.net.Uri
 import android.os.Bundle
+import android.util.DisplayMetrics
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.appnyang.leafbookshelf.R
 import com.appnyang.leafbookshelf.databinding.ActivityPageBinding
+import com.appnyang.leafbookshelf.view.page.fragment.PageFragment
 import com.appnyang.leafbookshelf.viewmodel.PageViewModel
 import kotlinx.android.synthetic.main.activity_page.*
 import kotlinx.coroutines.launch
@@ -31,22 +35,24 @@ class PageActivity : AppCompatActivity() {
         }
 
         viewModel.rawText.observe(this, Observer {
+            val displayMetrics = DisplayMetrics()
+            windowManager.defaultDisplay.getMetrics(displayMetrics)
+
             lifecycleScope.launch {
-                textContent.apply {
-                    viewModel.paginateBook(
-                        width,
-                        height,
-                        paint,
-                        lineSpacingMultiplier,
-                        lineSpacingExtra,
-                        includeFontPadding
-                    )
-                }
+                viewModel.paginateBook(
+                    pager.width,
+                    pager.height,
+                    textPainter.paint,
+                    textPainter.lineSpacingMultiplier,
+                    textPainter.lineSpacingExtra,
+                    textPainter.includeFontPadding
+                )
             }
         })
 
         viewModel.pagedBook.observe(this, Observer {
-            textContent.text = it[viewModel.currentPage.value!!]
+            // Setup ViewPager.
+            pager.adapter = TextPagerAdapter(it)
         })
     }
 
@@ -61,5 +67,16 @@ class PageActivity : AppCompatActivity() {
 
     companion object {
         const val KEY_FILE_URI = "KEY_FILE_URI"
+    }
+
+    /**
+     * A Text binder for ViewPager2.
+     */
+    private inner class TextPagerAdapter(val texts: List<CharSequence>) : FragmentStateAdapter(this) {
+        override fun getItemCount(): Int = texts.size
+
+        override fun createFragment(position: Int): Fragment {
+            return PageFragment(position)
+        }
     }
 }

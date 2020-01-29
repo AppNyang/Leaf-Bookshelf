@@ -13,10 +13,15 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/textContent"
+            android:id="@+id/textPainter"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="20dp" />
+            android:visibility="gone" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
