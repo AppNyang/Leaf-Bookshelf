@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.appnyang.leafbookshelf.R
 import com.appnyang.leafbookshelf.databinding.ActivityPageBinding
+import com.appnyang.leafbookshelf.util.transformer.DepthPageTransformer
 import com.appnyang.leafbookshelf.view.page.fragment.PageFragment
 import com.appnyang.leafbookshelf.viewmodel.PageViewModel
 import kotlinx.android.synthetic.main.activity_page.*
@@ -28,6 +29,9 @@ class PageActivity : AppCompatActivity() {
             viewModel = this@PageActivity.viewModel
             lifecycleOwner = this@PageActivity
         }
+
+        // Set page transformer.
+        pager.setPageTransformer(DepthPageTransformer())
 
         // Open files depends on file type.
         if (savedInstanceState == null) {
