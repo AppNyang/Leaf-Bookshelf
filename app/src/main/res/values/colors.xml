@@ -8,5 +8,8 @@
     <color name="lightForest">#64A446</color>
     <color name="lightLeaf">#AAD047</color>
 
+    <!-- Page -->
+    <color name="textColor">#6A6A6A</color>
+
     <color name="white">#FFFFFF</color>
 </resources>

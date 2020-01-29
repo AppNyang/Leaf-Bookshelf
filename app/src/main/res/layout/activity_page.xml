@@ -16,7 +16,10 @@
             android:id="@+id/textPainter"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone" />
+            android:layout_margin="@dimen/page_margin"
+            android:textAppearance="@style/TextAppearance.Page"
+            android:lineSpacingMultiplier="1.6"
+            android:visibility="invisible" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/pager"

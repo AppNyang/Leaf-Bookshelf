@@ -40,8 +40,8 @@ class PageActivity : AppCompatActivity() {
 
             lifecycleScope.launch {
                 viewModel.paginateBook(
-                    pager.width,
-                    pager.height,
+                    textPainter.width,
+                    textPainter.height,
                     textPainter.paint,
                     textPainter.lineSpacingMultiplier,
                     textPainter.lineSpacingExtra,
