@@ -34,6 +34,7 @@
         <item name="chipBackgroundColor">@color/chip_background</item>
         <item name="chipStrokeColor">@color/darkLeaf</item>
         <item name="chipStrokeWidth">1dp</item>
+        <item name="rippleColor">@color/darkLeaf</item>
         <item name="android:textAppearance">@style/TextAppearance.Chip.Page</item>
     </style>
 
