@@ -91,6 +91,7 @@ class PageViewModel : ViewModel() {
         // TODO: Improve performance.
         var start = System.currentTimeMillis()
         val layout: StaticLayout = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            @Suppress("DEPRECATION")
             StaticLayout(_rawText.value, paint, width, Layout.Alignment.ALIGN_NORMAL, spacingMult, spacingExtra, includePad)
         } else {
             StaticLayout.Builder
