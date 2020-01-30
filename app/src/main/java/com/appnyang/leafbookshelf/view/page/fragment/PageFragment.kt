@@ -2,6 +2,7 @@ package com.appnyang.leafbookshelf.view.page.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -32,6 +33,17 @@ class PageFragment(val page: Int) : Fragment() {
         }.root
 
         view.textPage.text = getSharedViewModel<PageViewModel>().pagedBook.value!![page]
+
+        view.framePage.setOnTouchListener { frameLayout, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                when (event.x.toInt()) {
+                    in 0 until (frameLayout.width / 3) -> getSharedViewModel<PageViewModel>().goToPage(page - 1)
+                    in (2 * frameLayout.width / 3)..frameLayout.width -> getSharedViewModel<PageViewModel>().goToPage(page + 1)
+                }
+            }
+
+            true
+        }
 
         return view
     }

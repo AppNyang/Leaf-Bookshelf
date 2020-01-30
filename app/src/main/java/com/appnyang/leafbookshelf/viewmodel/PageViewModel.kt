@@ -123,4 +123,15 @@ class PageViewModel : ViewModel() {
 
         _pagedBook.postValue(pagedSequence)
     }
+
+    /**
+     * Move page to the given page.
+     *
+     * @param page
+     */
+    fun goToPage(page: Int) {
+        if (page in _pagedBook.value!!.indices)
+        _currentPage.value = page
+    }
+
 }

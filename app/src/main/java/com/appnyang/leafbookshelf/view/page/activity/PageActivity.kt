@@ -3,6 +3,7 @@ package com.appnyang.leafbookshelf.view.page.activity
 import android.net.Uri
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -57,6 +58,10 @@ class PageActivity : AppCompatActivity() {
         viewModel.pagedBook.observe(this, Observer {
             // Setup ViewPager.
             pager.adapter = TextPagerAdapter(it)
+        })
+
+        viewModel.currentPage.observe(this, Observer {
+            pager.currentItem = it
         })
     }
 
