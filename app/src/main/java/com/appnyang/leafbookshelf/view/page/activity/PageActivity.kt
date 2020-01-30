@@ -1,5 +1,6 @@
 package com.appnyang.leafbookshelf.view.page.activity
 
+import android.animation.ObjectAnimator
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -73,6 +74,10 @@ class PageActivity : AppCompatActivity() {
         viewModel.currentPage.observe(this, Observer {
             pager.currentItem = it
         })
+
+        viewModel.showMenu.observe(this, Observer {
+            showMenu(it)
+        })
     }
 
     /**
@@ -102,6 +107,37 @@ class PageActivity : AppCompatActivity() {
     private fun openBook() {
         intent.extras?.getParcelable<Uri>(KEY_FILE_URI)?.let {
             viewModel.readBookFromUri(it, applicationContext.contentResolver)
+        }
+    }
+
+    /**
+     * Show or hide menus based on bShow
+     *
+     * @param bShow true to show the menus.
+     */
+    private fun showMenu(bShow: Boolean) {
+        if (layoutTopMenu.height != 0 || layoutBottomMenu.height != 0) {
+            val animationDuration = 200L
+
+            if (bShow) {
+                ObjectAnimator.ofFloat(layoutTopMenu, "translationY", 0f).apply {
+                    duration = animationDuration
+                    start()
+                }
+                ObjectAnimator.ofFloat(layoutBottomMenu, "translationY", 0f).apply {
+                    duration = animationDuration
+                    start()
+                }
+            } else {
+                ObjectAnimator.ofFloat(layoutTopMenu, "translationY", -layoutTopMenu.height.toFloat()).apply {
+                    duration = animationDuration
+                    start()
+                }
+                ObjectAnimator.ofFloat(layoutBottomMenu, "translationY", layoutBottomMenu.height.toFloat()).apply {
+                    duration = animationDuration
+                    start()
+                }
+            }
         }
     }
 

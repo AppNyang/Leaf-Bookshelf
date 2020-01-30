@@ -28,10 +28,14 @@ class PageViewModel : ViewModel() {
 
     private val _currentPage = MutableLiveData(0)
 
+    private val _showMenu = MutableLiveData<Boolean>(false)
+
     val rawText: LiveData<CharSequence> = _rawText
     val pagedBook: LiveData<List<CharSequence>> = _pagedBook
 
     val currentPage: LiveData<Int> = _currentPage
+
+    val showMenu: LiveData<Boolean> = _showMenu
 
     /**
      * Read text file from uri.
@@ -134,4 +138,7 @@ class PageViewModel : ViewModel() {
         _currentPage.value = page
     }
 
+    fun showMenu() {
+        _showMenu.value = !_showMenu.value!!
+    }
 }

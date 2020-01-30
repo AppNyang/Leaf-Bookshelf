@@ -34,8 +34,9 @@
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:background="@color/menuBackground"
-            app:layout_constraintTop_toTopOf="parent"
-            android:elevation="@dimen/page_menu_elevation">
+            android:translationY="-55dp"
+            android:elevation="@dimen/page_menu_elevation"
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.button.MaterialButton
                 style="@style/Button.Icon"
@@ -77,10 +78,12 @@
 
         <!-- Bottom Menu -->
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutBottomMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:background="@color/menuBackground"
+            android:translationY="150dp"
             android:elevation="@dimen/page_menu_elevation"
             app:layout_constraintBottom_toBottomOf="parent">
 
