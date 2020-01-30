@@ -3,12 +3,12 @@
 
     <string name="empty_shelf">Your bookshelf is empty yet.\nOpen a new book now!</string>
 
-    <!-- Fab ids -->
     <!-- Page Activity -->
     <string name="chip_page">PAGE</string>
     <string name="chip_tts">TTS</string>
     <string name="chip_auto">AUTO</string>
 
+    <!-- Fab ids. DO NOT TRANSLATE -->
     <item name="fab_folder" type="id" />
     <item name="fab_google_drive" type="id" />
     <item name="fab_dropbox" type="id" />
