@@ -6,6 +6,7 @@
 
     <!-- Theme colors -->
     <color name="lightForest">#64A446</color>
+    <color name="darkLeaf">#89C64D</color>
     <color name="lightLeaf">#AAD047</color>
 
     <!-- Page -->

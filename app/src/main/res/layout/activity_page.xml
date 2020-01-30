@@ -93,6 +93,7 @@
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <SeekBar
+                style="@style/SeekBar.Page"
                 android:id="@+id/seekPages"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

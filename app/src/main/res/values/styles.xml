@@ -20,6 +20,13 @@
         <item name="rippleColor">@color/colorPrimary</item>
     </style>
 
+    <!-- Page seek bar -->
+    <style name="SeekBar.Page" parent="AppTheme">
+        <item name="android:progressTint">@color/darkLeaf</item>
+        <item name="android:thumbTint">@color/darkLeaf</item>
+        <item name="android:progressBackgroundTint">#B7B7B7</item>
+    </style>
+
     <!-- Text Appearance -->
     <style name="TextAppearance.ToolBarTitle.Collapsed" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@color/colorPrimary</item>
