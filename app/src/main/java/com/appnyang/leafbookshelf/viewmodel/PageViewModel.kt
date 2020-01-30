@@ -84,6 +84,8 @@ class PageViewModel : ViewModel() {
         spacingMult: Float, spacingExtra: Float, includePad: Boolean)
             = withContext(Dispatchers.Default) {
 
+        // TODO: Improve performance.
+        var start = System.currentTimeMillis()
         val layout: StaticLayout = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             StaticLayout(_rawText.value, paint, width, Layout.Alignment.ALIGN_NORMAL, spacingMult, spacingExtra, includePad)
         } else {
@@ -94,6 +96,10 @@ class PageViewModel : ViewModel() {
                 .setIncludePad(includePad)
                 .build()
         }
+
+        println("StaticLayout: ${System.currentTimeMillis() - start}")
+
+        start = System.currentTimeMillis()
 
         val pagedSequence = mutableListOf<CharSequence>()
         var beginOffset = 0
@@ -112,6 +118,8 @@ class PageViewModel : ViewModel() {
             pagedSequence
                 .add(_rawText.value!!.subSequence(beginOffset until layout.getLineEnd(layout.lineCount - 1)))
         }
+
+        println("Split: ${System.currentTimeMillis() - start}")
 
         _pagedBook.postValue(pagedSequence)
     }
