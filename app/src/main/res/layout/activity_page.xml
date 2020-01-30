@@ -100,6 +100,7 @@
                 android:id="@+id/seekPages"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:progress="@={viewModel.currentPage}"
                 app:layout_constraintTop_toBottomOf="@id/textPages" />
             
             <com.google.android.material.chip.ChipGroup

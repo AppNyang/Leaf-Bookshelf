@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.appnyang.leafbookshelf.R
 import com.appnyang.leafbookshelf.databinding.ActivityPageBinding
 import com.appnyang.leafbookshelf.util.transformer.DepthPageTransformer
@@ -44,7 +45,12 @@ class PageActivity : AppCompatActivity() {
 
         // Set page transformer.
         pager.setPageTransformer(DepthPageTransformer())
-
+        pager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                viewModel.currentPage.value = position
+            }
+        })
         // Open files depends on file type.
         if (savedInstanceState == null) {
             openBook()
@@ -69,10 +75,14 @@ class PageActivity : AppCompatActivity() {
         viewModel.pagedBook.observe(this, Observer {
             // Setup ViewPager.
             pager.adapter = TextPagerAdapter(it)
+
+            seekPages.max = it.size - 1
         })
 
         viewModel.currentPage.observe(this, Observer {
-            pager.currentItem = it
+            if (pager.currentItem != it) {
+                pager.currentItem = it
+            }
         })
 
         viewModel.showMenu.observe(this, Observer {

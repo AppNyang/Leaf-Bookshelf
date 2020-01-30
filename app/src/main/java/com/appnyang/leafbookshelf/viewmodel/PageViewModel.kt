@@ -23,17 +23,17 @@ import java.io.InputStreamReader
  */
 class PageViewModel : ViewModel() {
 
+    // Private live data.
     private val _rawText = MutableLiveData<CharSequence>()
     private val _pagedBook = MutableLiveData<List<CharSequence>>()
 
-    private val _currentPage = MutableLiveData(0)
-
     private val _showMenu = MutableLiveData<Boolean>(false)
 
+    // Public live data.
     val rawText: LiveData<CharSequence> = _rawText
     val pagedBook: LiveData<List<CharSequence>> = _pagedBook
 
-    val currentPage: LiveData<Int> = _currentPage
+    val currentPage = MutableLiveData<Int>(0)
 
     val showMenu: LiveData<Boolean> = _showMenu
 
@@ -134,8 +134,9 @@ class PageViewModel : ViewModel() {
      * @param page
      */
     fun goToPage(page: Int) {
-        if (page in _pagedBook.value!!.indices)
-        _currentPage.value = page
+        if (page in _pagedBook.value!!.indices && page != currentPage.value) {
+            currentPage.value = page
+        }
     }
 
     fun showMenu() {
