@@ -2,8 +2,9 @@ package com.appnyang.leafbookshelf.view.page.activity
 
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.util.DisplayMetrics
-import android.view.MotionEvent
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -29,6 +30,15 @@ class PageActivity : AppCompatActivity() {
         DataBindingUtil.setContentView<ActivityPageBinding>(this, R.layout.activity_page).apply {
             viewModel = this@PageActivity.viewModel
             lifecycleOwner = this@PageActivity
+        }
+
+        window.decorView.setOnSystemUiVisibilityChangeListener {
+            if (it and View.SYSTEM_UI_FLAG_FULLSCREEN == 0) {
+                // System bars are visible.
+                Handler().postDelayed({
+                    hideStatusBar()
+                }, 3000)
+            }
         }
 
         // Set page transformer.
@@ -63,6 +73,27 @@ class PageActivity : AppCompatActivity() {
         viewModel.currentPage.observe(this, Observer {
             pager.currentItem = it
         })
+    }
+
+    /**
+     * On focused to the window, hide status bar.
+     *
+     * @param hasFocus true when this window is focused.
+     */
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) {
+            hideStatusBar()
+        }
+    }
+
+    /**
+     * Hide system status bar when focused.
+     */
+    private fun hideStatusBar() {
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN or
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
     }
 
     /**

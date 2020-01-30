@@ -9,6 +9,7 @@
     <color name="lightLeaf">#AAD047</color>
 
     <!-- Page -->
+    <color name="pageStatusBar">#D900574B</color>
     <color name="textColor">#6A6A6A</color>
 
     <color name="white">#FFFFFF</color>
