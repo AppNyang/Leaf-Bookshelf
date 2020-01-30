@@ -27,6 +27,16 @@
         <item name="android:progressBackgroundTint">#B7B7B7</item>
     </style>
 
+    <!-- Page chips -->
+    <style name="Chip.Page" parent="@style/Widget.MaterialComponents.Chip.Choice">
+        <item name="chipStartPadding">@dimen/page_chip_horizontal_padding</item>
+        <item name="chipEndPadding">@dimen/page_chip_horizontal_padding</item>
+        <item name="chipBackgroundColor">@color/chip_background</item>
+        <item name="chipStrokeColor">@color/darkLeaf</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.Chip.Page</item>
+    </style>
+
     <!-- Text Appearance -->
     <style name="TextAppearance.ToolBarTitle.Collapsed" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@color/colorPrimary</item>
@@ -43,6 +53,12 @@
         <item name="android:fontFamily">@font/nanum_square</item>
         <item name="android:textColor">@color/textColor</item>
         <item name="android:textSize">17sp</item>
+    </style>
+
+    <style name="TextAppearance.Chip.Page" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/nanum_square</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">15sp</item>
     </style>
 
 </resources>
