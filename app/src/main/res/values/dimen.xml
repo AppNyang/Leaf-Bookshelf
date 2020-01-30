@@ -4,4 +4,5 @@
     <dimen name="drawer_round_corner">18dp</dimen>
 
     <dimen name="page_margin">16dp</dimen>
+    <dimen name="page_menu_elevation">5dp</dimen>
 </resources>

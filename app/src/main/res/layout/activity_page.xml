@@ -35,7 +35,7 @@
             android:orientation="horizontal"
             android:background="@color/menuBackground"
             app:layout_constraintTop_toTopOf="parent"
-            android:elevation="5dp">
+            android:elevation="@dimen/page_menu_elevation">
 
             <com.google.android.material.button.MaterialButton
                 style="@style/Button.Icon"
@@ -81,6 +81,7 @@
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:background="@color/menuBackground"
+            android:elevation="@dimen/page_menu_elevation"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <TextView
