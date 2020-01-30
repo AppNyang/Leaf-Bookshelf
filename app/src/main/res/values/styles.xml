@@ -11,6 +11,15 @@
     <style name="Activity.Page" parent="AppTheme">
         <item name="android:statusBarColor">@color/pageStatusBar</item>
     </style>
+
+    <!-- Base icon button theme -->
+    <style name="Button.Icon" parent="@style/Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="android:paddingStart">6dp</item>
+        <item name="backgroundTint">@android:color/white</item>
+        <item name="iconTint">@color/textColor</item>
+        <item name="rippleColor">@color/colorPrimary</item>
+    </style>
+
     <!-- Text Appearance -->
     <style name="TextAppearance.ToolBarTitle.Collapsed" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@color/colorPrimary</item>
