@@ -4,7 +4,6 @@ import android.animation.ObjectAnimator
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import android.util.DisplayMetrics
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -34,14 +33,7 @@ class PageActivity : AppCompatActivity() {
             lifecycleOwner = this@PageActivity
         }
 
-        window.decorView.setOnSystemUiVisibilityChangeListener {
-            if (it and View.SYSTEM_UI_FLAG_FULLSCREEN == 0) {
-                // System bars are visible.
-                Handler().postDelayed({
-                    hideStatusBar()
-                }, 3000)
-            }
-        }
+        registerSystemUiChangeListener()
 
         // Set page transformer.
         pager.setPageTransformer(DepthPageTransformer())
@@ -51,13 +43,46 @@ class PageActivity : AppCompatActivity() {
                 viewModel.currentPage.value = position
             }
         })
+
         // Open files depends on file type.
         if (savedInstanceState == null) {
             openBook()
         }
 
-        viewModel.rawText.observe(this, Observer {
+        subscribeObservers()
+    }
 
+    /**
+     * On focused to the window, hide status bar.
+     *
+     * @param hasFocus true when this window is focused.
+     */
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) {
+            hideStatusBar()
+        }
+    }
+
+    /**
+     * When the system ui is appear, hide it after 3 seconds.
+     */
+    private fun registerSystemUiChangeListener() {
+        window.decorView.setOnSystemUiVisibilityChangeListener {
+            if (it and View.SYSTEM_UI_FLAG_FULLSCREEN == 0) {
+                // System bars are visible.
+                Handler().postDelayed({
+                    hideStatusBar()
+                }, 3000)
+            }
+        }
+    }
+
+    /**
+     * Subscribe live data from ViewModel.
+     */
+    private fun subscribeObservers() {
+        viewModel.rawText.observe(this, Observer {
             lifecycleScope.launch {
                 viewModel.paginateBook(
                     textPainter.width,
@@ -86,18 +111,6 @@ class PageActivity : AppCompatActivity() {
         viewModel.showMenu.observe(this, Observer {
             showMenu(it)
         })
-    }
-
-    /**
-     * On focused to the window, hide status bar.
-     *
-     * @param hasFocus true when this window is focused.
-     */
-    override fun onWindowFocusChanged(hasFocus: Boolean) {
-        super.onWindowFocusChanged(hasFocus)
-        if (hasFocus) {
-            hideStatusBar()
-        }
     }
 
     /**
