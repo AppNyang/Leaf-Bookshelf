@@ -57,8 +57,6 @@ class PageActivity : AppCompatActivity() {
         }
 
         viewModel.rawText.observe(this, Observer {
-            val displayMetrics = DisplayMetrics()
-            windowManager.defaultDisplay.getMetrics(displayMetrics)
 
             lifecycleScope.launch {
                 viewModel.paginateBook(
