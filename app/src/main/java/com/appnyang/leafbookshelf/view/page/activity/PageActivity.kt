@@ -38,7 +38,7 @@ class PageActivity : AppCompatActivity() {
 
         registerSystemUiChangeListener()
 
-        // Set page transformer.
+        // Initialize ViewPager2.
         pager.setPageTransformer(DepthPageTransformer())
         pager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -88,6 +88,7 @@ class PageActivity : AppCompatActivity() {
      * Subscribe live data from ViewModel.
      */
     private fun subscribeObservers() {
+        // Called after read the raw file in chunk.
         viewModel.chunkedText.observe(this, Observer {
             lifecycleScope.launch {
                 viewModel.paginateBook(
@@ -101,6 +102,7 @@ class PageActivity : AppCompatActivity() {
             }
         })
 
+        // Called when the first chunk is paginated.
         viewModel.pagedBook.observe(this, Observer {
             // Setup ViewPager.
             pager.adapter = TextPagerAdapter(it)
@@ -109,6 +111,7 @@ class PageActivity : AppCompatActivity() {
             seekPages.max = it.size - 1
         })
 
+        // Called rest of chunks is paginated.
         viewModel.chunkPaged.observe(this, Observer {
             pager.adapter?.notifyDataSetChanged()
 
@@ -116,7 +119,9 @@ class PageActivity : AppCompatActivity() {
             seekPages.max = viewModel.pagedBook.value!!.size - 1
         })
 
+        // Called the user has navigated to the page.
         viewModel.currentPage.observe(this, Observer {
+            // Avoid infinite loop.
             if (pager.currentItem != it) {
                 pager.currentItem = it
             }
