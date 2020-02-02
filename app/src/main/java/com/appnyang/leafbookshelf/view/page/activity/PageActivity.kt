@@ -29,6 +29,8 @@ class PageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        hideStatusBar()
+
         DataBindingUtil.setContentView<ActivityPageBinding>(this, R.layout.activity_page).apply {
             viewModel = this@PageActivity.viewModel
             lifecycleOwner = this@PageActivity
