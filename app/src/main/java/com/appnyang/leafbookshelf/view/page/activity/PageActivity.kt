@@ -14,6 +14,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.appnyang.leafbookshelf.R
 import com.appnyang.leafbookshelf.databinding.ActivityPageBinding
+import com.appnyang.leafbookshelf.util.afterMeasured
 import com.appnyang.leafbookshelf.util.transformer.DepthPageTransformer
 import com.appnyang.leafbookshelf.view.page.fragment.PageFragment
 import com.appnyang.leafbookshelf.viewmodel.PageViewModel
@@ -46,7 +47,9 @@ class PageActivity : AppCompatActivity() {
 
         // Open files depends on file type.
         if (savedInstanceState == null) {
-            openBook()
+            textPainter.afterMeasured {
+                openBook()
+            }
         }
 
         subscribeObservers()
