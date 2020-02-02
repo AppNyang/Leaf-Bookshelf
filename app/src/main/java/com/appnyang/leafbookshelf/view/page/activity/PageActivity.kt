@@ -45,6 +45,7 @@ class PageActivity : AppCompatActivity() {
             }
         })
 
+        // TODO: Handle the screen orientation changes.
         // Open files depends on file type.
         if (savedInstanceState == null) {
             textPainter.afterMeasured {
