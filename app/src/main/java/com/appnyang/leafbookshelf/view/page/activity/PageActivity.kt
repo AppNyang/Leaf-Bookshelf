@@ -105,11 +105,14 @@ class PageActivity : AppCompatActivity() {
             // Setup ViewPager.
             pager.adapter = TextPagerAdapter(it)
 
+            textPages.text = getPageCountString()
             seekPages.max = it.size - 1
         })
 
         viewModel.chunkPaged.observe(this, Observer {
             pager.adapter?.notifyDataSetChanged()
+
+            textPages.text = getPageCountString()
             seekPages.max = viewModel.pagedBook.value!!.size - 1
         })
 
@@ -117,6 +120,8 @@ class PageActivity : AppCompatActivity() {
             if (pager.currentItem != it) {
                 pager.currentItem = it
             }
+
+            textPages.text = getPageCountString()
         })
 
         viewModel.showMenu.observe(this, Observer {
@@ -172,6 +177,9 @@ class PageActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun getPageCountString() =
+        getString(R.string.page_counter, pager.currentItem + 1, pager.adapter?.itemCount ?: 0)
 
     companion object {
         const val KEY_FILE_URI = "KEY_FILE_URI"

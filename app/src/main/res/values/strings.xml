@@ -7,6 +7,7 @@
     <string name="chip_page">PAGE</string>
     <string name="chip_tts">TTS</string>
     <string name="chip_auto">AUTO</string>
+    <string name="page_counter">%1$d / %2$d</string>
 
     <!-- Fab ids. DO NOT TRANSLATE -->
     <item name="fab_folder" type="id" />
