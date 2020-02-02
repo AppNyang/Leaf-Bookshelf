@@ -18,6 +18,7 @@ package com.appnyang.leafbookshelf.util;
 
 import android.util.Log;
 import androidx.annotation.MainThread;
+import androidx.annotation.WorkerThread;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
@@ -71,5 +72,10 @@ public class SingleLiveEvent<T> extends MutableLiveData<T> {
     @MainThread
     public void call() {
         setValue(null);
+    }
+
+    @WorkerThread
+    public void postCall() {
+        postValue(null);
     }
 }
