@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.appnyang.leafbookshelf.util.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -24,14 +25,16 @@ import java.io.InputStreamReader
 class PageViewModel : ViewModel() {
 
     // Private live data.
-    private val _rawText = MutableLiveData<CharSequence>()
+    private val _chunkedText = MutableLiveData<List<CharSequence>>()
     private val _pagedBook = MutableLiveData<List<CharSequence>>()
+    private val _chunkPaged = SingleLiveEvent<Any>()
 
     private val _showMenu = MutableLiveData<Boolean>(false)
 
     // Public live data.
-    val rawText: LiveData<CharSequence> = _rawText
+    val chunkedText: LiveData<List<CharSequence>> = _chunkedText
     val pagedBook: LiveData<List<CharSequence>> = _pagedBook
+    val chunkPaged: LiveData<Any> = _chunkPaged
 
     val currentPage = MutableLiveData<Int>(0)
 
@@ -58,17 +61,31 @@ class PageViewModel : ViewModel() {
     private suspend fun fetchBookFromUri(uri: Uri, contentResolver: ContentResolver) = withContext(Dispatchers.IO) {
         val builder = StringBuilder()
 
+        val chunkedText = mutableListOf<CharSequence>()
+        val chunkSize = 2048 // lines
+        var chunkCount = 0
         contentResolver.openInputStream(uri)?.use { stream ->
             BufferedReader(InputStreamReader(stream)).use { reader ->
                 var line = reader.readLine()
                 while (line != null) {
                     builder.append(line + "\n")
+                    if (chunkCount >= chunkSize) {
+                        chunkedText.add(builder.toString())
+                        builder.clear()
+                        chunkCount = 0
+                    }
+
                     line = reader.readLine()
+                    chunkCount++
+                }
+                // Add rest chunk.
+                if (builder.isNotEmpty()) {
+                    chunkedText.add(builder.toString())
                 }
             }
         }
 
-        _rawText.postValue(builder.toString())
+        _chunkedText.postValue(chunkedText)
     }
 
     /**
@@ -88,45 +105,48 @@ class PageViewModel : ViewModel() {
         spacingMult: Float, spacingExtra: Float, includePad: Boolean)
             = withContext(Dispatchers.Default) {
 
-        // TODO: Improve performance.
-        var start = System.currentTimeMillis()
-        val layout: StaticLayout = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            @Suppress("DEPRECATION")
-            StaticLayout(_rawText.value, paint, width, Layout.Alignment.ALIGN_NORMAL, spacingMult, spacingExtra, includePad)
-        } else {
-            StaticLayout.Builder
-                .obtain(_rawText.value!!, 0, rawText.value!!.length, paint, width)
-                .setAlignment(Layout.Alignment.ALIGN_NORMAL)
-                .setLineSpacing(spacingExtra, spacingMult)
-                .setIncludePad(includePad)
-                .build()
-        }
-
-        println("StaticLayout: ${System.currentTimeMillis() - start}")
-
-        start = System.currentTimeMillis()
-
         val pagedSequence = mutableListOf<CharSequence>()
-        var beginOffset = 0
-        var heightThreshold = height
-        for (i in 0 until layout.lineCount) {
-            // When the line has been exceeded single page,
-            if (heightThreshold < layout.getLineBottom(i)) {
-                pagedSequence.add(_rawText.value!!.subSequence(beginOffset until layout.getLineStart(i)))
-                beginOffset = layout.getLineStart(i)
-                heightThreshold = layout.getLineTop(i) + height
+
+        chunkedText.value!!.forEachIndexed { index, it ->
+            // 1. Build a StaticLayout to measure the text.
+            val layout: StaticLayout = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                @Suppress("DEPRECATION")
+                StaticLayout(it, paint, width, Layout.Alignment.ALIGN_NORMAL, spacingMult, spacingExtra, includePad)
+            } else {
+                StaticLayout.Builder
+                    .obtain(it, 0, it.length, paint, width)
+                    .setAlignment(Layout.Alignment.ALIGN_NORMAL)
+                    .setLineSpacing(spacingExtra, spacingMult)
+                    .setIncludePad(includePad)
+                    .build()
+            }
+
+            // 2. Split the text in the page.
+            var beginOffset = 0
+            var heightThreshold = height
+            for (i in 0 until layout.lineCount) {
+                // When the line has been exceeded single page,
+                if (heightThreshold < layout.getLineBottom(i)) {
+                    pagedSequence.add(it.subSequence(beginOffset until layout.getLineStart(i)))
+                    beginOffset = layout.getLineStart(i)
+                    heightThreshold = layout.getLineTop(i) + height
+                }
+            }
+
+            // Add rest of the sequence.
+            if (beginOffset != layout.getLineEnd(layout.lineCount - 1)) {
+                pagedSequence
+                    .add(it.subSequence(beginOffset until layout.getLineEnd(layout.lineCount - 1)))
+            }
+
+            if (index == 0) {
+                // After first chunk had been processed, fire the alarm.
+                _pagedBook.postValue(pagedSequence)
+            }
+            else {
+                _chunkPaged.postCall()
             }
         }
-
-        // Add rest of the sequence.
-        if (beginOffset != layout.getLineEnd(layout.lineCount - 1)) {
-            pagedSequence
-                .add(_rawText.value!!.subSequence(beginOffset until layout.getLineEnd(layout.lineCount - 1)))
-        }
-
-        println("Split: ${System.currentTimeMillis() - start}")
-
-        _pagedBook.postValue(pagedSequence)
     }
 
     /**

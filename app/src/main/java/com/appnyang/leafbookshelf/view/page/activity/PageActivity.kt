@@ -86,7 +86,7 @@ class PageActivity : AppCompatActivity() {
      * Subscribe live data from ViewModel.
      */
     private fun subscribeObservers() {
-        viewModel.rawText.observe(this, Observer {
+        viewModel.chunkedText.observe(this, Observer {
             lifecycleScope.launch {
                 viewModel.paginateBook(
                     textPainter.width,
@@ -104,6 +104,11 @@ class PageActivity : AppCompatActivity() {
             pager.adapter = TextPagerAdapter(it)
 
             seekPages.max = it.size - 1
+        })
+
+        viewModel.chunkPaged.observe(this, Observer {
+            pager.adapter?.notifyDataSetChanged()
+            seekPages.max = viewModel.pagedBook.value!!.size - 1
         })
 
         viewModel.currentPage.observe(this, Observer {
