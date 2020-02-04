@@ -265,11 +265,11 @@ class PageViewModel : ViewModel() {
     /**
      * Get current character position of pagedBook.
      */
-    fun getCurrentTextIndex(): Long = pagedBook.value
-        ?.filterIndexed { index, _ -> index < (currentPage.value ?: 0) }
-        ?.sumBy { it.length }
-        ?.toLong()
-        ?: 0L
+    fun getCurrentTextIndex(): Long = pagedBook.value?.run {
+        filterIndexed { index, _ -> index < (currentPage.value ?: 0) }
+        sumBy { it.length }
+            .toLong()
+    } ?: 0L
 
     /**
      * Move to the corresponding page with given character position.
