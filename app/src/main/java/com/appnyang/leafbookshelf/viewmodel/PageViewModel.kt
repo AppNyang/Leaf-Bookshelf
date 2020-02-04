@@ -10,12 +10,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.appnyang.leafbookshelf.util.SingleLiveEvent
+import com.appnyang.leafbookshelf.util.icu.CharsetDetector
 import com.appnyang.leafbookshelf.util.styler.DefaultStyler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import java.nio.charset.Charset
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -69,7 +71,7 @@ class PageViewModel : ViewModel() {
         val chunkSize = 2048 // lines
         var chunkCount = 0
         contentResolver.openInputStream(uri)?.use { stream ->
-            BufferedReader(InputStreamReader(stream)).use { reader ->
+            BufferedReader(InputStreamReader(stream, detectCharSet(uri, contentResolver))).use { reader ->
                 var line = reader.readLine()
                 while (line != null) {
                     builder.append(line + "\n")
@@ -90,6 +92,27 @@ class PageViewModel : ViewModel() {
         }
 
         _chunkedText.postValue(chunkedText)
+    }
+
+    /**
+     * Detect charset of the file.
+     *
+     * @param uri
+     * @param contentResolver
+     * @return The name of CharSet.
+     */
+    private suspend fun detectCharSet(uri: Uri, contentResolver: ContentResolver): String = withContext(Dispatchers.IO) {
+        val byteArray = ByteArray(100)
+        contentResolver.openInputStream(uri)?.use {
+            it.read(byteArray, 0, 100)
+        }
+
+        if (CharsetDetector().setText(byteArray).detect() != null) {
+            CharsetDetector().setText(byteArray).detect().name
+        }
+        else {
+            Charset.defaultCharset().name()
+        }
     }
 
     /**
