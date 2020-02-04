@@ -55,7 +55,7 @@
                 android:singleLine="true"
                 android:textAppearance="@style/TextAppearance.Page"
                 android:textSize="16sp"
-                android:text="장씨세가 호위무사" />
+                android:text="@{viewModel.openedFileName}" />
 
             <com.google.android.material.button.MaterialButton
                 style="@style/Button.Icon"

@@ -1,8 +1,10 @@
 package com.appnyang.leafbookshelf.viewmodel
 
 import android.content.ContentResolver
+import android.database.Cursor
 import android.net.Uri
 import android.os.Build
+import android.provider.OpenableColumns
 import android.text.*
 import androidx.core.text.toSpanned
 import androidx.lifecycle.LiveData
@@ -29,6 +31,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 class PageViewModel : ViewModel() {
 
     // Private live data.
+    private val _openedFileName = MutableLiveData<CharSequence>()
     private val _chunkedText = MutableLiveData<List<CharSequence>>()
     private val _pagedBook = MutableLiveData<LinkedList<Spanned>>()
     private val _chunkPaged = SingleLiveEvent<Any>()
@@ -36,6 +39,7 @@ class PageViewModel : ViewModel() {
     private val _showMenu = MutableLiveData<Boolean>(false)
 
     // Public live data.
+    val openedFileName: LiveData<CharSequence> = _openedFileName
     val chunkedText: LiveData<List<CharSequence>> = _chunkedText
     val pagedBook: LiveData<LinkedList<Spanned>> = _pagedBook
     val chunkPaged: LiveData<Any> = _chunkPaged
@@ -54,7 +58,24 @@ class PageViewModel : ViewModel() {
      */
     fun readBookFromUri(uri: Uri, contentResolver: ContentResolver) {
         viewModelScope.launch {
+            fetchBookNameFromUri(uri, contentResolver)
             fetchBookFromUri(uri, contentResolver)
+        }
+    }
+
+    /**
+     * Fetch the display name of the file.
+     *
+     * @param uri
+     * @param contentResolver
+     */
+    private suspend fun fetchBookNameFromUri(uri: Uri, contentResolver: ContentResolver) = withContext(Dispatchers.IO) {
+        val cursor: Cursor? = contentResolver.query(uri, null, null, null, null, null)
+
+        cursor?.use {
+            if (it.moveToFirst()) {
+                _openedFileName.postValue(it.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME)))
+            }
         }
     }
 
