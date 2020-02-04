@@ -123,7 +123,8 @@ class PageActivity : AppCompatActivity() {
         viewModel.currentPage.observe(this, Observer {
             // Avoid infinite loop.
             if (pager.currentItem != it) {
-                pager.currentItem = it
+                pager.setCurrentItem(it, viewModel.bScrollAnim.get())
+                viewModel.bScrollAnim.set(true)
             }
 
             textPages.text = getPageCountString()
