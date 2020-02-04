@@ -40,6 +40,7 @@ class PageViewModel : ViewModel() {
 
     val currentPage = MutableLiveData(0)
     val bScrollAnim = AtomicBoolean(true)
+    val isPaginating = AtomicBoolean(false)
 
     val showMenu: LiveData<Boolean> = _showMenu
 
@@ -100,6 +101,7 @@ class PageViewModel : ViewModel() {
      */
     suspend fun paginateBook(layoutParam: StaticLayoutParam, charIndex: Long = 0L) = withContext(Dispatchers.Default) {
         chunkedText.value?.let { text ->
+            isPaginating.set(true)
             val (chunkStart, charIndexInChunk) = getChunkCharIndices(charIndex, text)
 
             val pagedCharSequence = mutableListOf<CharSequence>()
@@ -153,6 +155,7 @@ class PageViewModel : ViewModel() {
 
                 pagedCharSequence.clear()
             }
+            isPaginating.set(false)
         }
     }
 
