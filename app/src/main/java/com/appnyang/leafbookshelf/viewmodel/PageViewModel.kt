@@ -38,7 +38,7 @@ class PageViewModel : ViewModel() {
     val pagedBook: LiveData<LinkedList<CharSequence>> = _pagedBook
     val chunkPaged: LiveData<Any> = _chunkPaged
 
-    val currentPage = MutableLiveData<Int>(0)
+    val currentPage = MutableLiveData(0)
     val bScrollAnim = AtomicBoolean(true)
 
     val showMenu: LiveData<Boolean> = _showMenu
@@ -94,100 +94,152 @@ class PageViewModel : ViewModel() {
     /**
      * Paginating function should be called AFTER the view is laid out,
      * because it needs the view's height to get list of pages.
-     * In regard to the limitation above, we assume that reading files takes much time than drawing ui.
      *
-     * @param width Screen width of the paged view in px.
-     * @param height Screen height of the paged view in px.
-     * @param paint TextPaint object of the paged view.
-     * @param spacingMult LineSpacingMultiplier of the paged view.
-     * @param spacingExtra LineSpacingExtra of the paged view.
-     * @param includePad IncludeFontPadding of the paged view.
+     * @param layoutParam Layout parameters to build StaticLayout.
+     * @param charIndex The char position the user last read.
      */
-    suspend fun paginateBook(
-        width: Int, height: Int, paint: TextPaint,
-        spacingMult: Float, spacingExtra: Float, includePad: Boolean, charIndex: Long = 0L)
-            = withContext(Dispatchers.Default) {
-
+    suspend fun paginateBook(layoutParam: StaticLayoutParam, charIndex: Long = 0L) = withContext(Dispatchers.Default) {
         chunkedText.value?.let { text ->
-            // Find first chunk.
-            var sumChars = 0L
-            var chunkStart = 0
-            var charIndexInChunk = 0L
-            for (i in text.indices) {
-                sumChars += text[i].length
-                if (sumChars >= charIndex ) {
-                    chunkStart = i
-                    charIndexInChunk = charIndex - sumChars + text[i].length
-                    break
-                }
-            }
+            val (chunkStart, charIndexInChunk) = getChunkCharIndices(charIndex, text)
 
-            val pagedSequence = mutableListOf<CharSequence>()
+            val pagedCharSequence = mutableListOf<CharSequence>()
 
-            val chunkSequence: Sequence<Int>
-            if (chunkStart > 0) {
-                chunkSequence = (chunkStart until text.size).asSequence() + ((chunkStart - 1) downTo 0).asSequence()
-            }
-            else {
-                chunkSequence = (chunkStart until text.size).asSequence()
-            }
-            chunkSequence.forEach { chunkIndex ->
+            buildChunkSequence(chunkStart, text.size).forEach { chunkIndex ->
                 // 1. Build a StaticLayout to measure the text.
-                val layout: StaticLayout = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                    @Suppress("DEPRECATION")
-                    StaticLayout(text[chunkIndex], paint, width, Layout.Alignment.ALIGN_NORMAL, spacingMult, spacingExtra, includePad)
-                } else {
-                    StaticLayout.Builder
-                        .obtain(text[chunkIndex], 0, text[chunkIndex].length, paint, width)
-                        .setAlignment(Layout.Alignment.ALIGN_NORMAL)
-                        .setLineSpacing(spacingExtra, spacingMult)
-                        .setIncludePad(includePad)
-                        .build()
-                }
+                val layout = buildStaticLayout(layoutParam, text[chunkIndex])
 
                 // 2. Split the text in the page.
                 var beginOffset = 0
-                var heightThreshold = height
+                var heightThreshold = layoutParam.height
                 for (i in 0 until layout.lineCount) {
                     // When the line has been exceeded single page,
                     if (heightThreshold < layout.getLineBottom(i)) {
-                        pagedSequence.add(text[chunkIndex].subSequence(beginOffset until layout.getLineStart(i)))
+                        pagedCharSequence.add(text[chunkIndex].subSequence(beginOffset until layout.getLineStart(i)))
                         beginOffset = layout.getLineStart(i)
-                        heightThreshold = layout.getLineTop(i) + height
+                        heightThreshold = layout.getLineTop(i) + layoutParam.height
                     }
                 }
 
                 // Add rest of the sequence.
                 if (beginOffset != layout.getLineEnd(layout.lineCount - 1)) {
-                    pagedSequence
+                    pagedCharSequence
                         .add(text[chunkIndex].subSequence(beginOffset until layout.getLineEnd(layout.lineCount - 1)))
                 }
 
+                // 3. Set paged data.
                 if (chunkIndex == chunkStart) {
-                    // After first chunk had been processed, fire the alarm.
+                    // After first chunk had been processed, fire the alarm to show the contents.
                     val list = LinkedList<CharSequence>()
-                    list.addAll(pagedSequence.toList())
+                    list.addAll(pagedCharSequence.toList())
                     _pagedBook.postValue(list)
 
                     // If the user load the book with bookmark, go to the bookmark.
-                    if (charIndex != 0L) {
-                        setCurrentPageToTextIndex(charIndexInChunk)
+                    if (charIndexInChunk != 0L) {
+                        bScrollAnim.set(false)
+                        postCurrentPageToIndex(charIndexInChunk)
                     }
                 }
                 else {
                     if (chunkIndex > chunkStart) {
-                        _pagedBook.value?.addAll(pagedSequence.toList())
+                        _pagedBook.value?.addAll(pagedCharSequence.toList())
                         _chunkPaged.postCall()
                     } else {
-                        pagedSequence.reversed().forEach { _pagedBook.value?.addFirst(it.toString()) }
+                        pagedCharSequence.reversed().asSequence().forEach { _pagedBook.value?.addFirst(it.toString()) }
                         _chunkPaged.postCall()
                         bScrollAnim.set(false)
-                        currentPage.postValue(currentPage.value?.plus(pagedSequence.size))
+                        currentPage.postValue(currentPage.value?.plus(pagedCharSequence.size))
                     }
                 }
 
-                pagedSequence.clear()
+                pagedCharSequence.clear()
             }
+        }
+    }
+
+    /**
+     * Find the index of the first chunk to be processed
+     * using the charIndex where the user last read.
+     *
+     * @param charIndex The char position the user last read.
+     * @param text A list of chunks.
+     * @return The index of the chunk to be processed and charIndex in the chunk.
+     */
+    private suspend fun getChunkCharIndices(charIndex: Long, text: List<CharSequence>): Pair<Int, Long> = withContext(Dispatchers.Default) {
+        var sumChars = 0L
+        var chunkStart = 0
+        var charIndexInChunk = 0L
+        for (i in text.indices) {
+            sumChars += text[i].length
+            if (sumChars >= charIndex) {
+                chunkStart = i
+                charIndexInChunk = charIndex - sumChars + text[i].length
+                break
+            }
+        }
+
+        Pair(chunkStart, charIndexInChunk)
+    }
+
+    /**
+     * Returns the order in which the chunks will be processed.
+     * If chunkStart is 3 and chunkLength is 5, the sequence will be
+     * [3, 4, 0, 1, 2]
+     *
+     * @param chunkStart Starting index of the chunk.
+     * @param chunkLength Total size of the list of chunks.
+     * @return The sequence that the chunks will be processed.
+     */
+    private suspend fun buildChunkSequence(chunkStart: Int, chunkLength: Int): Sequence<Int> = withContext(Dispatchers.Default) {
+        val chunkSequence = if (chunkStart > 0) {
+            (chunkStart until chunkLength).asSequence() + ((chunkStart - 1) downTo 0).asSequence()
+        } else {
+            (chunkStart until chunkLength).asSequence()
+        }
+
+        chunkSequence
+    }
+
+    /**
+     * Build a StaticLayout.
+     *
+     * @param layoutParam Layout parameter from the Activity.
+     * @param chunk Chunked text.
+     * @return StaticLayout
+     */
+    private suspend fun buildStaticLayout(layoutParam: StaticLayoutParam, chunk: CharSequence): StaticLayout = withContext(Dispatchers.Default) {
+        val layout: StaticLayout = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            @Suppress("DEPRECATION")
+            StaticLayout(chunk, layoutParam.paint, layoutParam.width, Layout.Alignment.ALIGN_NORMAL, layoutParam.spacingMult, layoutParam.spacingExtra, layoutParam.includePad)
+        } else {
+            StaticLayout.Builder
+                .obtain(chunk, 0, chunk.length, layoutParam.paint, layoutParam.width)
+                .setAlignment(Layout.Alignment.ALIGN_NORMAL)
+                .setLineSpacing(layoutParam.spacingExtra, layoutParam.spacingMult)
+                .setIncludePad(layoutParam.includePad)
+                .build()
+        }
+
+        layout
+    }
+
+    /**
+     * Move to the corresponding page with given character position.
+     *
+     * @param index Character position.
+     */
+    private suspend fun postCurrentPageToIndex(index: Long) = withContext(Dispatchers.Default) {
+        pagedBook.value?.let {
+            var page = it.size - 1
+            var sum = 0
+
+            it.asSequence()
+                .filter { sum - 1 < index }
+                .forEachIndexed { i, text ->
+                    page = i
+                    sum += text.length
+                }
+
+            currentPage.postValue(page)
         }
     }
 
@@ -224,9 +276,9 @@ class PageViewModel : ViewModel() {
      *
      * @param index Character position.
      */
-    suspend fun setCurrentPageToTextIndex(index: Long) = withContext(Dispatchers.Default) {
+    fun setCurrentPageToTextIndex(index: Long) {
         pagedBook.value?.let {
-            var page = pagedBook.value?.size?.minus(1) ?: 0
+            var page = it.size - 1
             var sum = 0
 
             for (i in it.indices) {
@@ -246,4 +298,23 @@ class PageViewModel : ViewModel() {
             currentPage.postValue(page)
         }
     }
+
+    /**
+     * This data class used for build StaticLayout.
+     *
+     * @param width Screen width of the paged view in px.
+     * @param height Screen height of the paged view in px.
+     * @param paint TextPaint object of the paged view.
+     * @param spacingMult LineSpacingMultiplier of the paged view.
+     * @param spacingExtra LineSpacingExtra of the paged view.
+     * @param includePad IncludeFontPadding of the paged view.
+     */
+    data class StaticLayoutParam(
+        val width: Int,
+        val height: Int,
+        val paint: TextPaint,
+        val spacingMult: Float,
+        val spacingExtra: Float,
+        val includePad: Boolean
+    )
 }

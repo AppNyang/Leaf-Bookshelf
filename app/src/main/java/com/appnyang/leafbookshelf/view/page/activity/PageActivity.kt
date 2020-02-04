@@ -92,12 +92,12 @@ class PageActivity : AppCompatActivity() {
         viewModel.chunkedText.observe(this, Observer {
             lifecycleScope.launch {
                 viewModel.paginateBook(
-                    textPainter.width,
-                    textPainter.height,
-                    textPainter.paint,
-                    textPainter.lineSpacingMultiplier,
-                    textPainter.lineSpacingExtra,
-                    textPainter.includeFontPadding
+                    PageViewModel.StaticLayoutParam(textPainter.width,
+                        textPainter.height,
+                        textPainter.paint,
+                        textPainter.lineSpacingMultiplier,
+                        textPainter.lineSpacingExtra,
+                        textPainter.includeFontPadding)
                 )
             }
         })
