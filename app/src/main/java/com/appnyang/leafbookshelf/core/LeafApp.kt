@@ -2,6 +2,7 @@ package com.appnyang.leafbookshelf.core
 
 import android.app.Application
 import com.appnyang.leafbookshelf.di.viewModelModule
+import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
 /**
@@ -15,6 +16,7 @@ class LeafApp : Application() {
         super.onCreate()
 
         startKoin {
+            androidContext(this@LeafApp)
             modules(listOf(
                 viewModelModule
             ))

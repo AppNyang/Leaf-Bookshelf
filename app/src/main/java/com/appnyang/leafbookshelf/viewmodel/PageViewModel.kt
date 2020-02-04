@@ -1,5 +1,6 @@
 package com.appnyang.leafbookshelf.viewmodel
 
+import android.app.Application
 import android.content.ContentResolver
 import android.database.Cursor
 import android.net.Uri
@@ -7,9 +8,9 @@ import android.os.Build
 import android.provider.OpenableColumns
 import android.text.*
 import androidx.core.text.toSpanned
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.appnyang.leafbookshelf.util.SingleLiveEvent
 import com.appnyang.leafbookshelf.util.icu.CharsetDetector
@@ -28,7 +29,7 @@ import java.util.concurrent.atomic.AtomicBoolean
  *
  * @author Sangwoo <sangwoo@yesang.com> on 2020-01-20.
  */
-class PageViewModel : ViewModel() {
+class PageViewModel(application: Application) : AndroidViewModel(application) {
 
     // Private live data.
     private val _openedFileName = MutableLiveData<CharSequence>()
