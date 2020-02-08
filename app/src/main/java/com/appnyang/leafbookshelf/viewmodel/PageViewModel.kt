@@ -2,6 +2,7 @@ package com.appnyang.leafbookshelf.viewmodel
 
 import android.app.Application
 import android.content.ContentResolver
+import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
 import android.os.Build
@@ -12,6 +13,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.appnyang.leafbookshelf.core.LeafApp
+import com.appnyang.leafbookshelf.service.TtsService
 import com.appnyang.leafbookshelf.util.SingleLiveEvent
 import com.appnyang.leafbookshelf.util.icu.CharsetDetector
 import com.appnyang.leafbookshelf.util.styler.DefaultStyler
@@ -51,6 +54,11 @@ class PageViewModel(application: Application) : AndroidViewModel(application) {
 
     val showMenu: LiveData<Boolean> = _showMenu
 
+    val bTts = MutableLiveData<Boolean>(false)
+    val bAuto = MutableLiveData<Boolean>(false)
+
+    // TTS Service.
+    private lateinit var serviceIntent: Intent
     /**
      * Read text file from uri.
      *
@@ -331,6 +339,28 @@ class PageViewModel(application: Application) : AndroidViewModel(application) {
 
     fun showMenu() {
         _showMenu.value = !_showMenu.value!!
+    }
+
+    fun startTtsService(bStart: Boolean) {
+        if (bStart && !isBound) {
+            serviceIntent = Intent(getApplication<LeafApp>(), TtsService::class.java).also {
+                isBound = true
+                if (Build.VERSION.SDK_INT >= 26) {
+                    getApplication<LeafApp>().startForegroundService(it)
+                }
+                else {
+                    getApplication<LeafApp>().startService(it)
+                }
+
+                //getApplication<LeafApp>().bindService(it, ttsServiceConnection, Context.BIND_AUTO_CREATE)
+            }
+        }
+        else if (!bStart && isBound) {
+            isBound = false
+            //ttsService.stopRead()
+            //getApplication<LeafApp>().unbindService(ttsServiceConnection)
+            getApplication<LeafApp>().stopService(serviceIntent)
+        }
     }
 
     /**

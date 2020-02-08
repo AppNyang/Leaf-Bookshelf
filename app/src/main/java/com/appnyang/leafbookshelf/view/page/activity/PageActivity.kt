@@ -133,6 +133,16 @@ class PageActivity : AppCompatActivity() {
         viewModel.showMenu.observe(this, Observer {
             showMenu(it)
         })
+
+        // Called when TTS chip is clicked.
+        viewModel.bTts.observe(this, Observer {
+            viewModel.startTtsService(it)
+        })
+
+        // Called when Auto chip is clicked.
+        viewModel.bAuto.observe(this, Observer {
+
+        })
     }
 
     /**
