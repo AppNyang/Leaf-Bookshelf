@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Leaf Bookshelf</string>
+    <string name="notification_channel_service_name">TTS Service</string>
+    <string name="notification_channel_service_desc">Tells you the status of the TTS.</string>
 
     <string name="empty_shelf">Your bookshelf is empty yet.\nOpen a new book now!</string>
 
@@ -8,6 +10,9 @@
     <string name="chip_tts">TTS</string>
     <string name="chip_auto">AUTO</string>
     <string name="page_counter">%1$d / %2$d</string>
+
+    <!-- Channel ids DO NOT TRANSLATE -->
+    <string name="channel_tts">channel_tts</string>
 
     <!-- Fab ids. DO NOT TRANSLATE -->
     <item name="fab_folder" type="id" />

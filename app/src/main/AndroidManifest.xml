@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.appnyang.leafbookshelf">
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <application
         android:name=".core.LeafApp"
         android:allowBackup="true"
@@ -19,6 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service android:name=".service.TtsService"
+            android:exported="false" />
     </application>
 
 </manifest>

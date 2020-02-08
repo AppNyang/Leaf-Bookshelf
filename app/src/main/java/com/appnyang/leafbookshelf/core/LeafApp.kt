@@ -1,6 +1,10 @@
 package com.appnyang.leafbookshelf.core
 
 import android.app.Application
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.os.Build
+import com.appnyang.leafbookshelf.R
 import com.appnyang.leafbookshelf.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -20,6 +24,16 @@ class LeafApp : Application() {
             modules(listOf(
                 viewModelModule
             ))
+        }
+
+        // Create the notification channel.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+
+            NotificationChannel(getString(R.string.channel_tts), getString(R.string.notification_channel_service_name), NotificationManager.IMPORTANCE_DEFAULT).let {
+                it.description = getString(R.string.notification_channel_service_desc)
+                notificationManager.createNotificationChannel(it)
+            }
         }
     }
 }
