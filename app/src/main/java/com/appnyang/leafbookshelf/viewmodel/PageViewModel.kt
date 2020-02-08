@@ -65,6 +65,11 @@ class PageViewModel(application: Application) : AndroidViewModel(application) {
         override fun onServiceConnected(name: ComponentName, binder: IBinder) {
             ttsService = (binder as TtsService.LocalBinder).getService()
             isBound = true
+
+            val title = openedFileName.value ?: ""
+            pagedBook.value?.let { book ->
+                ttsService.read(title, book, currentPage)
+            }
         }
         override fun onServiceDisconnected(name: ComponentName) {
             isBound = false
@@ -368,7 +373,6 @@ class PageViewModel(application: Application) : AndroidViewModel(application) {
         }
         else if (!bStart && isBound) {
             isBound = false
-            //ttsService.stopRead()
             getApplication<LeafApp>().unbindService(ttsServiceConnection)
             getApplication<LeafApp>().stopService(serviceIntent)
         }
