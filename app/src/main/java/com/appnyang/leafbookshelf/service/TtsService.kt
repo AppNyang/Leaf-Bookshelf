@@ -3,6 +3,7 @@ package com.appnyang.leafbookshelf.service
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
+import android.os.Binder
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
@@ -15,6 +16,8 @@ import com.appnyang.leafbookshelf.view.page.activity.PageActivity
  * @author Sangwoo <sangwoo@yesang.com> on 2020-02-05.
  */
 class TtsService : Service() {
+
+    private val binder = LocalBinder()
 
     override fun onCreate() {
         super.onCreate()
@@ -41,7 +44,11 @@ class TtsService : Service() {
         startForeground(1, notification)
     }
 
-    override fun onBind(p0: Intent?): IBinder? {
-        return null
+    override fun onBind(intent: Intent): IBinder {
+        return binder
+    }
+
+    inner class LocalBinder : Binder() {
+        fun getService(): TtsService = this@TtsService
     }
 }

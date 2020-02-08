@@ -1,11 +1,11 @@
 package com.appnyang.leafbookshelf.viewmodel
 
 import android.app.Application
-import android.content.ContentResolver
-import android.content.Intent
+import android.content.*
 import android.database.Cursor
 import android.net.Uri
 import android.os.Build
+import android.os.IBinder
 import android.provider.OpenableColumns
 import android.text.*
 import androidx.core.text.toSpanned
@@ -59,6 +59,18 @@ class PageViewModel(application: Application) : AndroidViewModel(application) {
 
     // TTS Service.
     private lateinit var serviceIntent: Intent
+    private lateinit var ttsService: TtsService
+    private var isBound = false
+    private val ttsServiceConnection = object: ServiceConnection {
+        override fun onServiceConnected(name: ComponentName, binder: IBinder) {
+            ttsService = (binder as TtsService.LocalBinder).getService()
+            isBound = true
+        }
+        override fun onServiceDisconnected(name: ComponentName) {
+            isBound = false
+        }
+    }
+
     /**
      * Read text file from uri.
      *
@@ -344,7 +356,6 @@ class PageViewModel(application: Application) : AndroidViewModel(application) {
     fun startTtsService(bStart: Boolean) {
         if (bStart && !isBound) {
             serviceIntent = Intent(getApplication<LeafApp>(), TtsService::class.java).also {
-                isBound = true
                 if (Build.VERSION.SDK_INT >= 26) {
                     getApplication<LeafApp>().startForegroundService(it)
                 }
@@ -352,13 +363,13 @@ class PageViewModel(application: Application) : AndroidViewModel(application) {
                     getApplication<LeafApp>().startService(it)
                 }
 
-                //getApplication<LeafApp>().bindService(it, ttsServiceConnection, Context.BIND_AUTO_CREATE)
+                getApplication<LeafApp>().bindService(it, ttsServiceConnection, Context.BIND_AUTO_CREATE)
             }
         }
         else if (!bStart && isBound) {
             isBound = false
             //ttsService.stopRead()
-            //getApplication<LeafApp>().unbindService(ttsServiceConnection)
+            getApplication<LeafApp>().unbindService(ttsServiceConnection)
             getApplication<LeafApp>().stopService(serviceIntent)
         }
     }
