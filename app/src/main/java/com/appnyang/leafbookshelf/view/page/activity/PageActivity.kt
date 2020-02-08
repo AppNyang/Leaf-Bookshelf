@@ -199,6 +199,8 @@ class PageActivity : AppCompatActivity() {
 
     companion object {
         const val KEY_FILE_URI = "KEY_FILE_URI"
+
+        const val REQUEST_NOTIFICATION_CLICK = 5000
     }
 
     /**

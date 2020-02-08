@@ -12,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".view.page.activity.PageActivity"
-            android:theme="@style/Activity.Page" />
+            android:theme="@style/Activity.Page"
+            android:parentActivityName=".view.main.activity.MainActivity"
+            android:launchMode="singleInstance" />
         <activity android:name=".view.main.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
