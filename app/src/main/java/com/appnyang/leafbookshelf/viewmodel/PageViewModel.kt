@@ -74,6 +74,7 @@ class PageViewModel(application: Application) : AndroidViewModel(application) {
         }
         override fun onServiceDisconnected(name: ComponentName) {
             isBound = false
+            bTts.value = false
         }
     }
 
