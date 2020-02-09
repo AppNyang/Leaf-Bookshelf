@@ -58,7 +58,6 @@ class PageViewModel(application: Application) : AndroidViewModel(application) {
     val bAuto = MutableLiveData<Boolean>(false)
 
     // TTS Service.
-    private lateinit var serviceIntent: Intent
     private lateinit var ttsService: TtsService
     private var isBound = false
     private val ttsServiceConnection = object: ServiceConnection {
@@ -362,21 +361,13 @@ class PageViewModel(application: Application) : AndroidViewModel(application) {
 
     fun startTtsService(bStart: Boolean) {
         if (bStart && !isBound) {
-            serviceIntent = Intent(getApplication<LeafApp>(), TtsService::class.java).also {
-                if (Build.VERSION.SDK_INT >= 26) {
-                    getApplication<LeafApp>().startForegroundService(it)
-                }
-                else {
-                    getApplication<LeafApp>().startService(it)
-                }
-
+            Intent(getApplication<LeafApp>(), TtsService::class.java).also {
                 getApplication<LeafApp>().bindService(it, ttsServiceConnection, Context.BIND_AUTO_CREATE)
             }
         }
         else if (!bStart && isBound) {
             isBound = false
             getApplication<LeafApp>().unbindService(ttsServiceConnection)
-            getApplication<LeafApp>().stopService(serviceIntent)
         }
     }
 
