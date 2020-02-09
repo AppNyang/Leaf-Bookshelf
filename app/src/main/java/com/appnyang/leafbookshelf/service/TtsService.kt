@@ -6,6 +6,7 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.Binder
+import android.os.Build
 import android.os.IBinder
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
@@ -28,6 +29,7 @@ class TtsService : Service() {
 
     private val notificationId = 1
     private lateinit var notification: NotificationCompat.Builder
+    private val actionStop = "TTS_SERVICE_ACTION_STOP_SELF"
 
     private val idUtterance = "LEAF_TTS"
     private lateinit var textToSpeech: TextToSpeech
@@ -46,14 +48,44 @@ class TtsService : Service() {
             stopSelf()
         }
 
+        val stopIntent = Intent(this, TtsService::class.java).let {
+            it.action = actionStop
+            if (Build.VERSION.SDK_INT >= 26) {
+                PendingIntent.getForegroundService(this, 0, it, PendingIntent.FLAG_CANCEL_CURRENT)
+            }
+            else {
+                PendingIntent.getService(this, 0, it, PendingIntent.FLAG_CANCEL_CURRENT)
+            }
+        }
+
         // TODO: Change small icon.
-        notification = NotificationCompat.Builder(this, getString(R.string.channel_tts))
-            .setSmallIcon(R.drawable.ic_leaf)
-            .setContentTitle("Book Title")
-            .setContentText("Content")
-            .setContentIntent(pendingIntent)
+        notification = NotificationCompat.Builder(this, getString(R.string.channel_tts)).apply {
+            setSmallIcon(R.drawable.ic_leaf)
+            setContentTitle("Book Title")
+            setContentText("Content")
+            setContentIntent(pendingIntent)
+            setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            addAction(NotificationCompat.Action(R.drawable.ic_stop, "Stop", stopIntent))
+            setStyle(androidx.media.app.NotificationCompat.MediaStyle()
+                .setShowActionsInCompactView(0)
+                .setShowCancelButton(true)
+                .setCancelButtonIntent(stopIntent)
+            )
+
+        }
 
         startForeground(notificationId, notification.build())
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        // Stop the service.
+        if (intent?.action == actionStop) {
+            stopRead()
+            stopForeground(true)
+            stopSelf()
+        }
+
+        return super.onStartCommand(intent, flags, startId)
     }
 
     override fun onBind(intent: Intent): IBinder {
