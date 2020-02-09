@@ -2,7 +2,6 @@ package com.appnyang.leafbookshelf.service
 
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.Binder
@@ -13,6 +12,7 @@ import android.speech.tts.UtteranceProgressListener
 import android.text.Spanned
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
+import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.MutableLiveData
 import com.appnyang.leafbookshelf.R
 import com.appnyang.leafbookshelf.view.page.activity.PageActivity
@@ -23,7 +23,7 @@ import java.util.*
  *
  * @author Sangwoo <sangwoo@yesang.com> on 2020-02-05.
  */
-class TtsService : Service() {
+class TtsService : LifecycleService() {
 
     private val binder = LocalBinder()
 
@@ -92,6 +92,7 @@ class TtsService : Service() {
     }
 
     override fun onBind(intent: Intent): IBinder {
+        super.onBind(intent)
         return binder
     }
 
