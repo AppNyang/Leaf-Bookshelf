@@ -101,6 +101,13 @@ class TtsService : LifecycleService() {
         stopRead()
     }
 
+    /**
+     * Read the book using TTS engine.
+     *
+     * @param title
+     * @param pagedBook
+     * @param currentPage
+     */
     fun read(title: CharSequence, pagedBook: LinkedList<Spanned>, currentPage: MutableLiveData<Int>) {
         textToSpeech = TextToSpeech(this) { status ->
             if (status == TextToSpeech.SUCCESS) {
@@ -149,11 +156,17 @@ class TtsService : LifecycleService() {
         }
     }
 
+    /**
+     * Shutdown the TTS engine.
+     */
     private fun stopRead() {
         textToSpeech.stop()
         textToSpeech.shutdown()
     }
 
+    /**
+     * Local binder to bind service with ViewModel.
+     */
     inner class LocalBinder : Binder() {
         fun getService(): TtsService = this@TtsService
     }

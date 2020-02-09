@@ -130,6 +130,7 @@ class PageActivity : AppCompatActivity() {
             textPages.text = getPageCountString()
         })
 
+        // Called when the middle of page is clicked.
         viewModel.showMenu.observe(this, Observer {
             showMenu(it)
         })

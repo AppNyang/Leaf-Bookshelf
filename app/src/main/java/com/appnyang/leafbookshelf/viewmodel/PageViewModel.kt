@@ -356,10 +356,18 @@ class PageViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    /**
+     * Show menu. It is called when the user click the middle of the page.
+     */
     fun showMenu() {
         _showMenu.value = !_showMenu.value!!
     }
 
+    /**
+     * Bind TTS service.
+     *
+     * @param bStart True when TTS chip is checked.
+     */
     fun startTtsService(bStart: Boolean) {
         if (bStart && !isBound) {
             Intent(getApplication<LeafApp>(), TtsService::class.java).also {
