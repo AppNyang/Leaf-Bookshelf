@@ -34,6 +34,8 @@ class TtsService : Service() {
     private val idUtterance = "LEAF_TTS"
     private lateinit var textToSpeech: TextToSpeech
 
+    var userCancelReadListener: () -> Unit = {}
+
     override fun onCreate() {
         super.onCreate()
 
@@ -80,6 +82,7 @@ class TtsService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         // Stop the service.
         if (intent?.action == actionStop) {
+            userCancelReadListener()
             stopRead()
             stopForeground(true)
             stopSelf()

@@ -66,6 +66,8 @@ class PageViewModel(application: Application) : AndroidViewModel(application) {
             ttsService = (binder as TtsService.LocalBinder).getService()
             isBound = true
 
+            setOnUserCancelReadListener()
+
             val title = openedFileName.value ?: ""
             pagedBook.value?.let { book ->
                 ttsService.read(title, book, currentPage)
@@ -375,6 +377,18 @@ class PageViewModel(application: Application) : AndroidViewModel(application) {
             isBound = false
             getApplication<LeafApp>().unbindService(ttsServiceConnection)
             getApplication<LeafApp>().stopService(serviceIntent)
+        }
+    }
+
+    /**
+     * Unbind the TtsService and uncheck TTS chip.
+     * This is called when the user stop service on the notification.
+     */
+    private fun setOnUserCancelReadListener() {
+        ttsService.userCancelReadListener = {
+            isBound = false
+            getApplication<LeafApp>().unbindService(ttsServiceConnection)
+            bTts.value = false
         }
     }
 
