@@ -5,6 +5,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
 import com.appnyang.leafbookshelf.R
+import com.appnyang.leafbookshelf.di.roomModule
 import com.appnyang.leafbookshelf.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -22,7 +23,8 @@ class LeafApp : Application() {
         startKoin {
             androidContext(this@LeafApp)
             modules(listOf(
-                viewModelModule
+                viewModelModule,
+                roomModule
             ))
         }
 
