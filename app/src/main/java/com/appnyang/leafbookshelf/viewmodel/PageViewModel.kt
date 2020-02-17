@@ -68,6 +68,8 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, application: A
 
     val bookmarks = MediatorLiveData<List<Bookmark>>()
 
+    lateinit var currentUri: String
+
     // TTS Service.
     private lateinit var ttsService: TtsService
     private var isBound = false
@@ -96,6 +98,7 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, application: A
      * @param contentResolver
      */
     fun readBookFromUri(uri: Uri, contentResolver: ContentResolver) {
+        currentUri = uri.toString()
         // Add source from repository.
         // If this function called many times, MediatorLiveData leads memory leaks.
         bookmarks.addSource(bookmarkRepo.loadBookmarks(currentUri)) { bookmarks.value = it }
@@ -493,6 +496,17 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, application: A
     fun saveBookmark(bookmark: Bookmark) {
         viewModelScope.launch(Dispatchers.Default) {
             bookmarkRepo.saveBookmark(bookmark)
+        }
+    }
+
+    /**
+     * Delete the given bookmark of this document from the database.
+     * 
+     * @param index A character index.
+     */
+    fun deleteBookmark(index: Long) {
+        viewModelScope.launch(Dispatchers.Default) {
+            bookmarkRepo.deleteBookmark(currentUri, index)
         }
     }
 
