@@ -58,7 +58,7 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, application: A
     val bTts = MutableLiveData<Boolean>(false)
     val bAuto = MutableLiveData<Boolean>(false)
 
-    val bookmarks = bookmarkRepo.loadBookmarks()
+    val bookmarks = MediatorLiveData<List<Bookmark>>()
 
     // TTS Service.
     private lateinit var ttsService: TtsService
@@ -88,6 +88,10 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, application: A
      * @param contentResolver
      */
     fun readBookFromUri(uri: Uri, contentResolver: ContentResolver) {
+        // Add source from repository.
+        // If this function called many times, MediatorLiveData leads memory leaks.
+        bookmarks.addSource(bookmarkRepo.loadBookmarks(currentUri)) { bookmarks.value = it }
+
         viewModelScope.launch {
             fetchBookNameFromUri(uri, contentResolver)
             fetchBookFromUri(uri, contentResolver)
