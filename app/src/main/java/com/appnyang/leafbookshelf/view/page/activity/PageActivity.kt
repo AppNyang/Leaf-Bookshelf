@@ -87,6 +87,15 @@ class PageActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        if (viewModel.isAnyMenuOpened()) {
+            viewModel.displayMenu()
+        }
+        else {
+            super.onBackPressed()
+        }
+    }
+
     /**
      * Subscribe live data from ViewModel.
      */
