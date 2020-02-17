@@ -19,6 +19,13 @@ class BookmarkRepository(private val bookmarkDao: BookmarkDao) {
     fun loadBookmarks(): LiveData<List<Bookmark>> = bookmarkDao.getBookmarks()
 
     /**
+     * Fetch all bookmarks given uri from the database.
+     *
+     * @return A list of bookmarks given uri.
+     */
+    fun loadBookmarks(uri: String): LiveData<List<Bookmark>> = bookmarkDao.getBookmarks(uri)
+
+    /**
      * Save a bookmark to the database.
      *
      * @param bookmark A Bookmark to save.
