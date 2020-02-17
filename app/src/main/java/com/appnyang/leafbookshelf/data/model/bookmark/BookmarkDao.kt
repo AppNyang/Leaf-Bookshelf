@@ -22,8 +22,8 @@ interface BookmarkDao {
     @Query("SELECT * FROM bookmarks WHERE uri = :uri")
     fun getBookmarks(uri: String): LiveData<List<Bookmark>>
 
-    @Query("DELETE FROM bookmarks WHERE 'index' = :index")
-    fun deleteByIndex(index: Long)
+    @Query("DELETE FROM bookmarks WHERE uri = :uri AND \"index\" = :index")
+    fun deleteByIndex(uri: String, index: Long)
 
     @Query("DELETE FROM bookmarks")
     fun deleteAll()

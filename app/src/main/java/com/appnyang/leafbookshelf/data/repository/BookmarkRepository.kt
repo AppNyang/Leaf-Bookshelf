@@ -32,7 +32,7 @@ class BookmarkRepository(private val bookmarkDao: BookmarkDao) {
      *
      * @param index Character index of the bookmark.
      */
-    fun deleteBookmark(index: Long) {
-        bookmarkDao.deleteByIndex(index)
+    fun deleteBookmark(uri: String, index: Long) {
+        bookmarkDao.deleteByIndex(uri, index)
     }
 }
