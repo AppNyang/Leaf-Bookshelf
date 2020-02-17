@@ -14,6 +14,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.appnyang.leafbookshelf.core.LeafApp
+import com.appnyang.leafbookshelf.data.model.bookmark.Bookmark
+import com.appnyang.leafbookshelf.data.model.bookmark.BookmarkType
 import com.appnyang.leafbookshelf.data.repository.BookmarkRepository
 import com.appnyang.leafbookshelf.service.TtsService
 import com.appnyang.leafbookshelf.util.SingleLiveEvent
@@ -42,6 +44,9 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, application: A
     private val _chunkPaged = SingleLiveEvent<Any>()
 
     private val _showMenu = MutableLiveData<Boolean>(false)
+    private val _showSettings = MutableLiveData<Boolean>(false)
+    private val _showBookmark = MutableLiveData<Boolean>(false)
+    private val _clickedBack = SingleLiveEvent<Any>()
 
     // Public live data.
     val openedFileName: LiveData<CharSequence> = _openedFileName
@@ -54,6 +59,9 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, application: A
     val isPaginating = AtomicBoolean(false)
 
     val showMenu: LiveData<Boolean> = _showMenu
+    val showSettings: LiveData<Boolean> = _showSettings
+    val showBookmark: LiveData<Boolean> = _showBookmark
+    val clickedBack: LiveData<Any> = _clickedBack
 
     val bTts = MutableLiveData<Boolean>(false)
     val bAuto = MutableLiveData<Boolean>(false)
@@ -371,6 +379,45 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, application: A
     }
 
     /**
+     * Show settings menu.
+     */
+    fun onSettingsClicked() {
+        displayMenu(settings = true)
+    }
+
+    /**
+     * Add a bookmark on this page.
+     */
+    fun onBookmarkAddClicked() {
+        if (!isPaginating.get()) {
+            saveBookmark(Bookmark(currentUri, "TestTitle", getCurrentTextIndex(), BookmarkType.CUSTOM.name))
+        }
+    }
+
+    /**
+     * Show bookmarks menu.
+     */
+    fun onBookmarkClicked() {
+        displayMenu(bookmark = true)
+    }
+
+    /**
+     * Return true if any menu is opened.
+     */
+    fun isAnyMenuOpened(): Boolean = showMenu.value?.or(showSettings.value?.or(showBookmark.value ?: false) ?: false) ?: false
+
+    /**
+     * Open menu panel.
+     */
+    fun displayMenu(menu: Boolean = false, settings: Boolean = false, bookmark: Boolean = false) {
+        _showMenu.value = menu
+        _showSettings.value = settings
+        _showBookmark.value = bookmark
+    }
+
+    fun onBackClicked() { _clickedBack.call() }
+
+    /**
      * Bind TTS service.
      *
      * @param bStart True when TTS chip is checked.
@@ -433,6 +480,17 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, application: A
             }
 
             currentPage.postValue(page)
+        }
+    }
+
+    /**
+     * Save the given bookmark to the database.
+     *
+     * @param bookmark A bookmark.
+     */
+    fun saveBookmark(bookmark: Bookmark) {
+        viewModelScope.launch(Dispatchers.Default) {
+            bookmarkRepo.saveBookmark(bookmark)
         }
     }
 

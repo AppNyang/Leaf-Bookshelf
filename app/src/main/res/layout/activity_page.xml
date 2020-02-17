@@ -44,6 +44,7 @@
                 android:layout_height="30dp"
                 android:layout_marginStart="20dp"
                 android:backgroundTint="@color/menuBackground"
+                android:onClick="@{() -> viewModel.onBackClicked()}"
                 app:iconSize="16dp"
                 app:icon="@drawable/ic_back" />
 
@@ -62,6 +63,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:backgroundTint="@color/menuBackground"
+                android:onClick="@{() -> viewModel.onSettingsClicked()}"
                 app:iconSize="16dp"
                 app:icon="@drawable/ic_settings" />
 
@@ -70,6 +72,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:backgroundTint="@color/menuBackground"
+                android:onClick="@{() -> viewModel.onBookmarkAddClicked()}"
                 app:iconSize="16dp"
                 app:icon="@drawable/ic_bookmark_add" />
 
@@ -79,6 +82,7 @@
                 android:layout_height="30dp"
                 android:layout_marginEnd="20dp"
                 android:backgroundTint="@color/menuBackground"
+                android:onClick="@{() -> viewModel.onBookmarkClicked()}"
                 app:iconSize="16dp"
                 app:icon="@drawable/ic_bookmark" />
 
