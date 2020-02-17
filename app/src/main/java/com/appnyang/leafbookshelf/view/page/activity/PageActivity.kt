@@ -147,6 +147,12 @@ class PageActivity : AppCompatActivity() {
             showMenu(it)
         })
 
+        // Called when the back button of top-menu clicked.
+        viewModel.clickedBack.observe(this, Observer {
+            viewModel.displayMenu()
+            onBackPressed()
+        })
+
         // Called when TTS chip is clicked.
         viewModel.bTts.observe(this, Observer {
             viewModel.startTtsService(it)
