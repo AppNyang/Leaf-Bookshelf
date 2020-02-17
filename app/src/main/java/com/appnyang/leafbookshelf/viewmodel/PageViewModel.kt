@@ -9,10 +9,7 @@ import android.os.IBinder
 import android.provider.OpenableColumns
 import android.text.*
 import androidx.core.text.toSpanned
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.appnyang.leafbookshelf.core.LeafApp
 import com.appnyang.leafbookshelf.data.model.bookmark.Bookmark
 import com.appnyang.leafbookshelf.data.model.bookmark.BookmarkType
