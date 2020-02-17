@@ -38,6 +38,21 @@
         <item name="android:textAppearance">@style/TextAppearance.Chip.Page</item>
     </style>
 
+    <!-- Bookmark chips -->
+    <style name="Chip.Bookmark" parent="@style/Widget.MaterialComponents.Chip.Action">
+        <item name="chipStartPadding">@dimen/page_chip_horizontal_padding</item>
+        <item name="chipEndPadding">@dimen/page_chip_horizontal_padding</item>
+        <item name="chipMinHeight">@dimen/page_bookmark_chip_height</item>
+        <item name="chipBackgroundColor">@color/chip_background</item>
+        <item name="chipStrokeColor">@color/darkLeaf</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="rippleColor">@color/darkLeaf</item>
+        <item name="closeIconVisible">true</item>
+        <item name="closeIconTint">@color/lightLeaf</item>
+        <item name="chipIcon">@drawable/ic_leaf</item>
+        <item name="android:textAppearance">@style/TextAppearance.Chip.Page</item>
+    </style>
+
     <!-- Text Appearance -->
     <style name="TextAppearance.ToolBarTitle.Collapsed" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@color/colorPrimary</item>
