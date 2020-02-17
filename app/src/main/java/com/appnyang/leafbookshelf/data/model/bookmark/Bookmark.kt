@@ -13,8 +13,14 @@ import androidx.room.PrimaryKey
 data class Bookmark(
     val uri: String,
     val title: String,
-    val index: Long
+    val index: Long,
+    val type: String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
+}
+
+enum class BookmarkType {
+    CUSTOM,
+    AUTO_GENERATED
 }
