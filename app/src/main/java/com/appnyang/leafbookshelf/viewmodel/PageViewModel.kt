@@ -363,10 +363,7 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, application: A
      * @param page
      */
     fun goToPage(page: Int) {
-        if (_showMenu.value!!) {
-            _showMenu.value = false
-        }
-        else if (page in _pagedBook.value!!.indices && page != currentPage.value) {
+        if (page in _pagedBook.value!!.indices && page != currentPage.value) {
             currentPage.value = page
         }
     }
@@ -375,7 +372,12 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, application: A
      * Show menu. It is called when the user click the middle of the page.
      */
     fun showMenu() {
-        _showMenu.value = !_showMenu.value!!
+        if (isAnyMenuOpened()) {
+            displayMenu()
+        }
+        else {
+            displayMenu(menu = _showMenu.value?.not() ?: false)
+        }
     }
 
     /**
