@@ -36,6 +36,8 @@
             android:background="@color/menuBackground"
             android:translationY="-55dp"
             android:elevation="@dimen/page_menu_elevation"
+            android:focusable="true"
+            android:clickable="true"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.button.MaterialButton
@@ -97,6 +99,8 @@
             android:background="@color/menuBackground"
             android:translationY="150dp"
             android:elevation="@dimen/page_menu_elevation"
+            android:focusable="true"
+            android:clickable="true"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <TextView
