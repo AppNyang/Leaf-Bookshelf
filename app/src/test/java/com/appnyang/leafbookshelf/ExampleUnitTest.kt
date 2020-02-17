@@ -1,17 +1,23 @@
 package com.appnyang.leafbookshelf
 
-import org.junit.Test
-
-import org.junit.Assert.*
+import com.appnyang.leafbookshelf.di.roomModule
+import io.kotlintest.koin.KoinListener
+import io.kotlintest.matchers.haveLength
+import io.kotlintest.should
+import io.kotlintest.specs.StringSpec
+import org.koin.test.KoinTest
 
 /**
  * Example local unit test, which will execute on the development machine (host).
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
-class ExampleUnitTest {
-    @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+class Db : KoinTest, StringSpec() {
+    override fun listeners() = listOf(KoinListener(roomModule))
+
+    init {
+        "Test" {
+            "abc" should haveLength(3)
+        }
     }
 }
