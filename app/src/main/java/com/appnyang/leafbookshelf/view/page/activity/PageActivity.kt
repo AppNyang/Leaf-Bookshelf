@@ -153,6 +153,11 @@ class PageActivity : AppCompatActivity() {
             onBackPressed()
         })
 
+        // Called when the bookmark button of top-menu clicked.
+        viewModel.showBookmark.observe(this, Observer {
+            showBookmarksMenu(it)
+        })
+
         // Called when TTS chip is clicked.
         viewModel.bTts.observe(this, Observer {
             viewModel.startTtsService(it)
@@ -229,6 +234,25 @@ class PageActivity : AppCompatActivity() {
                     start()
                 }
                 ObjectAnimator.ofFloat(layoutBottomMenu, "translationY", layoutBottomMenu.height.toFloat()).apply {
+                    duration = animationDuration
+                    start()
+                }
+            }
+        }
+    }
+
+    private fun showBookmarksMenu(bShow: Boolean) {
+        if (layoutBookmarkMenu.height != 0) {
+            val animationDuration = 200L
+
+            if (bShow) {
+                ObjectAnimator.ofFloat(layoutBookmarkMenu, "translationY", 0f).apply {
+                    duration = animationDuration
+                    start()
+                }
+            }
+            else {
+                ObjectAnimator.ofFloat(layoutBookmarkMenu, "translationY", layoutBookmarkMenu.height.toFloat()).apply {
                     duration = animationDuration
                     start()
                 }
