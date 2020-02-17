@@ -453,10 +453,13 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, application: A
 
     /**
      * Get current character position of pagedBook.
+     *
+     * @return The current text index of current page.
      */
     fun getCurrentTextIndex(): Long = pagedBook.value?.run {
-        filterIndexed { index, _ -> index < (currentPage.value ?: 0) }
-        sumBy { it.length }
+        asSequence()
+            .filterIndexed { index, _ -> index < (currentPage.value ?: 0) }
+            .sumBy { it.length }
             .toLong()
     } ?: 0L
 
