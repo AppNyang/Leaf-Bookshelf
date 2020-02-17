@@ -371,7 +371,7 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, application: A
     /**
      * Show menu. It is called when the user click the middle of the page.
      */
-    fun showMenu() {
+    fun onShowMenuClicked() {
         if (isAnyMenuOpened()) {
             displayMenu()
         }

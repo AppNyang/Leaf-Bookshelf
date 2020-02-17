@@ -38,7 +38,6 @@ class PageFragment(val page: Int) : Fragment() {
             if (event.action == MotionEvent.ACTION_UP) {
                 val viewModel = getSharedViewModel<PageViewModel>()
                 when (event.x.toInt()) {
-                    in (frameLayout.width / 3) until (2 * frameLayout.width / 3) -> getSharedViewModel<PageViewModel>().showMenu()
                     in 0 until (frameLayout.width / 3) -> {
                         if (viewModel.isAnyMenuOpened()) {
                             viewModel.displayMenu()
@@ -47,6 +46,7 @@ class PageFragment(val page: Int) : Fragment() {
                             viewModel.goToPage(page - 1)
                         }
                     }
+                    in (frameLayout.width / 3) until (2 * frameLayout.width / 3) -> viewModel.onShowMenuClicked()
                     in (2 * frameLayout.width / 3)..frameLayout.width -> {
                         if (viewModel.isAnyMenuOpened()) {
                             viewModel.displayMenu()
