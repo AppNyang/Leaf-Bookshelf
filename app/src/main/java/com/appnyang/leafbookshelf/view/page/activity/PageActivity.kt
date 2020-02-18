@@ -241,6 +241,11 @@ class PageActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Show or hide bookmarks menu.
+     *
+     * @param bShow true to show the bookmarks menu.
+     */
     private fun showBookmarksMenu(bShow: Boolean) {
         if (layoutBookmarkMenu.height != 0) {
             val animationDuration = 200L
