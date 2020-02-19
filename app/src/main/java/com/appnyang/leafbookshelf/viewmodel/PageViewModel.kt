@@ -70,7 +70,7 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, application: A
     val lastRead: LiveData<Bookmark> = _lastRead
     val bookmarks = MediatorLiveData<List<Bookmark>>()
 
-    lateinit var currentUri: String
+    private lateinit var currentUri: String
 
     // TTS Service.
     private lateinit var ttsService: TtsService
@@ -458,7 +458,7 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, application: A
      *
      * @return The current text index of current page.
      */
-    fun getCurrentTextIndex(): Long = pagedBook.value?.run {
+    private fun getCurrentTextIndex(): Long = pagedBook.value?.run {
         asSequence()
             .filterIndexed { index, _ -> index < (currentPage.value ?: 0) }
             .sumBy { it.length }
