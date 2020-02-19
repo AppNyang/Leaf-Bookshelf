@@ -1,10 +1,8 @@
 package com.appnyang.leafbookshelf.data.model.bookmark
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
+import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
-import androidx.room.Query
 
 /**
  * Bookmark Data Access Object.
@@ -21,6 +19,18 @@ interface BookmarkDao {
 
     @Query("SELECT * FROM bookmarks WHERE uri = :uri")
     fun getBookmarks(uri: String): LiveData<List<Bookmark>>
+
+    @Query("SELECT * FROM bookmarks WHERE uri = :uri AND type = \"LAST_READ\"")
+    fun getLastRead(uri: String): Bookmark?
+
+    @Transaction
+    fun upsertLastRead(bookmark: Bookmark) {
+        val lastRead = getLastRead(bookmark.uri)
+        if (lastRead != null) {
+            bookmark.id = lastRead.id
+        }
+        insert(bookmark)
+    }
 
     @Query("DELETE FROM bookmarks WHERE uri = :uri AND \"index\" = :index")
     fun deleteByIndex(uri: String, index: Long)
