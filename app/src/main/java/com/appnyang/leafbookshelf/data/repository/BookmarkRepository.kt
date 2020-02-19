@@ -3,6 +3,7 @@ package com.appnyang.leafbookshelf.data.repository
 import androidx.lifecycle.LiveData
 import com.appnyang.leafbookshelf.data.model.bookmark.Bookmark
 import com.appnyang.leafbookshelf.data.model.bookmark.BookmarkDao
+import com.appnyang.leafbookshelf.data.model.bookmark.BookmarkType
 
 /**
  * Bookmark Repository.
@@ -26,12 +27,24 @@ class BookmarkRepository(private val bookmarkDao: BookmarkDao) {
     fun loadBookmarks(uri: String): LiveData<List<Bookmark>> = bookmarkDao.getBookmarks(uri)
 
     /**
+     * Fetch last-read bookmark.
+     *
+     * @return A last-read bookmark.
+     */
+    fun loadLastRead(uri: String): Bookmark? = bookmarkDao.getLastRead(uri)
+
+    /**
      * Save a bookmark to the database.
      *
      * @param bookmark A Bookmark to save.
      */
     fun saveBookmark(bookmark: Bookmark) {
-        bookmarkDao.insert(bookmark)
+        if (bookmark.type == BookmarkType.LAST_READ.name) {
+            bookmarkDao.upsertLastRead(bookmark)
+        }
+        else {
+            bookmarkDao.insert(bookmark)
+        }
     }
 
     /**

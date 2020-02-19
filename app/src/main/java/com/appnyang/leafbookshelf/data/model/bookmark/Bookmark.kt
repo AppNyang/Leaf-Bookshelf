@@ -22,5 +22,6 @@ data class Bookmark(
 
 enum class BookmarkType {
     CUSTOM,
-    AUTO_GENERATED
+    AUTO_GENERATED,
+    LAST_READ
 }
