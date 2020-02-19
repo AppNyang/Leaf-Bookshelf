@@ -162,7 +162,7 @@
             android:paddingBottom="24dp"
             android:background="@color/menuBackground"
             android:orientation="vertical"
-            android:translationY="200dp"
+            android:translationY="250dp"
             android:elevation="@dimen/page_menu_elevation"
             android:focusable="true"
             android:clickable="true"

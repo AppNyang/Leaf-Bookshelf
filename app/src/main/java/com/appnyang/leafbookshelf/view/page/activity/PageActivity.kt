@@ -271,7 +271,7 @@ class PageActivity : AppCompatActivity() {
                 }
             }
             else {
-                ObjectAnimator.ofFloat(layoutBookmarkMenu, "translationY", layoutBookmarkMenu.height.toFloat()).apply {
+                ObjectAnimator.ofFloat(layoutBookmarkMenu, "translationY", layoutBookmarkMenu.height.toFloat() * 1.5f).apply {
                     duration = animationDuration
                     start()
                 }
