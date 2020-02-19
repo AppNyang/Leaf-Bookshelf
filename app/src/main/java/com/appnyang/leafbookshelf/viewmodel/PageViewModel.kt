@@ -498,13 +498,25 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, application: A
     }
 
     /**
+     * Bookmark the current page.
+     *
+     * @param title Title of the bookmark.
+     * @param type BookmarkType.
+     */
+    fun saveCurrentBookmark(title: String, type: BookmarkType = BookmarkType.CUSTOM) {
+        saveBookmark(Bookmark(currentUri, title, getCurrentTextIndex(), type.name))
+    }
+
+    /**
      * Save the given bookmark to the database.
      *
      * @param bookmark A bookmark.
      */
-    fun saveBookmark(bookmark: Bookmark) {
-        viewModelScope.launch(Dispatchers.Default) {
-            bookmarkRepo.saveBookmark(bookmark)
+    private fun saveBookmark(bookmark: Bookmark) {
+        if (!isPaginating.get()) {
+            viewModelScope.launch(Dispatchers.Default) {
+                bookmarkRepo.saveBookmark(bookmark)
+            }
         }
     }
 
