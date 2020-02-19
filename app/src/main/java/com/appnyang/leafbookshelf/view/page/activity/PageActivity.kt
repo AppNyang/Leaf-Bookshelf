@@ -96,12 +96,25 @@ class PageActivity : AppCompatActivity() {
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+
+        // Save a bookmark.
+        viewModel.saveCurrentBookmark(getString(R.string.last_read), BookmarkType.LAST_READ)
+    }
+
     /**
      * Subscribe live data from ViewModel.
      */
     private fun subscribeObservers() {
         // Called after read the raw file in chunk.
         viewModel.chunkedText.observe(this, Observer {
+            // Get last-read bookmark.
+            viewModel.loadLastRead()
+        })
+
+        // Called after fetch the last-read bookmark.
+        viewModel.lastRead.observe(this, Observer {
             lifecycleScope.launch {
                 viewModel.paginateBook(
                     PageViewModel.StaticLayoutParam(textPainter.width,
@@ -109,7 +122,8 @@ class PageActivity : AppCompatActivity() {
                         textPainter.paint,
                         textPainter.lineSpacingMultiplier,
                         textPainter.lineSpacingExtra,
-                        textPainter.includeFontPadding)
+                        textPainter.includeFontPadding),
+                    it?.index ?: 0
                 )
             }
         })

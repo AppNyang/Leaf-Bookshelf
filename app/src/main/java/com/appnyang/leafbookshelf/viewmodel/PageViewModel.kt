@@ -45,6 +45,8 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, application: A
     private val _showBookmark = MutableLiveData<Boolean>(false)
     private val _clickedBack = SingleLiveEvent<Any>()
 
+    private val _lastRead = MutableLiveData<Bookmark>()
+
     // Public live data.
     val openedFileName: LiveData<CharSequence> = _openedFileName
     val chunkedText: LiveData<List<CharSequence>> = _chunkedText
@@ -63,6 +65,7 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, application: A
     val bTts = MutableLiveData<Boolean>(false)
     val bAuto = MutableLiveData<Boolean>(false)
 
+    val lastRead: LiveData<Bookmark> = _lastRead
     val bookmarks = MediatorLiveData<List<Bookmark>>()
 
     lateinit var currentUri: String
@@ -485,6 +488,12 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, application: A
             }
 
             currentPage.postValue(page)
+        }
+    }
+
+    fun loadLastRead() {
+        viewModelScope.launch(Dispatchers.Default) {
+            _lastRead.postValue(bookmarkRepo.loadLastRead(currentUri))
         }
     }
 

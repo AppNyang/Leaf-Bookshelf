@@ -12,6 +12,7 @@
     <string name="page_counter">%1$d / %2$d</string>
     <string name="auto_generated_bookmarks">Auto generated bookmarks</string>
     <string name="bookmarks">Bookmarks</string>
+    <string name="last_read">Last read</string>
 
     <!-- Channel ids DO NOT TRANSLATE -->
     <string name="channel_tts">channel_tts</string>
