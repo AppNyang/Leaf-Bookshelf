@@ -14,6 +14,9 @@ interface BookmarkDao {
     @Insert(onConflict = REPLACE)
     fun insert(bookmark: Bookmark)
 
+    @Update
+    fun update(bookmark: Bookmark)
+
     @Query("SELECT * FROM bookmarks")
     fun getBookmarks(): LiveData<List<Bookmark>>
 
