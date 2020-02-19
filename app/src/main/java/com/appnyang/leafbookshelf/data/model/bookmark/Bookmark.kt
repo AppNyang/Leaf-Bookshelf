@@ -17,7 +17,7 @@ data class Bookmark(
     val type: String
 ) {
     @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
+    var id: Long = 0
 }
 
 enum class BookmarkType {
