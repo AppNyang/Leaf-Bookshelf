@@ -44,6 +44,7 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, application: A
     private val _showSettings = MutableLiveData<Boolean>(false)
     private val _showBookmark = MutableLiveData<Boolean>(false)
     private val _clickedBack = SingleLiveEvent<Any>()
+    private val _clickedAddBookmark = SingleLiveEvent<Any>()
 
     private val _lastRead = MutableLiveData<Bookmark>()
 
@@ -61,6 +62,7 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, application: A
     val showSettings: LiveData<Boolean> = _showSettings
     val showBookmark: LiveData<Boolean> = _showBookmark
     val clickedBack: LiveData<Any> = _clickedBack
+    val clickedAddBookmark: LiveData<Any> = _clickedAddBookmark
 
     val bTts = MutableLiveData<Boolean>(false)
     val bAuto = MutableLiveData<Boolean>(false)
@@ -395,7 +397,7 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, application: A
      */
     fun onBookmarkAddClicked() {
         if (!isPaginating.get()) {
-            saveBookmark(Bookmark(currentUri, "TestTitle", getCurrentTextIndex(), BookmarkType.CUSTOM.name))
+            _clickedAddBookmark.call()
         }
     }
 

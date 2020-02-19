@@ -1,12 +1,15 @@
 package com.appnyang.leafbookshelf.view.page.activity
 
 import android.animation.ObjectAnimator
+import android.app.Dialog
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -22,6 +25,7 @@ import com.appnyang.leafbookshelf.viewmodel.PageViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import kotlinx.android.synthetic.main.activity_page.*
+import kotlinx.android.synthetic.main.dialog_add_bookmark.view.*
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -167,6 +171,13 @@ class PageActivity : AppCompatActivity() {
             onBackPressed()
         })
 
+        // Called when the Add Bookmark button of top-menu clicked.
+        viewModel.clickedAddBookmark.observe(this, Observer {
+            viewModel.displayMenu()
+            AddBookmarkDialog(viewModel.pagedBook.value?.get(viewModel.currentPage.value ?: 0)?.substring(0..10)?.trim() ?: "", viewModel)
+                .show(supportFragmentManager, "AddBookmark")
+        })
+
         // Called when the bookmark button of top-menu clicked.
         viewModel.showBookmark.observe(this, Observer {
             showBookmarksMenu(it)
@@ -297,5 +308,27 @@ class PageActivity : AppCompatActivity() {
         override fun createFragment(position: Int): Fragment {
             return PageFragment(position)
         }
+    }
+}
+
+class AddBookmarkDialog(private val title: String, private val viewModel: PageViewModel) : DialogFragment() {
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return activity?.let {
+            val view = requireActivity().layoutInflater.inflate(R.layout.dialog_add_bookmark, null)
+            view.editBookmarkTitle.setText(title)
+
+            val builder = AlertDialog.Builder(it)
+                .setView(view)
+                .setTitle(R.string.title_add_bookmark)
+                .setIcon(R.drawable.ic_bookmark_add)
+                .setPositiveButton(R.string.button_add) { _, _ ->
+                    viewModel.saveCurrentBookmark(view.editBookmarkTitle.text.toString())
+                }
+                .setNegativeButton(R.string.button_cancel) { _, _ ->
+                    dialog?.cancel()
+                }
+
+            builder.create()
+        } ?: throw IllegalStateException()
     }
 }

@@ -13,6 +13,12 @@
     <string name="auto_generated_bookmarks">Auto generated bookmarks</string>
     <string name="bookmarks">Bookmarks</string>
     <string name="last_read">Last read</string>
+    <string name="hint_bookmark_title">Title</string>
+
+    <!-- Dialog -->
+    <string name="title_add_bookmark">Add Bookmark</string>
+    <string name="button_add">Add</string>
+    <string name="button_cancel">Cancel</string>
 
     <!-- Channel ids DO NOT TRANSLATE -->
     <string name="channel_tts">channel_tts</string>
