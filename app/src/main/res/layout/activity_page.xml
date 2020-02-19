@@ -207,5 +207,25 @@
 
         </LinearLayout>
 
+        <!-- Settings Menu -->
+        <LinearLayout
+            android:id="@+id/layoutSettingsMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/menuBackground"
+            android:translationY="-100dp"
+            android:elevation="@dimen/page_menu_elevation"
+            android:focusable="true"
+            android:clickable="true"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/color_theme"/>
+
+        </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
