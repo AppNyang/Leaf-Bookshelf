@@ -7,6 +7,7 @@ import android.os.Build
 import com.appnyang.leafbookshelf.R
 import com.appnyang.leafbookshelf.di.roomModule
 import com.appnyang.leafbookshelf.di.viewModelModule
+import net.danlew.android.joda.JodaTimeAndroid
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -37,5 +38,8 @@ class LeafApp : Application() {
                 notificationManager.createNotificationChannel(it)
             }
         }
+
+        // Initialize time library.
+        JodaTimeAndroid.init(this)
     }
 }
