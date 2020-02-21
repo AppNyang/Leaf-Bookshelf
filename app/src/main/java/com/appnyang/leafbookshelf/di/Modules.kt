@@ -20,7 +20,7 @@ import org.koin.dsl.module
  * ViewModel Module.
  */
 val viewModelModule: Module = module {
-    viewModel { MainViewModel() }
+    viewModel { MainViewModel(get(), get()) }
     viewModel { PageViewModel(get(), get(), get()) }
 
     single { BookmarkRepository(get()) }
