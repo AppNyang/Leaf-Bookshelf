@@ -105,6 +105,8 @@ class PageActivity : AppCompatActivity() {
 
         // Save a bookmark.
         viewModel.saveCurrentBookmark(getString(R.string.last_read), BookmarkType.LAST_READ)
+
+        viewModel.saveHistory()
     }
 
     /**

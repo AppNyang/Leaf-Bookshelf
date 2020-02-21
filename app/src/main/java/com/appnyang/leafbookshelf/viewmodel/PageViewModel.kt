@@ -13,6 +13,7 @@ import androidx.lifecycle.*
 import com.appnyang.leafbookshelf.core.LeafApp
 import com.appnyang.leafbookshelf.data.model.bookmark.Bookmark
 import com.appnyang.leafbookshelf.data.model.bookmark.BookmarkType
+import com.appnyang.leafbookshelf.data.model.history.History
 import com.appnyang.leafbookshelf.data.repository.BookmarkRepository
 import com.appnyang.leafbookshelf.data.repository.HistoryRepository
 import com.appnyang.leafbookshelf.service.TtsService
@@ -22,6 +23,9 @@ import com.appnyang.leafbookshelf.util.styler.DefaultStyler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.joda.time.DateTime
+import org.joda.time.Interval
+import org.joda.time.format.ISODateTimeFormat
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.nio.charset.Charset
@@ -73,6 +77,9 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, private val hi
 
     private lateinit var currentUri: String
 
+    private var lastReadTime = 0
+    private lateinit var openTime: DateTime
+
     // TTS Service.
     private lateinit var ttsService: TtsService
     private var isBound = false
@@ -106,7 +113,14 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, private val hi
         // If this function called many times, MediatorLiveData leads memory leaks.
         bookmarks.addSource(bookmarkRepo.loadBookmarks(currentUri)) { bookmarks.value = it }
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
+            // Get history.
+            val history = historyRepository.loadHistory(currentUri)
+            if (history != null) {
+                lastReadTime = history.readTime
+            }
+            openTime = DateTime.now()
+
             fetchBookNameFromUri(uri, contentResolver)
             fetchBookFromUri(uri, contentResolver)
         }
@@ -531,6 +545,26 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, private val hi
     fun deleteBookmark(index: Long) {
         viewModelScope.launch(Dispatchers.Default) {
             bookmarkRepo.deleteBookmark(currentUri, index)
+        }
+    }
+
+    /**
+     * Append current file to open history.
+     * This called only when the activity is closed.
+     */
+    fun saveHistory() {
+        viewModelScope.launch(Dispatchers.Default) {
+            val formatter = ISODateTimeFormat.dateTime()
+            val readTime = Interval(openTime, DateTime.now()).toDuration().standardMinutes.toInt() + lastReadTime
+
+            historyRepository.saveHistory(
+                History(
+                    currentUri,
+                    openedFileName.value?.toString() ?: "",
+                    readTime,
+                    DateTime.now().toString(formatter)
+                )
+            )
         }
     }
 
