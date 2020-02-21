@@ -2,6 +2,7 @@ package com.appnyang.leafbookshelf.di
 
 import com.appnyang.leafbookshelf.data.model.AppDatabase
 import com.appnyang.leafbookshelf.data.repository.BookmarkRepository
+import com.appnyang.leafbookshelf.data.repository.HistoryRepository
 import com.appnyang.leafbookshelf.viewmodel.MainViewModel
 import com.appnyang.leafbookshelf.viewmodel.PageViewModel
 import org.koin.android.ext.koin.androidApplication
@@ -20,12 +21,14 @@ import org.koin.dsl.module
  */
 val viewModelModule: Module = module {
     viewModel { MainViewModel() }
-    viewModel { PageViewModel(get(), get()) }
+    viewModel { PageViewModel(get(), get(), get()) }
 
     single { BookmarkRepository(get()) }
+    single { HistoryRepository(get()) }
 }
 
 val roomModule: Module = module {
     single { AppDatabase.getInstance(androidApplication()) }
     single { get<AppDatabase>().getBookmarkDao() }
+    single { get<AppDatabase>().getHistoryDao() }
 }

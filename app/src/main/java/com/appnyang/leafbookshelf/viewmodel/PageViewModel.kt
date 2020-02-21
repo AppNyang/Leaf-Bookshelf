@@ -14,6 +14,7 @@ import com.appnyang.leafbookshelf.core.LeafApp
 import com.appnyang.leafbookshelf.data.model.bookmark.Bookmark
 import com.appnyang.leafbookshelf.data.model.bookmark.BookmarkType
 import com.appnyang.leafbookshelf.data.repository.BookmarkRepository
+import com.appnyang.leafbookshelf.data.repository.HistoryRepository
 import com.appnyang.leafbookshelf.service.TtsService
 import com.appnyang.leafbookshelf.util.SingleLiveEvent
 import com.appnyang.leafbookshelf.util.icu.CharsetDetector
@@ -32,7 +33,7 @@ import java.util.concurrent.atomic.AtomicBoolean
  *
  * @author Sangwoo <sangwoo@yesang.com> on 2020-01-20.
  */
-class PageViewModel(private val bookmarkRepo: BookmarkRepository, application: Application) : AndroidViewModel(application) {
+class PageViewModel(private val bookmarkRepo: BookmarkRepository, private val historyRepository: HistoryRepository, application: Application) : AndroidViewModel(application) {
 
     // Private live data.
     private val _openedFileName = MutableLiveData<CharSequence>()
