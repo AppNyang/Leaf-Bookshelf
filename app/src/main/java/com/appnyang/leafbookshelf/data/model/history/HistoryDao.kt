@@ -1,0 +1,37 @@
+package com.appnyang.leafbookshelf.data.model.history
+
+import androidx.lifecycle.LiveData
+import androidx.room.*
+import androidx.room.OnConflictStrategy.REPLACE
+
+/**
+ * History Data Access Object.
+ *
+ * @author Sangwoo <sangwoo@yesang.com> on 2020-02-19.
+ */
+@Dao
+interface HistoryDao {
+    @Insert(onConflict = REPLACE)
+    fun insert(history: History)
+
+    @Query("SELECT * FROM history WHERE uri = :uri LIMIT 1")
+    fun getHistory(uri: String): History?
+
+    @Query("SELECT * FROM history")
+    fun getHistory(): LiveData<List<History>>
+
+    @Transaction
+    fun upsert(history: History) {
+        val old = getHistory(history.uri)
+        if (old != null) {
+            history.id = old.id
+        }
+        insert(history)
+    }
+
+    @Query("DELETE FROM history WHERE uri = :uri")
+    fun delete(uri: String)
+
+    @Query("DELETE FROM history")
+    fun deleteAll()
+}
