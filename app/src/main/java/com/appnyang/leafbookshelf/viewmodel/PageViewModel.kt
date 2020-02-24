@@ -583,7 +583,8 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, private val hi
     private fun getQuote(): String =
         (pagedBook.value?.get(currentPage.value ?: 0)?.toString() ?: "")
             .trim()
-            .split("\n", limit=2)
+            .splitToSequence("\n", limit = 3)
+            .filterIndexed { index, _ -> index < 2 }
             .joinToString("\n")
 
     /**
