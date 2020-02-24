@@ -46,6 +46,10 @@
     <string name="button_add">Add</string>
     <string name="button_cancel">Cancel</string>
 
+    <!-- Tag IDs -->
+    <string name="tag_uri">TAG_URI</string>
+    <string name="tag_index">TAG_INDEX</string>
+
     <!-- Channel ids DO NOT TRANSLATE -->
     <string name="channel_tts">channel_tts</string>
 
