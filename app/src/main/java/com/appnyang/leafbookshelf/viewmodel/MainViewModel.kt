@@ -22,4 +22,14 @@ class MainViewModel(historyRepo: HistoryRepository, private val bookmarkRepo: Bo
         history.addSource(MutableLiveData<List<History>>(listOf())) { history.value = it }
         history.addSource(historyRepo.loadHistory()) { history.value = it }
     }
+
+    /**
+     * Delete a bookmark.
+     *
+     * @param uri Uri of the bookmark.
+     * @param index Char index of the bookmark.
+     */
+    fun deleteBookmark(uri: String, index: Long) {
+        viewModelScope.launch(Dispatchers.Default) { bookmarkRepo.deleteBookmark(uri, index) }
+    }
 }
