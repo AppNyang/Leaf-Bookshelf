@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/lightLeaf" />
+    <corners
+        android:topLeftRadius="@dimen/drawer_round_corner"
+        android:topRightRadius="@dimen/drawer_round_corner"
+        android:bottomLeftRadius="@dimen/drawer_round_corner"
+        android:bottomRightRadius="@dimen/drawer_round_corner" />
+</shape>

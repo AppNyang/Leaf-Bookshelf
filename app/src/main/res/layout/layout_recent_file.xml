@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable name="item" type="com.appnyang.leafbookshelf.data.model.history.History" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginStart="4dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="8dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imageCover"
+                android:layout_width="60dp"
+                android:layout_height="120dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:scaleType="centerCrop"
+                android:background="@drawable/background_leaf"
+                android:contentDescription="@string/book_cover" />
+
+            <TextView
+                android:id="@+id/textTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/main_recent_title_margin"
+                android:layout_marginStart="80dp"
+                android:layout_marginEnd="@dimen/main_recent_title_margin"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/imageCover"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textAppearance="@style/TextAppearance.Main.Recent.Title"
+                android:text="@{item.title}" />
+
+            <TextView
+                android:id="@+id/textReadTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:layout_marginStart="@dimen/main_recent_title_margin"
+                android:layout_marginEnd="@dimen/main_recent_title_margin"
+                app:layout_constraintTop_toBottomOf="@id/textTitle"
+                app:layout_constraintStart_toEndOf="@id/imageCover"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.Main.Recent.Time"
+                app:readable_read_time="@{item.readTime}"
+                app:readable_last_open="@{item.lastOpen}"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:layout_marginStart="80dp"
+                android:layout_marginEnd="@dimen/main_recent_title_margin"
+                app:layout_constraintTop_toBottomOf="@id/textReadTime"
+                app:layout_constraintStart_toEndOf="@id/imageCover"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:fontFamily="@font/nanum_square_l"
+                android:textColor="@color/recentTitle"
+                android:textSize="12sp"
+                android:text="@{item.quote}" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>
