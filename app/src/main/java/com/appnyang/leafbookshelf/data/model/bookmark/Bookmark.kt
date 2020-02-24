@@ -14,7 +14,8 @@ data class Bookmark(
     val uri: String,
     val title: String,
     val index: Long,
-    val type: String
+    val type: String,
+    val updateDate: String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0

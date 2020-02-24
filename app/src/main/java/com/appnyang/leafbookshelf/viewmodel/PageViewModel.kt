@@ -521,7 +521,7 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, private val hi
      * @param type BookmarkType.
      */
     fun saveCurrentBookmark(title: String, type: BookmarkType = BookmarkType.CUSTOM) {
-        saveBookmark(Bookmark(currentUri, title, getCurrentTextIndex(), type.name))
+        saveBookmark(Bookmark(currentUri, title, getCurrentTextIndex(), type.name, getCurrentDateTimeAsString()))
     }
 
     /**
