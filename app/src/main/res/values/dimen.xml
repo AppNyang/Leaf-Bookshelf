@@ -11,5 +11,5 @@
     <dimen name="page_margin">16dp</dimen>
     <dimen name="page_menu_elevation">5dp</dimen>
     <dimen name="page_chip_horizontal_padding">15dp</dimen>
-    <dimen name="page_bookmark_chip_height">38dp</dimen>
+    <dimen name="page_bookmark_chip_height">34dp</dimen>
 </resources>
