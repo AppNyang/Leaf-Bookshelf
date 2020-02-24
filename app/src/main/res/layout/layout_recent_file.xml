@@ -3,6 +3,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <variable name="viewModel" type="com.appnyang.leafbookshelf.viewmodel.MainViewModel" />
         <variable name="item" type="com.appnyang.leafbookshelf.data.model.history.History" />
     </data>
 
@@ -12,6 +13,9 @@
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="4dp"
         android:layout_marginStart="4dp"
+        android:focusable="true"
+        android:clickable="true"
+        android:onClick="@{() -> viewModel.onHistoryClicked(item)}"
         app:cardCornerRadius="8dp"
         app:cardElevation="8dp">
         <androidx.constraintlayout.widget.ConstraintLayout

@@ -105,6 +105,10 @@ class MainActivity : AppCompatActivity() {
                     }
             }
         })
+
+        viewModel.historyClicked.observe(this, Observer {
+            openPageActivity(Uri.parse(it.first), it.second)
+        })
     }
 
     /**
@@ -208,6 +212,8 @@ class MainActivity : AppCompatActivity() {
             putExtra(PageActivity.KEY_CHAR_INDEX, charIndex)
         })
     }
+
+    fun getMainViewModel() = viewModel
 
     companion object {
         const val PICK_FILE_STORAGE = 1000

@@ -14,6 +14,9 @@ import kotlinx.coroutines.launch
  */
 class MainViewModel(historyRepo: HistoryRepository, private val bookmarkRepo: BookmarkRepository) : ViewModel() {
 
+    private val _historyClicked = MutableLiveData<Pair<String, Long>>()
+    val historyClicked: LiveData<Pair<String, Long>> = _historyClicked
+
     val history = MediatorLiveData<List<History>>()
     val bookmarks = bookmarkRepo.loadBookmarks()
 
@@ -31,5 +34,17 @@ class MainViewModel(historyRepo: HistoryRepository, private val bookmarkRepo: Bo
      */
     fun deleteBookmark(uri: String, index: Long) {
         viewModelScope.launch(Dispatchers.Default) { bookmarkRepo.deleteBookmark(uri, index) }
+    }
+
+    /**
+     * On recent files item clicked.
+     *
+     * @param history An History data.
+     */
+    fun onHistoryClicked(history: History) {
+        viewModelScope.launch(Dispatchers.Default) {
+            val charIndex = bookmarkRepo.loadLastRead(history.uri)?.index ?: 0L
+            _historyClicked.postValue(Pair(history.uri, charIndex))
+        }
     }
 }
