@@ -23,8 +23,8 @@ val viewModelModule: Module = module {
     viewModel { MainViewModel(get(), get()) }
     viewModel { PageViewModel(get(), get(), get()) }
 
-    single { BookmarkRepository(get()) }
-    single { HistoryRepository(get()) }
+    factory { BookmarkRepository(get()) }
+    factory { HistoryRepository(get()) }
 }
 
 val roomModule: Module = module {
