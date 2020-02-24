@@ -17,7 +17,7 @@ interface HistoryDao {
     @Query("SELECT * FROM history WHERE uri = :uri LIMIT 1")
     fun getHistory(uri: String): History?
 
-    @Query("SELECT * FROM history")
+    @Query("SELECT * FROM history ORDER BY lastOpen DESC")
     fun getHistory(): LiveData<List<History>>
 
     @Transaction
