@@ -82,14 +82,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun subscribeObservers() {
         viewModel.history.observe(this, Observer {
-            if (it.isEmpty()) {
-                layoutContainer.visibility = View.GONE
-                textEmpty.visibility = View.VISIBLE
-            }
-            else {
-                layoutContainer.visibility = View.VISIBLE
-                textEmpty.visibility = View.GONE
-            }
+            showEmptyBookshelf(it.isEmpty())
         })
 
         viewModel.bookmarks.observe(this, Observer {
@@ -182,12 +175,38 @@ class MainActivity : AppCompatActivity() {
                 // Take persist permissions to access the file across device restarts.
                 applicationContext.contentResolver.takePersistableUriPermission(it, takeFlags)
 
-                // Open a PageActivity with uri.
-                startActivity(Intent(this, PageActivity::class.java).apply {
-                    putExtra(PageActivity.KEY_FILE_URI, it)
-                })
+                openPageActivity(it)
             }
         }
+    }
+
+    /**
+     * Show empty bookshelf message.
+     *
+     * @param bShow true to show empty bookshelf message.
+     */
+    private fun showEmptyBookshelf(bShow: Boolean) {
+        if (bShow) {
+            textEmpty.visibility = View.VISIBLE
+            layoutContainer.visibility = View.GONE
+        }
+        else {
+            textEmpty.visibility = View.GONE
+            layoutContainer.visibility = View.VISIBLE
+        }
+    }
+
+    /**
+     * Open a PageActivity with uri.
+     *
+     * @param uri File uri.
+     * @param charIndex Index.
+     */
+    private fun openPageActivity(uri: Uri, charIndex: Long = 0) {
+        startActivity(Intent(this, PageActivity::class.java).apply {
+            putExtra(PageActivity.KEY_FILE_URI, uri)
+            putExtra(PageActivity.KEY_CHAR_INDEX, charIndex)
+        })
     }
 
     companion object {
