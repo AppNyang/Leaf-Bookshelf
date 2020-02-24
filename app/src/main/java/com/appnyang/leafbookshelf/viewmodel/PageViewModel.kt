@@ -562,6 +562,7 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, private val hi
                     openedFileName.value?.toString() ?: "",
                     readTime,
                     getCurrentDateTimeAsString(),
+                    getQuote()
                 )
             )
         }
@@ -573,6 +574,17 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, private val hi
      * @return ISO date-time format string.
      */
     private fun getCurrentDateTimeAsString(): String = DateTime.now().toString(ISODateTimeFormat.dateTime())
+
+    /**
+     * Return two lines string of current page.
+     *
+     * @return Two lines string of current page.
+     */
+    private fun getQuote(): String =
+        (pagedBook.value?.get(currentPage.value ?: 0)?.toString() ?: "")
+            .trim()
+            .split("\n", limit=2)
+            .joinToString("\n")
 
     /**
      * This data class used for build StaticLayout.

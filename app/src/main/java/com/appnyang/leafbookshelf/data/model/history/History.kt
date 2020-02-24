@@ -14,8 +14,10 @@ data class History(
     val uri: String,
     val title: String,
     val readTime: Int,  // Read time in minute.
-    val lastOpen: String
+    val lastOpen: String,
+    var quote: String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0
+    var cover: String = ""
 }
