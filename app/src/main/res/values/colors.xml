@@ -10,6 +10,10 @@
     <color name="darkLeaf">#89C64D</color>
     <color name="lightLeaf">#AAD047</color>
 
+    <!-- Main -->
+    <color name="recentTitle">#2A2A2A</color>
+    <color name="recentTime">#6D6D6D</color>
+
     <!-- Page -->
     <color name="pageStatusBar">#D900574B</color>
     <color name="menuBackground">#E6FFFFFF</color>

@@ -65,6 +65,12 @@
         <item name="android:fontFamily">@font/nanum_square</item>
     </style>
 
+    <style name="TextAppearance.Main.Title" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/nanum_square</item>
+        <item name="android:textColor">@color/darkForest</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <style name="TextAppearance.Page" parent="TextAppearance.AppCompat">
         <item name="android:fontFamily">@font/noto_sans_cjk_r</item>
         <item name="android:textColor">@color/textColor</item>

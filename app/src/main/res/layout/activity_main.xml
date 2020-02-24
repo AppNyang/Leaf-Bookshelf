@@ -56,19 +56,60 @@
                 android:layout_height="wrap_content"
                 android:minHeight="500dp">
 
+                <LinearLayout
+                    android:id="@+id/layoutContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/main_content_margin"
+                    android:paddingEnd="@dimen/main_content_margin"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toTopOf="parent">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableTop="@drawable/ic_leaf"
-                        android:drawablePadding="15dp"
-                        android:text="@string/empty_shelf"
-                        android:textSize="14sp"
-                        android:textColor="@color/lightLeaf"
-                        android:gravity="center"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent" />
+                        android:layout_marginBottom="@dimen/main_title_margin"
+                        android:layout_marginTop="@dimen/main_content_margin"
+                        android:textAppearance="@style/TextAppearance.Main.Title"
+                        android:text="@string/recent_files" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerRecentFiles"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/layout_recent_file" />
+                    <View
+                        android:layout_width="24dp"
+                        android:layout_height="8dp"
+                        android:layout_marginTop="@dimen/main_section_margin"
+                        android:layout_marginBottom="@dimen/main_section_margin"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/round_background" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/main_title_margin"
+                        android:textAppearance="@style/TextAppearance.Main.Title"
+                        android:text="@string/my_bookmarks" />
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chipGroupBookmarks"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textEmpty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableTop="@drawable/ic_leaf"
+                    android:drawablePadding="15dp"
+                    android:text="@string/empty_shelf"
+                    android:textSize="14sp"
+                    android:textColor="@color/lightLeaf"
+                    android:gravity="center"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

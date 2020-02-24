@@ -16,6 +16,9 @@
     <string name="hint_bookmark_title">Title</string>
     <string name="color_theme">Color Theme</string>
 
+    <!-- Main Activity -->
+    <string name="recent_files">Recent files</string>
+    <string name="my_bookmarks">My bookmarks</string>
     <!-- Dialog -->
     <string name="title_add_bookmark">Add Bookmark</string>
     <string name="button_add">Add</string>
