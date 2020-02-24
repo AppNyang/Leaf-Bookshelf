@@ -13,6 +13,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.updateLayoutParams
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.appnyang.leafbookshelf.R
 import com.appnyang.leafbookshelf.databinding.ActivityMainBinding
 import com.appnyang.leafbookshelf.view.page.activity.PageActivity
@@ -47,6 +48,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         initFab()
+
+        subscribeObservers()
     }
 
     /**
@@ -72,6 +75,19 @@ class MainActivity : AppCompatActivity() {
                 }
             })
         }
+    }
+
+    private fun subscribeObservers() {
+        viewModel.history.observe(this, Observer {
+            if (it.isEmpty()) {
+                layoutContainer.visibility = View.GONE
+                textEmpty.visibility = View.VISIBLE
+            }
+            else {
+                layoutContainer.visibility = View.VISIBLE
+                textEmpty.visibility = View.GONE
+            }
+        })
     }
 
     /**
