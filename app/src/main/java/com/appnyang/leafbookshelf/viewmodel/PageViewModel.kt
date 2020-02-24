@@ -554,7 +554,6 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, private val hi
      */
     fun saveHistory() {
         viewModelScope.launch(Dispatchers.Default) {
-            val formatter = ISODateTimeFormat.dateTime()
             val readTime = Interval(openTime, DateTime.now()).toDuration().standardMinutes.toInt() + lastReadTime
 
             historyRepository.saveHistory(
@@ -562,11 +561,18 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, private val hi
                     currentUri,
                     openedFileName.value?.toString() ?: "",
                     readTime,
-                    DateTime.now().toString(formatter)
+                    getCurrentDateTimeAsString(),
                 )
             )
         }
     }
+
+    /**
+     * Return date-time as ISO date time format string.
+     *
+     * @return ISO date-time format string.
+     */
+    private fun getCurrentDateTimeAsString(): String = DateTime.now().toString(ISODateTimeFormat.dateTime())
 
     /**
      * This data class used for build StaticLayout.
