@@ -3,6 +3,7 @@ package com.appnyang.leafbookshelf.view.main.activity
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -15,10 +16,12 @@ import androidx.core.view.updateLayoutParams
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.appnyang.leafbookshelf.R
+import com.appnyang.leafbookshelf.data.model.bookmark.BookmarkType
 import com.appnyang.leafbookshelf.databinding.ActivityMainBinding
 import com.appnyang.leafbookshelf.view.page.activity.PageActivity
 import com.appnyang.leafbookshelf.viewmodel.MainViewModel
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.chip.Chip
 import com.leinardi.android.speeddial.SpeedDialActionItem
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -86,6 +89,27 @@ class MainActivity : AppCompatActivity() {
             else {
                 layoutContainer.visibility = View.VISIBLE
                 textEmpty.visibility = View.GONE
+            }
+        })
+
+        viewModel.bookmarks.observe(this, Observer {
+            chipGroupBookmarks.removeAllViews()
+            synchronized(this) {
+                it.asSequence()
+                    .filter { bookmark -> bookmark.type == BookmarkType.CUSTOM.name }
+                    .forEach { bookmark ->
+                        val chip = layoutInflater.inflate(R.layout.layout_bookmark_chip, chipGroupBookmarks, false) as Chip
+                        chip.text = bookmark.title
+                        chip.setTag(R.string.tag_uri, bookmark.uri)
+                        chip.setTag(R.string.tag_index, bookmark.index)
+                        chip.setOnCloseIconClickListener { view ->
+                            viewModel.deleteBookmark(view.getTag(R.string.tag_uri).toString(), view.getTag(R.string.tag_index).toString().toLong())
+                        }
+                        chip.setOnClickListener { view ->
+                            openPageActivity(Uri.parse(view.getTag(R.string.tag_uri).toString()), view.getTag(R.string.tag_index).toString().toLong())
+                        }
+                        chipGroupBookmarks.addView(chip)
+                    }
             }
         })
     }
