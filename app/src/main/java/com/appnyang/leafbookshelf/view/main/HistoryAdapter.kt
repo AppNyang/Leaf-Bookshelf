@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import com.appnyang.leafbookshelf.R
 import com.appnyang.leafbookshelf.data.model.history.History
@@ -20,22 +21,11 @@ import com.appnyang.leafbookshelf.viewmodel.MainViewModel
  *
  * @author Sangwoo <sangwoo@yesang.com> on 2020-02-22.
  */
-class HistoryAdapter(var items: List<History>) : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
+class HistoryAdapter(var items: List<History>, private val viewModel: ViewModel) : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
 
     inner class HistoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding: LayoutRecentFileBinding = DataBindingUtil.bind<LayoutRecentFileBinding>(view)!!.apply {
-            viewModel = getViewModel(view)
-        }
-
-        private fun getViewModel(view: View): MainViewModel? {
-            var context: Context = view.context
-            while (context is ContextWrapper) {
-                if (context is Activity) {
-                    return (context as MainActivity).getMainViewModel()
-                }
-                context = context.baseContext
-            }
-            return null
+            viewModel = this@HistoryAdapter.viewModel as MainViewModel
         }
     }
 
