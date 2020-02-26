@@ -53,6 +53,10 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, private val hi
 
     private val _lastRead = MutableLiveData<Bookmark>()
 
+    private lateinit var bookmarksDbSource: LiveData<List<Bookmark>>
+    private val _bookmarks = MediatorLiveData<List<Bookmark>>()
+    val bookmarks: LiveData<List<Bookmark>> = _bookmarks
+
     // Public live data.
     val openedFileName: LiveData<CharSequence> = _openedFileName
     val chunkedText: LiveData<List<CharSequence>> = _chunkedText
@@ -73,7 +77,6 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, private val hi
     val bAuto = MutableLiveData<Boolean>(false)
 
     val lastRead: LiveData<Bookmark> = _lastRead
-    val bookmarks = MediatorLiveData<List<Bookmark>>()
 
     private lateinit var currentUri: String
 
@@ -109,9 +112,15 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, private val hi
      */
     fun readBookFromUri(uri: Uri, contentResolver: ContentResolver) {
         currentUri = uri.toString()
-        // Add source from repository.
-        // If this function called many times, MediatorLiveData leads memory leaks.
-        bookmarks.addSource(bookmarkRepo.loadBookmarks(currentUri)) { bookmarks.value = it }
+
+        // Fetch bookmarks.
+        if (::bookmarksDbSource.isInitialized) {
+            _bookmarks.removeSource(bookmarksDbSource)
+        }
+        bookmarksDbSource = bookmarkRepo.loadBookmarks(currentUri)
+        // Activity should register unique LiveData to observe,
+        // so we have to use MediatorLiveData instead of MutableLiveData.
+        _bookmarks.addSource(bookmarksDbSource) { _bookmarks.value = it }
 
         viewModelScope.launch(Dispatchers.Default) {
             // Get history.
