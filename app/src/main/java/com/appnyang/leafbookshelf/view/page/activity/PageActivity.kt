@@ -110,6 +110,15 @@ class PageActivity : AppCompatActivity() {
     }
 
     /**
+     * Open files depends on file type.
+     */
+    private fun openBook() {
+        intent.extras?.getParcelable<Uri>(KEY_FILE_URI)?.let {
+            viewModel.readBookFromUri(it, applicationContext.contentResolver)
+        }
+    }
+
+    /**
      * Subscribe live data from ViewModel.
      */
     private fun subscribeObservers() {
@@ -231,15 +240,6 @@ class PageActivity : AppCompatActivity() {
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN or
                 View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-    }
-
-    /**
-     * Open files depends on file type.
-     */
-    private fun openBook() {
-        intent.extras?.getParcelable<Uri>(KEY_FILE_URI)?.let {
-            viewModel.readBookFromUri(it, applicationContext.contentResolver)
-        }
     }
 
     /**
