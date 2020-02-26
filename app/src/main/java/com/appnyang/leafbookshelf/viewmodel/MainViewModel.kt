@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import com.appnyang.leafbookshelf.data.model.history.History
 import com.appnyang.leafbookshelf.data.repository.BookmarkRepository
 import com.appnyang.leafbookshelf.data.repository.HistoryRepository
+import com.appnyang.leafbookshelf.view.main.OnHistoryItemClickListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -38,10 +39,8 @@ class MainViewModel(historyRepo: HistoryRepository, private val bookmarkRepo: Bo
 
     /**
      * On recent files item clicked.
-     *
-     * @param history An History data.
      */
-    fun onHistoryClicked(history: History) {
+    val onHistoryClickListener = OnHistoryItemClickListener { history ->
         viewModelScope.launch(Dispatchers.Default) {
             val charIndex = bookmarkRepo.loadLastRead(history.uri)?.index ?: 0L
             _historyClicked.postValue(Pair(history.uri, charIndex))

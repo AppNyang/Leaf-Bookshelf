@@ -77,7 +77,7 @@
                         android:layout_height="wrap_content"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:recent_files="@{viewModel.history}"
-                        app:view_model="@{viewModel}"
+                        app:item_click_listener="@{viewModel.onHistoryClickListener}"
                         tools:listitem="@layout/layout_recent_file" />
                     <View
                         android:layout_width="24dp"
