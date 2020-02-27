@@ -213,8 +213,6 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    fun getMainViewModel() = viewModel
-
     companion object {
         const val PICK_FILE_STORAGE = 1000
     }
