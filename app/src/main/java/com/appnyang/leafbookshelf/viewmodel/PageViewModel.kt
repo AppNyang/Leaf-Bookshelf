@@ -21,9 +21,7 @@ import com.appnyang.leafbookshelf.service.TtsService
 import com.appnyang.leafbookshelf.util.SingleLiveEvent
 import com.appnyang.leafbookshelf.util.icu.CharsetDetector
 import com.appnyang.leafbookshelf.util.styler.DefaultStyler
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import org.joda.time.DateTime
 import org.joda.time.Interval
 import org.joda.time.format.ISODateTimeFormat
@@ -232,7 +230,7 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, private val hi
      * @param layoutParam Layout parameters to build StaticLayout.
      * @param charIndex The char position the user last read.
      */
-    private suspend fun paginateBook(chunkedText: List<CharSequence>, layoutParam: StaticLayoutParam, charIndex: Long = 0L) {
+    private suspend fun paginateBook(chunkedText: List<CharSequence>, layoutParam: StaticLayoutParam, charIndex: Long = 0L) = withContext(Dispatchers.Default) {
         // Paginating is a time-consuming work. So we need to notify the status using isPaginating.
         isPaginating.set(true)
 
@@ -270,12 +268,13 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, private val hi
                 // After first chunk had been processed, fire the alarm to show the contents.
                 val list = LinkedList<Spanned>()
                 list.addAll(pagedCharSequence.toList())
+
                 _pagedBook.postValue(list)
 
                 // If the user load the book with bookmark, go to the bookmark.
                 if (charIndexInChunk != 0L) {
                     bScrollAnim.set(false)
-                    postCurrentPageToIndex(charIndexInChunk)
+                    postCurrentPageToIndex(list, charIndexInChunk)
                 }
             }
             else {
@@ -384,22 +383,21 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, private val hi
     /**
      * Move to the corresponding page with given character position.
      *
+     * @param list A first list of paginated text.
      * @param index Character position.
      */
-    private suspend fun postCurrentPageToIndex(index: Long) = withContext(Dispatchers.Default) {
-        pagedBook.value?.let {
-            var page = it.size - 1
-            var sum = 0
+    private fun postCurrentPageToIndex(list: List<CharSequence> ,index: Long) {
+        var page = list.size - 1
+        var sum = 0
 
-            it.asSequence()
-                .filter { sum - 1 < index }
-                .forEachIndexed { i, text ->
-                    page = i
-                    sum += text.length
-                }
+        list.asSequence()
+            .filter { sum - 1 < index }
+            .forEachIndexed { i, text ->
+                page = i
+                sum += text.length
+            }
 
-            currentPage.postValue(page)
-        }
+        currentPage.postValue(page)
     }
 
     /**
