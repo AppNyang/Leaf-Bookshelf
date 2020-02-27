@@ -303,18 +303,18 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, private val hi
      * using the charIndex where the user last read.
      *
      * @param charIndex The char position the user last read.
-     * @param text A list of chunks.
+     * @param chunkedText A list of chunks.
      * @return The index of the chunk to be processed and charIndex in the chunk.
      */
-    private suspend fun getChunkCharIndices(charIndex: Long, text: List<CharSequence>): Pair<Int, Long> = withContext(Dispatchers.Default) {
+    private suspend fun getChunkCharIndices(charIndex: Long, chunkedText: List<CharSequence>): Pair<Int, Long> = withContext(Dispatchers.Default) {
         var sumChars = 0L
         var chunkStart = 0
         var charIndexInChunk = 0L
-        for (i in text.indices) {
-            sumChars += text[i].length
+        for (i in chunkedText.indices) {
+            sumChars += chunkedText[i].length
             if (sumChars >= charIndex) {
                 chunkStart = i
-                charIndexInChunk = charIndex - sumChars + text[i].length
+                charIndexInChunk = charIndex - sumChars + chunkedText[i].length
                 break
             }
         }
