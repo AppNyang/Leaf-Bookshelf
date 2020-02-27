@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.IBinder
 import android.provider.OpenableColumns
 import android.text.*
+import androidx.annotation.WorkerThread
 import androidx.core.text.toSpanned
 import androidx.lifecycle.*
 import com.appnyang.leafbookshelf.core.LeafApp
@@ -41,7 +42,6 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, private val hi
 
     // Private live data.
     private val _openedFileName = MutableLiveData<CharSequence>()
-    private val _chunkedText = MutableLiveData<List<CharSequence>>()
     private val _pagedBook = MutableLiveData<LinkedList<Spanned>>()
     private val _chunkPaged = SingleLiveEvent<Any>()
 
@@ -51,15 +51,12 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, private val hi
     private val _clickedBack = SingleLiveEvent<Any>()
     private val _clickedAddBookmark = SingleLiveEvent<Any>()
 
-    private val _lastRead = MutableLiveData<Bookmark>()
-
     private lateinit var bookmarksDbSource: LiveData<List<Bookmark>>
     private val _bookmarks = MediatorLiveData<List<Bookmark>>()
     val bookmarks: LiveData<List<Bookmark>> = _bookmarks
 
     // Public live data.
     val openedFileName: LiveData<CharSequence> = _openedFileName
-    val chunkedText: LiveData<List<CharSequence>> = _chunkedText
     val pagedBook: LiveData<LinkedList<Spanned>> = _pagedBook
     val chunkPaged: LiveData<Any> = _chunkPaged
 
@@ -75,8 +72,6 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, private val hi
 
     val bTts = MutableLiveData<Boolean>(false)
     val bAuto = MutableLiveData<Boolean>(false)
-
-    val lastRead: LiveData<Bookmark> = _lastRead
 
     private lateinit var currentUri: String
 
@@ -107,10 +102,12 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, private val hi
     /**
      * Read text file from uri.
      *
-     * @param uri
-     * @param contentResolver
+     * @param uri URI of the file to read.
+     * @param contentResolver Android Content Resolver.
+     * @param layoutParam Layout parameters to build StaticLayout.
+     * @param charIndex The char position the user last read. If it is lower than 0, read from last-read position.
      */
-    fun readBookFromUri(uri: Uri, contentResolver: ContentResolver) {
+    fun readBookFromUri(uri: Uri, contentResolver: ContentResolver, layoutParam: StaticLayoutParam, charIndex: Long = 0L) {
         currentUri = uri.toString()
 
         // Fetch bookmarks.
@@ -123,25 +120,40 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, private val hi
         _bookmarks.addSource(bookmarksDbSource) { _bookmarks.value = it }
 
         viewModelScope.launch(Dispatchers.Default) {
-            // Get history.
-            val history = historyRepository.loadHistory(currentUri)
-            if (history != null) {
-                lastReadTime = history.readTime
+            // Get lastReadTime to count the total reading time asynchronously.
+            launch {
+                val history = historyRepository.loadHistory(currentUri)
+                if (history != null) {
+                    lastReadTime = history.readTime
+                }
+                openTime = DateTime.now()
             }
-            openTime = DateTime.now()
 
-            fetchBookNameFromUri(uri, contentResolver)
-            fetchBookFromUri(uri, contentResolver)
+            // Read file name asynchronously.
+            launch(Dispatchers.IO) { fetchBookNameFromUri(uri, contentResolver) }
+
+            val chunkedText = fetchBookFromUri(uri, contentResolver)
+
+            var loadIndex = charIndex
+            if (charIndex < 0) {
+                val lastRead = bookmarkRepo.loadLastRead(currentUri)
+                if (lastRead != null) {
+                    loadIndex = lastRead.index
+                }
+            }
+
+            paginateBook(chunkedText, layoutParam, loadIndex)
         }
     }
 
     /**
-     * Fetch the display name of the file.
+     * Fetch the display name of the file and set it to openedFileName
      *
-     * @param uri
-     * @param contentResolver
+     * @param uri URI of the file to read.
+     * @param contentResolver Android Content Resolver.
      */
-    private suspend fun fetchBookNameFromUri(uri: Uri, contentResolver: ContentResolver) = withContext(Dispatchers.IO) {
+    @WorkerThread
+    private fun fetchBookNameFromUri(uri: Uri, contentResolver: ContentResolver) {
         val cursor: Cursor? = contentResolver.query(uri, null, null, null, null, null)
 
         cursor?.use {
@@ -154,10 +166,12 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, private val hi
     /**
      * Fetch from the file using coroutine.
      *
-     * @param uri
-     * @param contentResolver
+     * @param uri URI of the file to read.
+     * @param contentResolver Android Content Resolver.
+     *
+     * @return A list of chunked text.
      */
-    private suspend fun fetchBookFromUri(uri: Uri, contentResolver: ContentResolver) = withContext(Dispatchers.IO) {
+    private suspend fun fetchBookFromUri(uri: Uri, contentResolver: ContentResolver): List<CharSequence> = withContext(Dispatchers.IO) {
         val builder = StringBuilder()
 
         val chunkedText = mutableListOf<CharSequence>()
@@ -184,14 +198,15 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, private val hi
             }
         }
 
-        _chunkedText.postValue(chunkedText)
+        chunkedText
     }
 
     /**
      * Detect charset of the file.
      *
-     * @param uri
-     * @param contentResolver
+     * @param uri URI of the file to read.
+     * @param contentResolver Android Content Resolver.
+     *
      * @return The name of CharSet.
      */
     private suspend fun detectCharSet(uri: Uri, contentResolver: ContentResolver): String = withContext(Dispatchers.IO) {
@@ -209,73 +224,75 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, private val hi
     }
 
     /**
-     * Paginating function should be called AFTER the view is laid out,
+     * Paginate text to fit the screen using chunkedText and layoutParam.
+     * It should be processed AFTER the view is laid out,
      * because it needs the view's height to get list of pages.
      *
+     * @param chunkedText A list of chunked raw text.
      * @param layoutParam Layout parameters to build StaticLayout.
      * @param charIndex The char position the user last read.
      */
-    suspend fun paginateBook(layoutParam: StaticLayoutParam, charIndex: Long = 0L) = withContext(Dispatchers.Default) {
-        chunkedText.value?.let { text ->
-            isPaginating.set(true)
-            val (chunkStart, charIndexInChunk) = getChunkCharIndices(charIndex, text)
+    private suspend fun paginateBook(chunkedText: List<CharSequence>, layoutParam: StaticLayoutParam, charIndex: Long = 0L) {
+        // Paginating is a time-consuming work. So we need to notify the status using isPaginating.
+        isPaginating.set(true)
 
-            val pagedCharSequence = mutableListOf<Spanned>()
+        val (chunkStart, charIndexInChunk) = getChunkCharIndices(charIndex, chunkedText)
 
-            buildChunkSequence(chunkStart, text.size).forEach { chunkIndex ->
-                // 0. Style the chunk.
-                val spannedText = styleTheChunk(text[chunkIndex])
+        val pagedCharSequence = mutableListOf<Spanned>()
 
-                // 1. Build a StaticLayout to measure the text.
-                val layout = buildStaticLayout(layoutParam, spannedText)
+        buildChunkSequence(chunkStart, chunkedText.size).forEach { chunkIndex ->
+            // 0. Style the chunk.
+            val spannedText = styleTheChunk(chunkedText[chunkIndex])
 
-                // 2. Split the text in the page.
-                var beginOffset = 0
-                var heightThreshold = layoutParam.height
-                for (i in 0 until layout.lineCount) {
-                    // When the line has been exceeded single page,
-                    if (heightThreshold < layout.getLineBottom(i)) {
-                        pagedCharSequence.add(spannedText.subSequence(beginOffset until layout.getLineStart(i)).toSpanned())
-                        beginOffset = layout.getLineStart(i)
-                        heightThreshold = layout.getLineTop(i) + layoutParam.height
-                    }
+            // 1. Build a StaticLayout to measure the text.
+            val layout = buildStaticLayout(layoutParam, spannedText)
+
+            // 2. Split the text in the page.
+            var beginOffset = 0
+            var heightThreshold = layoutParam.height
+            for (i in 0 until layout.lineCount) {
+                // When the line has been exceeded single page,
+                if (heightThreshold < layout.getLineBottom(i)) {
+                    pagedCharSequence.add(spannedText.subSequence(beginOffset until layout.getLineStart(i)).toSpanned())
+                    beginOffset = layout.getLineStart(i)
+                    heightThreshold = layout.getLineTop(i) + layoutParam.height
                 }
-
-                // Add rest of the sequence.
-                if (beginOffset != layout.getLineEnd(layout.lineCount - 1)) {
-                    pagedCharSequence
-                        .add(spannedText.subSequence(beginOffset until layout.getLineEnd(layout.lineCount - 1)).toSpanned())
-                }
-
-                // 3. Set paged data.
-                if (chunkIndex == chunkStart) {
-                    // After first chunk had been processed, fire the alarm to show the contents.
-                    val list = LinkedList<Spanned>()
-                    list.addAll(pagedCharSequence.toList())
-                    _pagedBook.postValue(list)
-
-                    // If the user load the book with bookmark, go to the bookmark.
-                    if (charIndexInChunk != 0L) {
-                        bScrollAnim.set(false)
-                        postCurrentPageToIndex(charIndexInChunk)
-                    }
-                }
-                else {
-                    if (chunkIndex > chunkStart) {
-                        _pagedBook.value?.addAll(pagedCharSequence.toList())
-                        _chunkPaged.postCall()
-                    } else {
-                        pagedCharSequence.reversed().asSequence().forEach { _pagedBook.value?.addFirst(it) }
-                        _chunkPaged.postCall()
-                        bScrollAnim.set(false)
-                        currentPage.postValue(currentPage.value?.plus(pagedCharSequence.size))
-                    }
-                }
-
-                pagedCharSequence.clear()
             }
-            isPaginating.set(false)
+
+            // Add rest of the sequence.
+            if (beginOffset != layout.getLineEnd(layout.lineCount - 1)) {
+                pagedCharSequence
+                    .add(spannedText.subSequence(beginOffset until layout.getLineEnd(layout.lineCount - 1)).toSpanned())
+            }
+
+            // 3. Set paged data.
+            if (chunkIndex == chunkStart) {
+                // After first chunk had been processed, fire the alarm to show the contents.
+                val list = LinkedList<Spanned>()
+                list.addAll(pagedCharSequence.toList())
+                _pagedBook.postValue(list)
+
+                // If the user load the book with bookmark, go to the bookmark.
+                if (charIndexInChunk != 0L) {
+                    bScrollAnim.set(false)
+                    postCurrentPageToIndex(charIndexInChunk)
+                }
+            }
+            else {
+                if (chunkIndex > chunkStart) {
+                    _pagedBook.value?.addAll(pagedCharSequence.toList())
+                    _chunkPaged.postCall()
+                } else {
+                    pagedCharSequence.reversed().asSequence().forEach { _pagedBook.value?.addFirst(it) }
+                    _chunkPaged.postCall()
+                    bScrollAnim.set(false)
+                    currentPage.postValue(currentPage.value?.plus(pagedCharSequence.size))
+                }
+            }
+
+            pagedCharSequence.clear()
         }
+        isPaginating.set(false)
     }
 
     /**
@@ -517,12 +534,6 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, private val hi
         }
     }
 
-    fun loadLastRead() {
-        viewModelScope.launch(Dispatchers.Default) {
-            _lastRead.postValue(bookmarkRepo.loadLastRead(currentUri))
-        }
-    }
-
     /**
      * Bookmark the current page.
      *
@@ -562,18 +573,20 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, private val hi
      * This called only when the activity is closed.
      */
     fun saveHistory() {
-        viewModelScope.launch(Dispatchers.Default) {
-            val readTime = Interval(openTime, DateTime.now()).toDuration().standardMinutes.toInt() + lastReadTime
+        if (::openTime.isInitialized) {
+            viewModelScope.launch(Dispatchers.Default) {
+                val readTime = Interval(openTime, DateTime.now()).toDuration().standardMinutes.toInt() + lastReadTime
 
-            historyRepository.saveHistory(
-                History(
-                    currentUri,
-                    openedFileName.value?.toString() ?: "",
-                    readTime,
-                    getCurrentDateTimeAsString(),
-                    getQuote()
+                historyRepository.saveHistory(
+                    History(
+                        currentUri,
+                        openedFileName.value?.toString() ?: "",
+                        readTime,
+                        getCurrentDateTimeAsString(),
+                        getQuote()
+                    )
                 )
-            )
+            }
         }
     }
 

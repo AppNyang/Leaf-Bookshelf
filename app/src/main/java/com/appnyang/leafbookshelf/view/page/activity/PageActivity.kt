@@ -12,7 +12,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.appnyang.leafbookshelf.R
@@ -26,7 +25,6 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import kotlinx.android.synthetic.main.activity_page.*
 import kotlinx.android.synthetic.main.dialog_add_bookmark.view.*
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PageActivity : AppCompatActivity() {
@@ -114,7 +112,16 @@ class PageActivity : AppCompatActivity() {
      */
     private fun openBook() {
         intent.extras?.getParcelable<Uri>(KEY_FILE_URI)?.let {
-            viewModel.readBookFromUri(it, applicationContext.contentResolver)
+            val layoutParam = PageViewModel.StaticLayoutParam(textPainter.width,
+                textPainter.height,
+                textPainter.paint,
+                textPainter.lineSpacingMultiplier,
+                textPainter.lineSpacingExtra,
+                textPainter.includeFontPadding)
+
+            val charIndex = intent.extras?.getLong(KEY_CHAR_INDEX, -1) ?: -1
+
+            viewModel.readBookFromUri(it, applicationContext.contentResolver, layoutParam, charIndex)
         }
     }
 
@@ -122,27 +129,6 @@ class PageActivity : AppCompatActivity() {
      * Subscribe live data from ViewModel.
      */
     private fun subscribeObservers() {
-        // Called after read the raw file in chunk.
-        viewModel.chunkedText.observe(this, Observer {
-            // Get last-read bookmark.
-            viewModel.loadLastRead()
-        })
-
-        // Called after fetch the last-read bookmark.
-        viewModel.lastRead.observe(this, Observer {
-            lifecycleScope.launch {
-                viewModel.paginateBook(
-                    PageViewModel.StaticLayoutParam(textPainter.width,
-                        textPainter.height,
-                        textPainter.paint,
-                        textPainter.lineSpacingMultiplier,
-                        textPainter.lineSpacingExtra,
-                        textPainter.includeFontPadding),
-                    it?.index ?: 0
-                )
-            }
-        })
-
         // Called when the first chunk is paginated.
         viewModel.pagedBook.observe(this, Observer {
             // Setup ViewPager.
