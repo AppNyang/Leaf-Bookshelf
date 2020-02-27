@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
  *
  * @author Sangwoo <sangwoo@yesang.com> on 2020-02-14.
  */
-@Entity(tableName = "bookmarks", indices = [Index(value= ["index"], unique = true)])
+@Entity(tableName = "bookmarks")
 data class Bookmark(
     val uri: String,
     val title: String,

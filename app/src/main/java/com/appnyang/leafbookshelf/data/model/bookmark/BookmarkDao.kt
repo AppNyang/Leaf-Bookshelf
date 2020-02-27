@@ -35,8 +35,8 @@ interface BookmarkDao {
         insert(bookmark)
     }
 
-    @Query("DELETE FROM bookmarks WHERE uri = :uri AND \"index\" = :index")
-    fun deleteByIndex(uri: String, index: Long)
+    @Query("DELETE FROM bookmarks WHERE uri = :uri AND title = :title AND \"index\" = :index")
+    fun deleteByIndex(uri: String, title: String, index: Long)
 
     @Query("DELETE FROM bookmarks")
     fun deleteAll()

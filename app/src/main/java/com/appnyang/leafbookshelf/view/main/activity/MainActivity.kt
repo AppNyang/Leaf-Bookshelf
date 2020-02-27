@@ -94,9 +94,10 @@ class MainActivity : AppCompatActivity() {
                         val chip = layoutInflater.inflate(R.layout.layout_bookmark_chip, chipGroupBookmarks, false) as Chip
                         chip.text = bookmark.title
                         chip.setTag(R.string.tag_uri, bookmark.uri)
+                        chip.setTag(R.string.tag_title, bookmark.title)
                         chip.setTag(R.string.tag_index, bookmark.index)
                         chip.setOnCloseIconClickListener { view ->
-                            viewModel.deleteBookmark(view.getTag(R.string.tag_uri).toString(), view.getTag(R.string.tag_index).toString().toLong())
+                            viewModel.deleteBookmark(view.getTag(R.string.tag_uri).toString(), view.getTag(R.string.tag_title).toString(), view.getTag(R.string.tag_index).toString().toLong())
                         }
                         chip.setOnClickListener { view ->
                             openPageActivity(Uri.parse(view.getTag(R.string.tag_uri).toString()), view.getTag(R.string.tag_index).toString().toLong())

@@ -50,9 +50,11 @@ class BookmarkRepository(private val bookmarkDao: BookmarkDao) {
     /**
      * Delete a bookmark from the database.
      *
+     * @param uri A URI of the file.
+     * @param title Title of the bookmark to delete.
      * @param index Character index of the bookmark.
      */
-    fun deleteBookmark(uri: String, index: Long) {
-        bookmarkDao.deleteByIndex(uri, index)
+    fun deleteBookmark(uri: String, title: String, index: Long) {
+        bookmarkDao.deleteByIndex(uri, title, index)
     }
 }

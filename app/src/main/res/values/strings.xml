@@ -48,6 +48,7 @@
 
     <!-- Tag IDs -->
     <string name="tag_uri">TAG_URI</string>
+    <string name="tag_title">TAG_TITLE</string>
     <string name="tag_index">TAG_INDEX</string>
 
     <!-- Channel ids DO NOT TRANSLATE -->

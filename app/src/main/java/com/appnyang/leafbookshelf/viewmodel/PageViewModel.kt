@@ -557,12 +557,13 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, private val hi
 
     /**
      * Delete the given bookmark of this document from the database.
-     * 
+     *
+     * @param title Title of the bookmark to delete.
      * @param index A character index.
      */
-    fun deleteBookmark(index: Long) {
+    fun deleteBookmark(title: String, index: Long) {
         viewModelScope.launch(Dispatchers.Default) {
-            bookmarkRepo.deleteBookmark(currentUri, index)
+            bookmarkRepo.deleteBookmark(currentUri, title, index)
         }
     }
 

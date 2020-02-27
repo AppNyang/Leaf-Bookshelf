@@ -31,10 +31,11 @@ class MainViewModel(historyRepo: HistoryRepository, private val bookmarkRepo: Bo
      * Delete a bookmark.
      *
      * @param uri Uri of the bookmark.
+     * @param title Title of the bookmark to delete.
      * @param index Char index of the bookmark.
      */
-    fun deleteBookmark(uri: String, index: Long) {
-        viewModelScope.launch(Dispatchers.Default) { bookmarkRepo.deleteBookmark(uri, index) }
+    fun deleteBookmark(uri: String, title: String, index: Long) {
+        viewModelScope.launch(Dispatchers.Default) { bookmarkRepo.deleteBookmark(uri, title, index) }
     }
 
     /**
