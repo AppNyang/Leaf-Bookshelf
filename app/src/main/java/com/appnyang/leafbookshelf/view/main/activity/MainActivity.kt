@@ -9,7 +9,9 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.updateLayoutParams
@@ -39,8 +41,6 @@ class MainActivity : AppCompatActivity() {
             lifecycleOwner = this@MainActivity
         }
 
-        toolBar.title = resources.getString(R.string.app_name)
-
         initStatusBar()
         // Set top margin of AppBar to avoid overlapping status bar.
         ViewCompat.setOnApplyWindowInsetsListener(appBar) { _, insets ->
@@ -51,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         initFab()
+        initToolBar()
 
         subscribeObservers()
     }
@@ -113,6 +114,35 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
+     * Initialize ToolBar and Navigation Drawer.
+     */
+    private fun initToolBar() {
+        setSupportActionBar(toolBar)
+        toolBar.title = resources.getString(R.string.app_name)
+
+        supportActionBar?.run {
+            setHomeAsUpIndicator(R.drawable.ic_hamburger)
+            setDisplayHomeAsUpEnabled(true)
+        }
+
+        ActionBarDrawerToggle(this, drawer, toolBar, R.string.drawer_open, R.string.drawer_close).let {
+            drawer.addDrawerListener(it)
+        }
+
+        navigationView.setNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.menu_my_bookshelf -> {}
+                R.id.menu_bookmarks -> {}
+                R.id.menu_stats -> {}
+                R.id.menu_settings -> {}
+            }
+
+            drawer.closeDrawer(navigationView)
+            true
+        }
+    }
+
+    /**
      * Initialize the Floating Action Button.
      */
     private fun initFab() {
@@ -163,6 +193,15 @@ class MainActivity : AppCompatActivity() {
             type = "text/*"
 
             startActivityForResult(this, PICK_FILE_STORAGE)
+        }
+    }
+
+    override fun onBackPressed() {
+        if (drawer.isDrawerOpen(navigationView)) {
+            drawer.closeDrawers()
+        }
+        else {
+            super.onBackPressed()
         }
     }
 
