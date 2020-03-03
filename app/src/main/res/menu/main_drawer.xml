@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
+        <item android:id="@+id/menu_my_bookshelf"
+            android:icon="@drawable/ic_closed_book"
+            android:title="@string/menu_my_bookshelf"/>
+        <item android:id="@+id/menu_bookmarks"
+            android:icon="@drawable/ic_bookmark"
+            android:title="@string/menu_bookmarks"/>
+        <item android:id="@+id/menu_stats"
+            android:icon="@drawable/ic_stat"
+            android:title="@string/menu_stats"/>
+        <item android:id="@+id/menu_settings"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/menu_settings" />
+    </group>
+</menu>
