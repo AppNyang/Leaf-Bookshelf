@@ -77,7 +77,7 @@
                 android:backgroundTint="@color/menuBackground"
                 android:onClick="@{() -> viewModel.onBookmarkAddClicked()}"
                 app:iconSize="16dp"
-                app:icon="@drawable/ic_bookmark_add" />
+                app:icon="@drawable/ic_bookmark" />
 
             <com.google.android.material.button.MaterialButton
                 style="@style/Button.Icon"

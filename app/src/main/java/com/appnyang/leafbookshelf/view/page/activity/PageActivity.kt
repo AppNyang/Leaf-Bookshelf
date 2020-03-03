@@ -339,7 +339,7 @@ class AddBookmarkDialog(private val title: String, private val viewModel: PageVi
             val builder = AlertDialog.Builder(it)
                 .setView(view)
                 .setTitle(R.string.title_add_bookmark)
-                .setIcon(R.drawable.ic_bookmark_add)
+                .setIcon(R.drawable.ic_bookmark)
                 .setPositiveButton(R.string.button_add) { _, _ ->
                     viewModel.saveCurrentBookmark(view.editBookmarkTitle.text.toString())
                 }
