@@ -42,6 +42,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         initStatusBar()
+
+        subscribeObservers()
+
         // Set top margin of AppBar to avoid overlapping status bar.
         ViewCompat.setOnApplyWindowInsetsListener(appBar) { _, insets ->
             toolBar.updateLayoutParams<ViewGroup.MarginLayoutParams> {
@@ -50,10 +53,9 @@ class MainActivity : AppCompatActivity() {
             insets.consumeSystemWindowInsets()
         }
 
-        initFab()
         initToolBar()
 
-        subscribeObservers()
+        initFab()
     }
 
     /**
