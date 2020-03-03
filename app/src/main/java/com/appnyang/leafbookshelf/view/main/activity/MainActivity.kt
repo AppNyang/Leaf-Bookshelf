@@ -70,13 +70,17 @@ class MainActivity : AppCompatActivity() {
             statusBarColor = Color.TRANSPARENT
         }
 
-        // Change the color of status icons to dark when the app bar is collapsed.
+        // Change the color of status icons and navigation icon to dark when the app bar is collapsed.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             appBar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
                 window.decorView.systemUiVisibility = if (abs(verticalOffset) >= appBarLayout.totalScrollRange) {
+                    toolBar.navigationIcon?.setTint(ContextCompat.getColor(this, R.color.lightGray))
+
                     window.decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
                 }
                 else {
+                    toolBar.navigationIcon?.setTint(ContextCompat.getColor(this, R.color.white))
+
                     window.decorView.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
                 }
             })
