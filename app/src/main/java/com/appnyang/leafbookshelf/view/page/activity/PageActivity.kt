@@ -113,7 +113,7 @@ class PageActivity : AppCompatActivity() {
     private fun openBook() {
         intent.extras?.getParcelable<Uri>(KEY_FILE_URI)?.let {
             val layoutParam = PageViewModel.StaticLayoutParam(textPainter.width,
-                textPainter.height,
+                textPainter.height - 2 * resources.getDimension(R.dimen.page_margin).toInt(),
                 textPainter.paint,
                 textPainter.lineSpacingMultiplier,
                 textPainter.lineSpacingExtra,
