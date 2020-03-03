@@ -40,6 +40,8 @@
         <item quantity="one">%d min ago</item>
         <item quantity="other">%d mins ago</item>
     </plurals>
+    <string name="drawer_open">Navigation drawer has been opened.</string>
+    <string name="drawer_close">Navigation drawer has been closed.</string>
     <string name="menu_my_bookshelf">My Bookshelf</string>
     <string name="menu_bookmarks">Bookmarks</string>
     <string name="menu_stats">Stats</string>
