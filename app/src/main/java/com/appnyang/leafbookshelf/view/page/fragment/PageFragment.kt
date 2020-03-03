@@ -26,7 +26,7 @@ class PageFragment(val page: Int) : Fragment() {
     ): View {
         val view = DataBindingUtil.inflate<FragmentPageBinding>(inflater, R.layout.fragment_page, container, false).apply {
             // Bind the layout with ViewModel.
-            viewmodel = getSharedViewModel()
+            viewModel = getSharedViewModel()
 
             // Lifecycle owner of a fragment should be viewLifecycleOwner
             lifecycleOwner = viewLifecycleOwner

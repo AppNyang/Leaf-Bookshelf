@@ -5,7 +5,7 @@
     tools:context=".view.page.fragment.PageFragment">
 
     <data>
-        <variable name="viewmodel" type="com.appnyang.leafbookshelf.viewmodel.PageViewModel" />
+        <variable name="viewModel" type="com.appnyang.leafbookshelf.viewmodel.PageViewModel" />
     </data>
 
     <FrameLayout
