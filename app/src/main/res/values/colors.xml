@@ -10,6 +10,8 @@
     <color name="darkLeaf">#89C64D</color>
     <color name="lightLeaf">#AAD047</color>
 
+    <color name="lightGray">#6D6D6D</color>
+
     <!-- Main -->
     <color name="recentTitle">#2A2A2A</color>
     <color name="recentTime">#6D6D6D</color>
