@@ -38,7 +38,8 @@
                         android:layout_height="@dimen/appbar_banner_height"
                         android:src="@drawable/banner_app_bar"
                         android:scaleType="centerCrop"
-                        app:layout_collapseMode="parallax" />
+                        app:layout_collapseMode="parallax"
+                        android:contentDescription="@string/banner_desc" />
 
                     <com.google.android.material.appbar.MaterialToolbar
                         android:id="@+id/toolBar"
