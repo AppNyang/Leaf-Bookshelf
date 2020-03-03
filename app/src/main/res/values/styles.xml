@@ -89,7 +89,7 @@
     <style name="TextAppearance.Page" parent="TextAppearance.AppCompat">
         <item name="android:fontFamily">@font/noto_sans_cjk_r</item>
         <item name="android:textColor">@color/textColor</item>
-        <item name="android:textSize">17sp</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="TextAppearance.Chip.Page" parent="TextAppearance.AppCompat">
