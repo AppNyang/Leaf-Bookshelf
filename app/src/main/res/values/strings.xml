@@ -48,6 +48,37 @@
     <string name="menu_stats">Stats</string>
     <string name="menu_settings">Settings</string>
 
+    <!-- Preferences -->
+    <string name="send_email">Send Email</string>
+    <string name="version_name">0.8 alpha</string>
+
+    <string name="pref_page_text_appearance">Page text appearance</string>
+    <string name="pref_font">Font-family</string>
+    <string name="pref_font_size">Font size</string>
+    <string name="pref_font_color">Font color</string>
+    <string name="pref_line_spacing">Line spacing margin</string>
+    <string name="pref_reader_assistance">Reader assistance</string>
+    <string name="pref_auto_bookmark">Auto-generated bookmarks</string>
+    <string name="pref_auto_bookmark_enable">Allow bookmarks to be automatically generated for each chapter.</string>
+    <string name="pref_auto_bookmark_disable">Do not automatically generate bookmarks for each chapter.</string>
+    <string name="pref_about">About</string>
+    <string name="pref_about_leaf_bookshelf">About Leaf Bookshelf</string>
+    <string name="pref_open_source_license">Open source license</string>
+    <string name="pref_contact_us">Contact us</string>
+
+    <!-- Font Names -->
+    <string name="bon_gothic">Bon Gothic</string>
+    <string name="nanum_square">Nanum Square</string>
+    <string name="nanum_barun_gothic">Nanum Barun Gothic</string>
+
+    <!-- Font Colors -->
+    <string name="font_black">Black</string>
+    <string name="font_ink">Ink</string>
+    <string name="font_forest">Forest</string>
+    <string name="font_leaf">Leaf</string>
+    <string name="font_deep_sea">Deep Sea</string>
+    <string name="font_burgundy">Burgundy</string>
+
     <!-- Dialog -->
     <string name="title_add_bookmark">Add Bookmark</string>
     <string name="button_add">Add</string>
@@ -65,4 +96,13 @@
     <item name="fab_folder" type="id" />
     <item name="fab_google_drive" type="id" />
     <item name="fab_dropbox" type="id" />
+
+    <!-- Preference Keys DO NOT TRANSLATE -->
+    <string name="pref_key_font">pref_font_family</string>
+    <string name="pref_key_font_size">pref_font_size</string>
+    <string name="pref_key_font_color">pref_font_color</string>
+    <string name="pref_key_line_spacing">pref_line_spacing</string>
+    <string name="pref_key_auto_bookmark">pref_auto_bookmark</string>
+    <string name="pref_key_contact_us">pref_contact_us</string>
+
 </resources>

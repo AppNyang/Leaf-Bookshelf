@@ -19,7 +19,15 @@
     <!-- Page -->
     <color name="pageStatusBar">#D900574B</color>
     <color name="menuBackground">#E6FFFFFF</color>
-    <color name="textColor">#2A2A2A</color>
+    <color name="textColor">@color/font_black</color>
+    
+    <!-- Font colors -->
+    <color name="font_black">#2A2A2A</color>
+    <color name="font_ink">#1D1806</color>
+    <color name="font_forest">@color/darkForest</color>
+    <color name="font_leaf">@color/darkLeaf</color>
+    <color name="font_deep_sea">#425258</color>
+    <color name="font_burgundy">#613A43</color>
 
     <color name="white">#FFFFFF</color>
 </resources>

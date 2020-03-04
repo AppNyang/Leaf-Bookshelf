@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="font_entries">
+        <item>@string/bon_gothic</item>
+        <item>@string/nanum_square</item>
+        <item>@string/nanum_barun_gothic</item>
+    </string-array>
+
+    <array name="font_values">
+        <item>bon_gothic</item>
+        <item>nanum_square</item>
+        <item>nanum_barun_gothic</item>
+    </array>
+
+    <string-array name="font_size_entries">
+        <item>15 sp</item>
+        <item>16 sp</item>
+        <item>17 sp</item>
+        <item>18 sp</item>
+        <item>19 sp</item>
+        <item>20 sp</item>
+    </string-array>
+
+    <string-array name="font_size_values">
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+    </string-array>
+
+    <string-array name="font_color_entries">
+        <item>@string/font_black</item>
+        <item>@string/font_ink</item>
+        <item>@string/font_forest</item>
+        <item>@string/font_leaf</item>
+        <item>@string/font_deep_sea</item>
+        <item>@string/font_burgundy</item>
+    </string-array>
+
+    <string-array name="font_color_values">
+        <item>@string/font_black</item>
+        <item>@string/font_ink</item>
+        <item>@string/font_forest</item>
+        <item>@string/font_leaf</item>
+        <item>@string/font_deep_sea</item>
+        <item>@string/font_burgundy</item>
+    </string-array>
+
+    <array name="font_colors">
+        <item>@color/font_black</item>
+        <item>@color/font_ink</item>
+        <item>@color/font_forest</item>
+        <item>@color/font_leaf</item>
+        <item>@color/font_deep_sea</item>
+        <item>@color/font_burgundy</item>
+    </array>
+
+    <string-array name="line_spacing_entries">
+        <item>1.0x multiplier</item>
+        <item>1.2x multiplier</item>
+        <item>1.4x multiplier</item>
+        <item>1.6x multiplier</item>
+        <item>1.8x multiplier</item>
+        <item>2.0x multiplier</item>
+    </string-array>
+
+    <string-array name="line_spacing_values">
+        <item>1.0</item>
+        <item>1.2</item>
+        <item>1.4</item>
+        <item>1.6</item>
+        <item>1.8</item>
+        <item>2.0</item>
+    </string-array>
+</resources>
