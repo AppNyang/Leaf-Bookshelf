@@ -27,7 +27,8 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".service.TtsService"
+        <service
+            android:name=".service.TtsService"
             android:exported="false" />
     </application>
 
