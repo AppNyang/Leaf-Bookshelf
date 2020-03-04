@@ -84,7 +84,7 @@
     <string name="button_add">Add</string>
     <string name="button_cancel">Cancel</string>
 
-    <!-- Tag IDs -->
+    <!-- Tag IDs DO NOT TRANSLATE -->
     <string name="tag_uri">TAG_URI</string>
     <string name="tag_title">TAG_TITLE</string>
     <string name="tag_index">TAG_INDEX</string>
