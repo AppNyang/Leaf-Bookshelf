@@ -54,6 +54,7 @@
             android:summary="@string/version_name" />
 
         <Preference
+            android:fragment="com.appnyang.leafbookshelf.view.preference.fragment.OpenSourceLicenseFragment"
             android:title="@string/pref_open_source_license" />
 
         <Preference
