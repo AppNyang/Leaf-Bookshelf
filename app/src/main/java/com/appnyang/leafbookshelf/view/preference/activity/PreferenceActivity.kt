@@ -16,5 +16,10 @@ class PreferenceActivity : AppCompatActivity() {
 
         setSupportActionBar(toolBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.preferenceContainer, PreferenceFragment())
+            .commit()
     }
 }
