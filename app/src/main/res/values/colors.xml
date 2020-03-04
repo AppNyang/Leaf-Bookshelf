@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">@color/lightForest</color>
     <color name="colorPrimaryDark">@color/darkForest</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorAccent">@color/darkForest</color>
 
     <!-- Theme colors -->
     <color name="darkForest">#3E703D</color>
