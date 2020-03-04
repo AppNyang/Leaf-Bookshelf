@@ -11,10 +11,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.page.activity.PageActivity"
-            android:theme="@style/Activity.Page"
+        <activity
+            android:name=".view.preference.activity.PreferenceActivity"
+            android:parentActivityName=".view.main.activity.MainActivity" />
+        <activity
+            android:name=".view.page.activity.PageActivity"
             android:parentActivityName=".view.main.activity.MainActivity"
             android:launchMode="singleInstance" />
+            android:theme="@style/Activity.Page" />
         <activity android:name=".view.main.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
