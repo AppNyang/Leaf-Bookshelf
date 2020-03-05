@@ -16,8 +16,8 @@
             android:parentActivityName=".view.main.activity.MainActivity" />
         <activity
             android:name=".view.page.activity.PageActivity"
+            android:launchMode="singleTask"
             android:parentActivityName=".view.main.activity.MainActivity"
-            android:launchMode="singleInstance" />
             android:theme="@style/Activity.Page" />
         <activity android:name=".view.main.activity.MainActivity">
             <intent-filter>
