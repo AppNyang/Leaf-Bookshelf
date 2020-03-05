@@ -3,6 +3,8 @@
     package="com.appnyang.leafbookshelf">
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".core.LeafApp"
         android:allowBackup="true"
