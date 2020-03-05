@@ -16,3 +16,4 @@
 app/src/main/res/font/*.ttf
 app/src/main/res/raw/icon_license.txt
 app/src/main/res/raw/apache_license.txt
+gradle.properties
