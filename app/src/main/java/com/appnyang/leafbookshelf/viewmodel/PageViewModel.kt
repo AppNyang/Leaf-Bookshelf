@@ -518,6 +518,22 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, private val hi
     }
 
     /**
+     * Go to the next page.
+     *
+     * @return true if current page is not the last page.
+     */
+    @WorkerThread
+    fun goToNextPage(): Boolean {
+        val hasNext = currentPage.value ?: 0 < pagedBook.value?.size?.minus(1) ?: -1
+
+        if (hasNext) {
+            currentPage.postValue(currentPage.value?.plus(1))
+        }
+
+        return hasNext
+    }
+
+    /**
      * Bookmark the current page.
      *
      * @param title Title of the bookmark.

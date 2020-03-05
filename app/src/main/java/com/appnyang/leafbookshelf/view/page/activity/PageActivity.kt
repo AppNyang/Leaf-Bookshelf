@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.appnyang.leafbookshelf.R
@@ -25,11 +26,15 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import kotlinx.android.synthetic.main.activity_page.*
 import kotlinx.android.synthetic.main.dialog_add_bookmark.view.*
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.ticker
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PageActivity : AppCompatActivity() {
 
     private val viewModel by viewModel<PageViewModel>()
+
+    private var job: Job = Job()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -179,7 +184,7 @@ class PageActivity : AppCompatActivity() {
 
         // Called when Auto chip is clicked.
         viewModel.bAuto.observe(this, Observer {
-
+            runAutoRead(it)
         })
 
         // Called when bookmarks from database is updated.
@@ -214,6 +219,35 @@ class PageActivity : AppCompatActivity() {
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN or
                 View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+    }
+
+    /**
+     * Run auto-read feature.
+     *
+     * @param bStart If true, start the auto-read.
+     */
+    private fun runAutoRead(bStart: Boolean) {
+        lifecycleScope.launch(Dispatchers.Default) {
+            if (bStart) {
+                job = launch {
+                    val tickerChannel = ticker(delayMillis = 35000)
+                    try {
+                        for (event in tickerChannel) {
+                            if (!viewModel.goToNextPage()) {
+                                viewModel.bAuto.postValue(false)
+                            }
+                        }
+                    } finally {
+                        tickerChannel.cancel()
+                    }
+                }
+            }
+            else {
+                if (job.isActive) {
+                    job.cancelAndJoin()
+                }
+            }
+        }
     }
 
     /**
