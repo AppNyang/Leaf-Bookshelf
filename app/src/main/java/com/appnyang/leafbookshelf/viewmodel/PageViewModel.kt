@@ -38,35 +38,31 @@ import java.util.concurrent.atomic.AtomicBoolean
  */
 class PageViewModel(private val bookmarkRepo: BookmarkRepository, private val historyRepository: HistoryRepository, application: Application) : AndroidViewModel(application) {
 
-    // Private live data.
     private val _openedFileName = MutableLiveData<CharSequence>()
-    private val _pagedBook = MutableLiveData<LinkedList<Spanned>>()
-    private val _chunkPaged = SingleLiveEvent<Any>()
+    val openedFileName: LiveData<CharSequence> = _openedFileName
 
+    private val _pagedBook = MutableLiveData<LinkedList<Spanned>>()
+    val pagedBook: LiveData<LinkedList<Spanned>> = _pagedBook
+
+    // This event is called after each chunk of text has been paginated.
+    private val _chunkPaged = SingleLiveEvent<Any>()
+    val chunkPaged: LiveData<Any> = _chunkPaged
+
+    // Showing menu flags.
     private val _showMenu = MutableLiveData<Boolean>(false)
+    val showMenu: LiveData<Boolean> = _showMenu
     private val _showSettings = MutableLiveData<Boolean>(false)
+    val showSettings: LiveData<Boolean> = _showSettings
     private val _showBookmark = MutableLiveData<Boolean>(false)
-    private val _clickedBack = SingleLiveEvent<Any>()
-    private val _clickedAddBookmark = SingleLiveEvent<Any>()
+    val showBookmark: LiveData<Boolean> = _showBookmark
 
     private lateinit var bookmarksDbSource: LiveData<List<Bookmark>>
     private val _bookmarks = MediatorLiveData<List<Bookmark>>()
     val bookmarks: LiveData<List<Bookmark>> = _bookmarks
 
-    // Public live data.
-    val openedFileName: LiveData<CharSequence> = _openedFileName
-    val pagedBook: LiveData<LinkedList<Spanned>> = _pagedBook
-    val chunkPaged: LiveData<Any> = _chunkPaged
-
     val currentPage = MutableLiveData(0)
     val bScrollAnim = AtomicBoolean(true)
     val isPaginating = AtomicBoolean(false)
-
-    val showMenu: LiveData<Boolean> = _showMenu
-    val showSettings: LiveData<Boolean> = _showSettings
-    val showBookmark: LiveData<Boolean> = _showBookmark
-    val clickedBack: LiveData<Any> = _clickedBack
-    val clickedAddBookmark: LiveData<Any> = _clickedAddBookmark
 
     val bTts = MutableLiveData<Boolean>(false)
     val bAuto = MutableLiveData<Boolean>(false)
@@ -432,15 +428,6 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, private val hi
     }
 
     /**
-     * Add a bookmark on this page.
-     */
-    fun onBookmarkAddClicked() {
-        if (!isPaginating.get()) {
-            _clickedAddBookmark.call()
-        }
-    }
-
-    /**
      * Show bookmarks menu.
      */
     fun onBookmarkClicked() {
@@ -460,8 +447,6 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, private val hi
         _showSettings.value = settings
         _showBookmark.value = bookmark
     }
-
-    fun onBackClicked() { _clickedBack.call() }
 
     /**
      * Bind TTS service.

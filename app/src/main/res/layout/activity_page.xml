@@ -43,11 +43,12 @@
 
             <com.google.android.material.button.MaterialButton
                 style="@style/Button.Icon"
+                android:id="@+id/buttonBack"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="20dp"
                 android:backgroundTint="@color/menuBackground"
-                android:onClick="@{() -> viewModel.onBackClicked()}"
+                android:onClick="onTopMenuClicked"
                 app:iconSize="20dp"
                 app:icon="@drawable/ic_back" />
 
@@ -72,10 +73,11 @@
 
             <com.google.android.material.button.MaterialButton
                 style="@style/Button.Icon"
+                android:id="@+id/buttonAddBookmark"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:backgroundTint="@color/menuBackground"
-                android:onClick="@{() -> viewModel.onBookmarkAddClicked()}"
+                android:onClick="onTopMenuClicked"
                 app:iconSize="24dp"
                 app:icon="@drawable/ic_bookmark" />
 

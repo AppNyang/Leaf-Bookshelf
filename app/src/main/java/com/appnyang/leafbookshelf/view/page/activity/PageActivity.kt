@@ -162,19 +162,6 @@ class PageActivity : AppCompatActivity() {
             showMenu(it)
         })
 
-        // Called when the back button of top-menu clicked.
-        viewModel.clickedBack.observe(this, Observer {
-            viewModel.displayMenu()
-            onBackPressed()
-        })
-
-        // Called when the Add Bookmark button of top-menu clicked.
-        viewModel.clickedAddBookmark.observe(this, Observer {
-            viewModel.displayMenu()
-            AddBookmarkDialog(viewModel.pagedBook.value?.get(viewModel.currentPage.value ?: 0)?.substring(0..10)?.trim() ?: "", viewModel)
-                .show(supportFragmentManager, "AddBookmark")
-        })
-
         // Called when settings button of top-menu clicked.
         viewModel.showSettings.observe(this, Observer {
             showSettingsMenu(it)
@@ -227,6 +214,27 @@ class PageActivity : AppCompatActivity() {
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN or
                 View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+    }
+
+    /**
+     * Called when the button of top-menu clicked.
+     *
+     * @param view Button.
+     */
+    fun onTopMenuClicked(view: View) {
+        when (view.id) {
+            R.id.buttonBack -> {
+                viewModel.displayMenu()
+                onBackPressed()
+            }
+            R.id.buttonAddBookmark -> {
+                if (!viewModel.isPaginating.get()) {
+                    viewModel.displayMenu()
+                    AddBookmarkDialog(viewModel.pagedBook.value?.get(viewModel.currentPage.value ?: 0)?.substring(0..10)?.trim() ?: "", viewModel)
+                        .show(supportFragmentManager, "AddBookmark")
+                }
+            }
+        }
     }
 
     /**
