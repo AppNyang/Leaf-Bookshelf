@@ -30,6 +30,10 @@
         <service
             android:name=".service.TtsService"
             android:exported="false" />
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="${googleAdsApplicationId}" />
     </application>
 
 </manifest>
