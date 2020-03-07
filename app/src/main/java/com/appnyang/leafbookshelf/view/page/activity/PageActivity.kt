@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.appnyang.leafbookshelf.BuildConfig
 import com.appnyang.leafbookshelf.R
 import com.appnyang.leafbookshelf.data.model.bookmark.BookmarkType
 import com.appnyang.leafbookshelf.databinding.ActivityPageBinding
@@ -22,6 +23,8 @@ import com.appnyang.leafbookshelf.util.afterMeasured
 import com.appnyang.leafbookshelf.util.transformer.DepthPageTransformer
 import com.appnyang.leafbookshelf.view.page.fragment.PageFragment
 import com.appnyang.leafbookshelf.viewmodel.PageViewModel
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.InterstitialAd
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import kotlinx.android.synthetic.main.activity_page.*
@@ -35,6 +38,8 @@ class PageActivity : AppCompatActivity() {
     private val viewModel by viewModel<PageViewModel>()
 
     private var job: Job = Job()
+
+    private lateinit var interstitialAd: InterstitialAd
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +71,12 @@ class PageActivity : AppCompatActivity() {
         }
 
         subscribeObservers()
+
+        // Init interstitial ads.
+        interstitialAd = InterstitialAd(this).apply {
+            adUnitId = BuildConfig.AFTER_READING_PROMO_ID
+            loadAd(AdRequest.Builder().build())
+        }
     }
 
     /**
@@ -99,6 +110,11 @@ class PageActivity : AppCompatActivity() {
             viewModel.displayMenu()
         }
         else {
+            // Before exit this activity.
+            if (interstitialAd.isLoaded) {
+                interstitialAd.show()
+            }
+
             super.onBackPressed()
         }
     }

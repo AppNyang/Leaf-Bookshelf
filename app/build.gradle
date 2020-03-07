@@ -24,10 +24,12 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "AFTER_READING_PROMO_ID", RELEASE_AFTER_READING_PROMO_ID
         }
         debug {
             applicationIdSuffix ".debug"
             debuggable true
+            buildConfigField "String", "AFTER_READING_PROMO_ID", DEBUG_AFTER_READING_PROMO_ID
         }
     }
     packagingOptions {
