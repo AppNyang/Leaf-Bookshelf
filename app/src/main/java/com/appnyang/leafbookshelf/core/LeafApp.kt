@@ -7,6 +7,7 @@ import android.os.Build
 import com.appnyang.leafbookshelf.R
 import com.appnyang.leafbookshelf.di.roomModule
 import com.appnyang.leafbookshelf.di.viewModelModule
+import com.google.android.gms.ads.MobileAds
 import net.danlew.android.joda.JodaTimeAndroid
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -41,5 +42,8 @@ class LeafApp : Application() {
 
         // Initialize time library.
         JodaTimeAndroid.init(this)
+
+        // Initialize google ads.
+        MobileAds.initialize(this) {}
     }
 }
