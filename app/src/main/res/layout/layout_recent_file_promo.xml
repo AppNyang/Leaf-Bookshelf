@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    android:layout_marginEnd="4dp"
+    android:layout_marginStart="4dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="8dp">
+
+    <com.google.android.gms.ads.formats.UnifiedNativeAdView
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imagePromoIcon"
+                    android:layout_width="82dp"
+                    android:layout_height="82dp"
+                    android:scaleType="fitXY"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="@string/native_ad_attribution"
+                    android:textColor="@color/white"
+                    android:textSize="10sp"
+                    android:background="#FAB33F" />
+
+                <TextView
+                    android:id="@+id/textPromoHeadline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/main_recent_title_margin"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="@dimen/main_recent_title_margin"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/imagePromoIcon"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textAppearance="@style/TextAppearance.Main.Recent.Title" />
+
+                <TextView
+                    android:id="@+id/textPromoBody"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="@dimen/main_recent_title_margin"
+                    android:layout_marginBottom="@dimen/main_recent_title_margin"
+                    app:layout_constraintTop_toBottomOf="@id/textPromoHeadline"
+                    app:layout_constraintStart_toEndOf="@id/imagePromoIcon"
+                    android:maxLines="3"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/nanum_square_l"
+                    android:textColor="@color/recentTitle"
+                    android:textSize="12sp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.gms.ads.formats.UnifiedNativeAdView>
+
+</androidx.cardview.widget.CardView>

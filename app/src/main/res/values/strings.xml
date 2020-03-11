@@ -47,6 +47,7 @@
     <string name="menu_bookmarks">Bookmarks</string>
     <string name="menu_stats">Stats</string>
     <string name="menu_settings">Settings</string>
+    <string name="native_ad_attribution">Ad</string>
 
     <!-- Preferences -->
     <string name="send_email">Send Email</string>
