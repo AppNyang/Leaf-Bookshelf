@@ -19,6 +19,7 @@ class MainViewModel(historyRepo: HistoryRepository, private val bookmarkRepo: Bo
     val historyClicked: LiveData<Pair<String, Long>> = _historyClicked
 
     val history = MediatorLiveData<List<History>>()
+    val recentFilePromos = MutableLiveData<List<RecentPromo>>()
     val bookmarks = bookmarkRepo.loadBookmarks()
 
     init {

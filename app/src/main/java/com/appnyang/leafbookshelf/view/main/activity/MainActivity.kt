@@ -17,12 +17,18 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.updateLayoutParams
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import com.appnyang.leafbookshelf.BuildConfig
 import com.appnyang.leafbookshelf.R
 import com.appnyang.leafbookshelf.data.model.bookmark.BookmarkType
 import com.appnyang.leafbookshelf.databinding.ActivityMainBinding
 import com.appnyang.leafbookshelf.view.page.activity.PageActivity
 import com.appnyang.leafbookshelf.view.preference.activity.PreferenceActivity
 import com.appnyang.leafbookshelf.viewmodel.MainViewModel
+import com.appnyang.leafbookshelf.viewmodel.RecentPromo
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdLoader
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.formats.UnifiedNativeAd
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.chip.Chip
 import com.leinardi.android.speeddial.SpeedDialActionItem
@@ -33,6 +39,9 @@ import kotlin.math.abs
 class MainActivity : AppCompatActivity() {
 
     private val viewModel by viewModel<MainViewModel>()
+
+    private lateinit var adLoader: AdLoader
+    private val ads = mutableListOf<UnifiedNativeAd>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +66,8 @@ class MainActivity : AppCompatActivity() {
         initToolBar()
 
         initFab()
+
+        requestAds()
     }
 
     /**
@@ -190,6 +201,22 @@ class MainActivity : AppCompatActivity() {
             .setFabImageTintColor(ResourcesCompat.getColor(resources, R.color.white, theme))
             .create()
     )
+
+    private fun requestAds() {
+        adLoader = AdLoader.Builder(this, BuildConfig.RECENT_FILE_PROMO_ID)
+            .forUnifiedNativeAd {
+                ads.add(it)
+
+                if (!adLoader.isLoading) {
+                    ads
+                        .map { ad -> RecentPromo(ad) }
+                        .let { promos -> viewModel.recentFilePromos.value = promos }
+                }
+            }
+            .build()
+
+        adLoader.loadAds(AdRequest.Builder().build(), 2)
+    }
 
     /**
      * Show file picker.
