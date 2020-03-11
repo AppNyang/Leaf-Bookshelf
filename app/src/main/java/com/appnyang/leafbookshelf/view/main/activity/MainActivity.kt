@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun subscribeObservers() {
-        viewModel.history.observe(this, Observer {
+        viewModel.recentFiles.observe(this, Observer {
             showEmptyBookshelf(it.isEmpty())
         })
 

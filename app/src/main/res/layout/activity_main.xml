@@ -82,7 +82,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                            app:recent_files="@{viewModel.history}"
+                            app:recent_files="@{viewModel.recentFiles}"
                             app:item_click_listener="@{viewModel.onHistoryClickListener}"
                             tools:listitem="@layout/layout_recent_file" />
                         <View

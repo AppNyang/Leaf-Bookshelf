@@ -1,10 +1,10 @@
 package com.appnyang.leafbookshelf.viewmodel
 
 import androidx.lifecycle.*
-import com.appnyang.leafbookshelf.data.model.history.History
 import com.appnyang.leafbookshelf.data.repository.BookmarkRepository
 import com.appnyang.leafbookshelf.data.repository.HistoryRepository
 import com.appnyang.leafbookshelf.view.main.OnHistoryItemClickListener
+import com.google.android.gms.ads.formats.UnifiedNativeAd
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -18,14 +18,29 @@ class MainViewModel(historyRepo: HistoryRepository, private val bookmarkRepo: Bo
     private val _historyClicked = MutableLiveData<Pair<String, Long>>()
     val historyClicked: LiveData<Pair<String, Long>> = _historyClicked
 
-    val history = MediatorLiveData<List<History>>()
+    val recentFiles = MediatorLiveData<List<RecentFile>>()
     val recentFilePromos = MutableLiveData<List<RecentPromo>>()
     val bookmarks = bookmarkRepo.loadBookmarks()
 
     init {
         // This empty live data prevents 'Failed to call observer method' error.
-        history.addSource(MutableLiveData<List<History>>(listOf())) { history.value = it }
-        history.addSource(historyRepo.loadHistory()) { history.value = it }
+        recentFiles.addSource(MutableLiveData<List<RecentFile>>(listOf())) { recentFiles.value = it }
+        recentFiles.addSource(historyRepo.loadAsRecentHistory()) { recentFiles.value = it }
+        recentFiles.addSource(recentFilePromos) {
+            // All ads are loaded.
+            recentFiles.value = sequence {
+                recentFiles.value?.let { files ->
+                    val promo = it.iterator()
+                    files.forEachIndexed { index, recentFile ->
+                        yield(recentFile)
+                        // Add promo for every multiple of 3.
+                        if (index % 3 == 0 && promo.hasNext()) {
+                            yield(promo.next())
+                        }
+                    }
+                }
+            }.toList()
+        }
     }
 
     /**
@@ -42,10 +57,14 @@ class MainViewModel(historyRepo: HistoryRepository, private val bookmarkRepo: Bo
     /**
      * On recent files item clicked.
      */
-    val onHistoryClickListener = OnHistoryItemClickListener { history ->
+    val onHistoryClickListener = OnHistoryItemClickListener { recentFile ->
         viewModelScope.launch(Dispatchers.Default) {
-            val charIndex = bookmarkRepo.loadLastRead(history.uri)?.index ?: 0L
-            _historyClicked.postValue(Pair(history.uri, charIndex))
+            when (recentFile) {
+                is RecentHistory -> {
+                    val charIndex = bookmarkRepo.loadLastRead(recentFile.uri)?.index ?: 0L
+                    _historyClicked.postValue(Pair(recentFile.uri, charIndex))
+                }
+            }
         }
     }
 }

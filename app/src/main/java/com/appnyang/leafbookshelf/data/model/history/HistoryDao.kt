@@ -3,6 +3,7 @@ package com.appnyang.leafbookshelf.data.model.history
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
+import com.appnyang.leafbookshelf.viewmodel.RecentHistory
 
 /**
  * History Data Access Object.
@@ -19,6 +20,9 @@ interface HistoryDao {
 
     @Query("SELECT * FROM history ORDER BY lastOpen DESC")
     fun getHistory(): LiveData<List<History>>
+
+    @Query("SELECT * FROM history ORDER BY lastOpen DESC LIMIT 6")
+    fun getRecentHistory(): LiveData<List<RecentHistory>>
 
     @Transaction
     fun upsert(history: History) {
