@@ -48,3 +48,18 @@ class MainViewModel(historyRepo: HistoryRepository, private val bookmarkRepo: Bo
         }
     }
 }
+
+sealed class RecentFile
+
+data class RecentHistory(
+    val uri: String,
+    val title: String,
+    val readTime: Int,
+    val lastOpen: String,
+    val quote: String,
+    val cover: String
+) : RecentFile()
+
+data class RecentPromo(
+    val unifiedNativeAd: UnifiedNativeAd
+) : RecentFile()
