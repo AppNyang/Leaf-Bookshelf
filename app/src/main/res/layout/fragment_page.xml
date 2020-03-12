@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.page.fragment.PageFragment">
 
     <data>
@@ -18,7 +17,8 @@
             android:id="@+id/textPage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/page_margin"
+            android:layout_marginStart="@dimen/page_margin"
+            android:layout_marginEnd="@dimen/page_margin"
             android:textAppearance="@style/TextAppearance.Page"
             android:lineSpacingMultiplier="1.8" />
 

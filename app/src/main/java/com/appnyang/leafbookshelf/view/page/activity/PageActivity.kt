@@ -2,12 +2,15 @@ package com.appnyang.leafbookshelf.view.page.activity
 
 import android.animation.ObjectAnimator
 import android.app.Dialog
+import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.text.TextPaint
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
@@ -29,8 +32,11 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import kotlinx.android.synthetic.main.activity_page.*
 import kotlinx.android.synthetic.main.dialog_add_bookmark.view.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.channels.ticker
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PageActivity : AppCompatActivity() {
@@ -65,7 +71,7 @@ class PageActivity : AppCompatActivity() {
         // TODO: Handle the screen orientation changes.
         // Open files depends on file type.
         if (savedInstanceState == null) {
-            textPainter.afterMeasured {
+            pager.afterMeasured {
                 openBook()
             }
         }
@@ -133,17 +139,33 @@ class PageActivity : AppCompatActivity() {
      */
     private fun openBook() {
         intent.extras?.getParcelable<Uri>(KEY_FILE_URI)?.let {
-            val layoutParam = PageViewModel.StaticLayoutParam(textPainter.width,
-                textPainter.height - 2 * resources.getDimension(R.dimen.page_margin).toInt(),
-                textPainter.paint,
-                textPainter.lineSpacingMultiplier,
-                textPainter.lineSpacingExtra,
-                textPainter.includeFontPadding)
+            val layoutParam = buildLayoutParam()
 
             val charIndex = intent.extras?.getLong(KEY_CHAR_INDEX, -1) ?: -1
 
             viewModel.readBookFromUri(it, applicationContext.contentResolver, layoutParam, charIndex)
         }
+    }
+
+    /**
+     * Build a layout param.
+     *
+     * @return A StaticLayoutParam.
+     */
+    private fun buildLayoutParam() : PageViewModel.StaticLayoutParam {
+        val textPaint = TextPaint().apply {
+            style = Paint.Style.FILL
+            isAntiAlias = true
+            typeface = ResourcesCompat.getFont(this@PageActivity, R.font.noto_sans_cjk_r)
+            textSize = resources.getDimension(R.dimen.page_text_size)
+        }
+
+        return PageViewModel.StaticLayoutParam(pager.width - (4f * resources.getDimension(R.dimen.page_margin)).toInt(),
+            pager.height - (2f * resources.getDimension(R.dimen.page_margin)).toInt(),
+            textPaint,
+            1.8f,
+            0f,
+            true)
     }
 
     /**
