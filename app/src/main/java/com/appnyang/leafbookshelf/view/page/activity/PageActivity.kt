@@ -43,7 +43,7 @@ class PageActivity : AppCompatActivity() {
 
     private val viewModel by viewModel<PageViewModel>()
 
-    private var job: Job = Job()
+    private var autoReadJob: Job = Job()
 
     private lateinit var interstitialAd: InterstitialAd
 
@@ -267,7 +267,7 @@ class PageActivity : AppCompatActivity() {
     private fun runAutoRead(bStart: Boolean) {
         lifecycleScope.launch(Dispatchers.Default) {
             if (bStart) {
-                job = launch {
+                autoReadJob = launch {
                     val tickerChannel = ticker(delayMillis = 35000)
                     try {
                         for (event in tickerChannel) {
@@ -281,8 +281,8 @@ class PageActivity : AppCompatActivity() {
                 }
             }
             else {
-                if (job.isActive) {
-                    job.cancelAndJoin()
+                if (autoReadJob.isActive) {
+                    autoReadJob.cancelAndJoin()
                 }
             }
         }
