@@ -2,11 +2,14 @@ package com.appnyang.leafbookshelf.view.page.activity
 
 import android.animation.ObjectAnimator
 import android.app.Dialog
+import android.content.SharedPreferences
+import android.graphics.Color
 import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.text.TextPaint
+import android.util.TypedValue
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +19,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.preference.PreferenceManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.appnyang.leafbookshelf.BuildConfig
@@ -67,6 +71,9 @@ class PageActivity : AppCompatActivity() {
                 viewModel.currentPage.value = position
             }
         })
+
+        // Read preference values.
+        readPreferences()
 
         // TODO: Handle the screen orientation changes.
         // Open files depends on file type.
@@ -135,6 +142,32 @@ class PageActivity : AppCompatActivity() {
     }
 
     /**
+     * Read preferences values and set it to ViewModel.
+     */
+    private fun readPreferences() {
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+
+        viewModel.fontFamily = sharedPreferences.getString(getString(R.string.pref_key_font), "").let {
+            when (it) {
+                "bon_gothic" -> ResourcesCompat.getFont(this@PageActivity, R.font.noto_sans_cjk_r)!!
+                "nanum_square" -> ResourcesCompat.getFont(this@PageActivity, R.font.nanum_square)!!
+                "nanum_barun_gothic" -> ResourcesCompat.getFont(this@PageActivity, R.font.nanum_barun_gothic)!!
+                else -> ResourcesCompat.getFont(this@PageActivity, R.font.noto_sans_cjk_r)!!
+            }
+        }
+
+        viewModel.fontSize = sharedPreferences.getString(getString(R.string.pref_key_font_size), "18").let {
+            it?.toFloat() ?: 18f
+        }
+        viewModel.fontColor = sharedPreferences.getString(getString(R.string.pref_key_font_color), "#FFF").let {
+            Color.parseColor(it)
+        }
+        viewModel.lineSpacing = sharedPreferences.getString(getString(R.string.pref_key_line_spacing), "1.8").let {
+            it?.toFloat() ?: 1.8f
+        }
+    }
+
+    /**
      * Open files depends on file type.
      */
     private fun openBook() {
@@ -156,14 +189,14 @@ class PageActivity : AppCompatActivity() {
         val textPaint = TextPaint().apply {
             style = Paint.Style.FILL
             isAntiAlias = true
-            typeface = ResourcesCompat.getFont(this@PageActivity, R.font.noto_sans_cjk_r)
-            textSize = resources.getDimension(R.dimen.page_text_size)
+            typeface = viewModel.fontFamily
+            textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, viewModel.fontSize, resources.displayMetrics)
         }
 
         return PageViewModel.StaticLayoutParam(pager.width - (4f * resources.getDimension(R.dimen.page_margin)).toInt(),
             pager.height - (2f * resources.getDimension(R.dimen.page_margin)).toInt(),
             textPaint,
-            1.8f,
+            viewModel.lineSpacing,
             0f,
             true)
     }

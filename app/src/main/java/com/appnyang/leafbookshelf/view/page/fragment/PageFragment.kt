@@ -1,6 +1,7 @@
 package com.appnyang.leafbookshelf.view.page.fragment
 
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -32,7 +33,13 @@ class PageFragment(val page: Int) : Fragment() {
             lifecycleOwner = viewLifecycleOwner
         }.root
 
-        view.textPage.text = getSharedViewModel<PageViewModel>().pagedBook.value!![page]
+        getSharedViewModel<PageViewModel>().let { viewModel ->
+            view.textPage.text = viewModel.pagedBook.value!![page]
+            view.textPage.typeface = viewModel.fontFamily
+            view.textPage.setTextColor(viewModel.fontColor)
+            view.textPage.setTextSize(TypedValue.COMPLEX_UNIT_SP, viewModel.fontSize)
+            view.textPage.setLineSpacing(0f, viewModel.lineSpacing)
+        }
 
         view.framePage.setOnTouchListener { frameLayout, event ->
             if (event.action == MotionEvent.ACTION_UP) {

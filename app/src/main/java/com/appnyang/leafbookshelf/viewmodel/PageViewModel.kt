@@ -3,6 +3,7 @@ package com.appnyang.leafbookshelf.viewmodel
 import android.app.Application
 import android.content.*
 import android.database.Cursor
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Build
 import android.os.IBinder
@@ -92,6 +93,13 @@ class PageViewModel(private val bookmarkRepo: BookmarkRepository, private val hi
             bTts.value = false
         }
     }
+
+    // Preferences.
+    // These values are set in readPreferences@PageActivity
+    lateinit var fontFamily: Typeface
+    var fontSize = 0f
+    var fontColor = 0
+    var lineSpacing = 1.0f
 
     /**
      * Read text file from uri.
