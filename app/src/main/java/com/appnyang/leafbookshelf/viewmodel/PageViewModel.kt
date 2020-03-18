@@ -58,11 +58,11 @@ class PageViewModel(
     val chunkPaged: LiveData<Any> = _chunkPaged
 
     // Showing menu flags.
-    private val _showMenu = MutableLiveData<Boolean>(false)
+    private val _showMenu = MutableLiveData(false)
     val showMenu: LiveData<Boolean> = _showMenu
-    private val _showSettings = MutableLiveData<Boolean>(false)
+    private val _showSettings = MutableLiveData(false)
     val showSettings: LiveData<Boolean> = _showSettings
-    private val _showBookmark = MutableLiveData<Boolean>(false)
+    private val _showBookmark = MutableLiveData(false)
     val showBookmark: LiveData<Boolean> = _showBookmark
 
     private lateinit var bookmarksDbSource: LiveData<List<Bookmark>>
@@ -73,8 +73,8 @@ class PageViewModel(
     val bScrollAnim = AtomicBoolean(true)
     val isPaginating = AtomicBoolean(false)
 
-    val bTts = MutableLiveData<Boolean>(false)
-    val bAuto = MutableLiveData<Boolean>(false)
+    val bTts = MutableLiveData(false)
+    val bAuto = MutableLiveData(false)
 
     lateinit var currentUri: String
 
