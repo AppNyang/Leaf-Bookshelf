@@ -23,7 +23,9 @@ import com.appnyang.leafbookshelf.util.SharedPreferenceLiveData
 import com.appnyang.leafbookshelf.util.SingleLiveEvent
 import com.appnyang.leafbookshelf.util.icu.CharsetDetector
 import com.appnyang.leafbookshelf.util.styler.DefaultStyler
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
 import org.joda.time.Interval
 import org.joda.time.format.ISODateTimeFormat
