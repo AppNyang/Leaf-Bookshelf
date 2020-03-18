@@ -180,7 +180,6 @@ class PageActivity : AppCompatActivity() {
     private fun openBook() {
         intent.extras?.getParcelable<Uri>(KEY_FILE_URI)?.let {
             val layoutParam = buildLayoutParam()
-
             val charIndex = intent.extras?.getLong(KEY_CHAR_INDEX, -1) ?: -1
 
             viewModel.readBookFromUri(it, applicationContext.contentResolver, layoutParam, charIndex)
