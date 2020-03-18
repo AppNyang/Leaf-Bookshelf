@@ -199,7 +199,7 @@ class PageActivity : AppCompatActivity() {
             textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, viewModel.fontSize, resources.displayMetrics)
         }
 
-        return PageViewModel.StaticLayoutParam(pager.width - (4f * resources.getDimension(R.dimen.page_margin)).toInt(),
+        return PageViewModel.StaticLayoutParam(pager.width - (2f * resources.getDimension(R.dimen.page_margin)).toInt(),
             pager.height - (2f * resources.getDimension(R.dimen.page_margin)).toInt(),
             textPaint,
             viewModel.lineSpacing,
