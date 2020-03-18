@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.appnyang.leafbookshelf.R
-import com.appnyang.leafbookshelf.data.model.history.History
 import com.appnyang.leafbookshelf.databinding.LayoutRecentFileBinding
 import com.appnyang.leafbookshelf.viewmodel.RecentFile
 import com.appnyang.leafbookshelf.viewmodel.RecentHistory
@@ -16,15 +15,15 @@ import kotlinx.android.synthetic.main.layout_recent_file_promo.view.*
 
 
 /**
- * History Adapter.
+ * Recent Files Adapter.
  *
  * @author Sangwoo <sangwoo@yesang.com> on 2020-02-22.
  */
-class HistoryAdapter(var items: List<RecentFile>, private val listener: OnHistoryItemClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RecentFileAdapter(var items: List<RecentFile>, private val listener: OnHistoryItemClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     inner class HistoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding: LayoutRecentFileBinding = DataBindingUtil.bind<LayoutRecentFileBinding>(view)!!.apply {
-            listener = this@HistoryAdapter.listener
+            listener = this@RecentFileAdapter.listener
         }
     }
 

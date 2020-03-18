@@ -10,14 +10,14 @@ import org.joda.time.Interval
 import org.joda.time.format.ISODateTimeFormat
 
 /**
- * History binding adapter.
+ * Recent files binding adapter.
  *
  * @author Sangwoo <sangwoo@yesang.com> on 2020-02-22.
  */
 @BindingAdapter("recent_files", "item_click_listener")
 fun setRecentFiles(view: RecyclerView, items: List<RecentFile>, listener: OnHistoryItemClickListener) {
     view.adapter?.let {
-        if (it is HistoryAdapter) {
+        if (it is RecentFileAdapter) {
             it.items = items
             it.notifyDataSetChanged()
         }
@@ -25,7 +25,7 @@ fun setRecentFiles(view: RecyclerView, items: List<RecentFile>, listener: OnHist
         view.setHasFixedSize(false)
 
         // Create an adapter because view.adapter is null.
-        HistoryAdapter(items, listener).let {
+        RecentFileAdapter(items, listener).let {
             view.adapter = it
         }
     }
