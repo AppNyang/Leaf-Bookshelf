@@ -27,16 +27,16 @@ class MainViewModel(historyRepo: HistoryRepository, private val bookmarkRepo: Bo
         recentFiles.addSource(MutableLiveData<List<RecentFile>>(listOf())) { recentFiles.value = it }
         recentFiles.addSource(historyRepo.loadAsRecentHistory()) { recentFiles.value = it }
         recentFiles.addSource(recentFilePromos) {
-            // All ads are loaded.
+            // Called when all ads has been loaded.
             recentFiles.value = sequence {
                 recentFiles.value?.let { files ->
                     val promo = it.iterator()
                     files.forEachIndexed { index, recentFile ->
-                        yield(recentFile)
                         // Add promo for every multiple of 3.
                         if (index % 3 == 0 && promo.hasNext()) {
                             yield(promo.next())
                         }
+                        yield(recentFile)
                     }
                 }
             }.toList()

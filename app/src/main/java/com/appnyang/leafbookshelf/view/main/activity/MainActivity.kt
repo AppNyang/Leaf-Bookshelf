@@ -25,7 +25,6 @@ import com.appnyang.leafbookshelf.view.page.activity.PageActivity
 import com.appnyang.leafbookshelf.view.preference.activity.PreferenceActivity
 import com.appnyang.leafbookshelf.viewmodel.MainViewModel
 import com.appnyang.leafbookshelf.viewmodel.RecentPromo
-import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.formats.UnifiedNativeAd
@@ -100,8 +99,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun subscribeObservers() {
-        viewModel.recentFiles.observe(this, Observer {
-            showEmptyBookshelf(it.isEmpty())
+        viewModel.recentFiles.observe(this, Observer { recentFiles ->
+            showEmptyBookshelf(recentFiles.isEmpty())
+            if (!adLoader.isLoading && recentFiles.none { it is RecentPromo }) {
+                requestAds()
+            }
         })
 
         viewModel.bookmarks.observe(this, Observer {
@@ -203,6 +205,8 @@ class MainActivity : AppCompatActivity() {
     )
 
     private fun requestAds() {
+        ads.clear()
+
         adLoader = AdLoader.Builder(this, BuildConfig.RECENT_FILE_PROMO_ID)
             .forUnifiedNativeAd {
                 ads.add(it)
