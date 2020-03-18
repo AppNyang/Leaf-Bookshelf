@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.os.Build
 import com.appnyang.leafbookshelf.R
 import com.appnyang.leafbookshelf.di.roomModule
+import com.appnyang.leafbookshelf.di.utilModule
 import com.appnyang.leafbookshelf.di.viewModelModule
 import com.google.android.gms.ads.MobileAds
 import net.danlew.android.joda.JodaTimeAndroid
@@ -26,7 +27,8 @@ class LeafApp : Application() {
             androidContext(this@LeafApp)
             modules(listOf(
                 viewModelModule,
-                roomModule
+                roomModule,
+                utilModule
             ))
         }
 

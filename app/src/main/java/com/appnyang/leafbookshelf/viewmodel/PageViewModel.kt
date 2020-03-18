@@ -19,6 +19,7 @@ import com.appnyang.leafbookshelf.data.model.history.History
 import com.appnyang.leafbookshelf.data.repository.BookmarkRepository
 import com.appnyang.leafbookshelf.data.repository.HistoryRepository
 import com.appnyang.leafbookshelf.service.TtsService
+import com.appnyang.leafbookshelf.util.SharedPreferenceLiveData
 import com.appnyang.leafbookshelf.util.SingleLiveEvent
 import com.appnyang.leafbookshelf.util.icu.CharsetDetector
 import com.appnyang.leafbookshelf.util.styler.DefaultStyler
@@ -37,7 +38,12 @@ import java.util.concurrent.atomic.AtomicBoolean
  *
  * @author Sangwoo <sangwoo@yesang.com> on 2020-01-20.
  */
-class PageViewModel(private val bookmarkRepo: BookmarkRepository, private val historyRepository: HistoryRepository, application: Application) : AndroidViewModel(application) {
+class PageViewModel(
+    private val bookmarkRepo: BookmarkRepository,
+    private val historyRepository: HistoryRepository,
+    val sharedPreferenceLiveData: SharedPreferenceLiveData,
+    application: Application)
+    : AndroidViewModel(application) {
 
     private val _openedFileName = MutableLiveData<CharSequence>()
     val openedFileName: LiveData<CharSequence> = _openedFileName
