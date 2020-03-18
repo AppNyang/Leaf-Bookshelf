@@ -48,15 +48,6 @@
         <item>"#613A43"</item>
     </string-array>
 
-    <array name="font_colors">
-        <item>@color/font_black</item>
-        <item>@color/font_ink</item>
-        <item>@color/font_forest</item>
-        <item>@color/font_leaf</item>
-        <item>@color/font_deep_sea</item>
-        <item>@color/font_burgundy</item>
-    </array>
-
     <string-array name="line_spacing_entries">
         <item>1.0x multiplier</item>
         <item>1.2x multiplier</item>
