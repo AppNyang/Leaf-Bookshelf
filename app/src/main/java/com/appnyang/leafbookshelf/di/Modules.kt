@@ -29,6 +29,9 @@ val viewModelModule: Module = module {
     factory { HistoryRepository(get()) }
 }
 
+/**
+ * Room Module.
+ */
 val roomModule: Module = module {
     single { AppDatabase.getInstance(androidApplication()) }
     single { get<AppDatabase>().getBookmarkDao() }
