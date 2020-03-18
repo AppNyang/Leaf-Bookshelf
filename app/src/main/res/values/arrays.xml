@@ -40,12 +40,12 @@
     </string-array>
 
     <string-array name="font_color_values">
-        <item>@string/font_black</item>
-        <item>@string/font_ink</item>
-        <item>@string/font_forest</item>
-        <item>@string/font_leaf</item>
-        <item>@string/font_deep_sea</item>
-        <item>@string/font_burgundy</item>
+        <item>"#2A2A2A"</item>
+        <item>"#1D1806"</item>
+        <item>"#3E703D"</item>
+        <item>"#89C64D"</item>
+        <item>"#425258"</item>
+        <item>"#613A43"</item>
     </string-array>
 
     <array name="font_colors">
