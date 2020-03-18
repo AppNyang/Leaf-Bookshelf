@@ -281,6 +281,18 @@ class PageActivity : AppCompatActivity() {
                 group.addView(chip)
             }
         })
+
+        // Called when the shared preference has been changed.
+        viewModel.sharedPreferenceLiveData.observe(this, Observer {
+            readPreferences()
+
+            viewModel.readBookFromUri(
+                Uri.parse(viewModel.currentUri),
+                applicationContext.contentResolver,
+                buildLayoutParam(),
+                viewModel.getCurrentTextIndex()
+            )
+        })
     }
 
     /**

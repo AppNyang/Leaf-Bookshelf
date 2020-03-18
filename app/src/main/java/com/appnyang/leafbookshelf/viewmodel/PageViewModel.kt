@@ -74,7 +74,7 @@ class PageViewModel(
     val bTts = MutableLiveData<Boolean>(false)
     val bAuto = MutableLiveData<Boolean>(false)
 
-    private lateinit var currentUri: String
+    lateinit var currentUri: String
 
     private var lastReadTime = 0
     private lateinit var openTime: DateTime
@@ -496,7 +496,7 @@ class PageViewModel(
      *
      * @return The current text index of current page.
      */
-    private fun getCurrentTextIndex(): Long = pagedBook.value?.run {
+    fun getCurrentTextIndex(): Long = pagedBook.value?.run {
         asSequence()
             .filterIndexed { index, _ -> index < (currentPage.value ?: 0) }
             .sumBy { it.length }
