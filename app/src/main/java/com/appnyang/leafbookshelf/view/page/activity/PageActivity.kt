@@ -29,6 +29,7 @@ import com.appnyang.leafbookshelf.databinding.ActivityPageBinding
 import com.appnyang.leafbookshelf.util.afterMeasured
 import com.appnyang.leafbookshelf.util.transformer.DepthPageTransformer
 import com.appnyang.leafbookshelf.view.page.fragment.PageFragment
+import com.appnyang.leafbookshelf.view.page.fragment.TextAppearancePreferenceFragment
 import com.appnyang.leafbookshelf.viewmodel.PageViewModel
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
@@ -60,6 +61,12 @@ class PageActivity : AppCompatActivity() {
             viewModel = this@PageActivity.viewModel
             lifecycleOwner = this@PageActivity
         }
+
+        // Initialize settings fragment.
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.preferenceContainer, TextAppearancePreferenceFragment())
+            .commit()
 
         registerSystemUiChangeListener()
 
