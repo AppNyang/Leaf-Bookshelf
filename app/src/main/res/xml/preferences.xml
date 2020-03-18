@@ -10,6 +10,7 @@
             android:title="@string/pref_font"
             android:entries="@array/font_entries"
             android:entryValues="@array/font_values"
+            android:defaultValue="bon_gothic"
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
@@ -17,6 +18,7 @@
             android:title="@string/pref_font_size"
             android:entries="@array/font_size_entries"
             android:entryValues="@array/font_size_values"
+            android:defaultValue="18"
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
@@ -24,6 +26,7 @@
             android:title="@string/pref_font_color"
             android:entries="@array/font_color_entries"
             android:entryValues="@array/font_color_values"
+            android:defaultValue="#2A2A2A"
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
@@ -31,6 +34,7 @@
             android:title="@string/pref_line_spacing"
             android:entries="@array/line_spacing_entries"
             android:entryValues="@array/line_spacing_values"
+            android:defaultValue="1.8"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
@@ -41,6 +45,7 @@
         <SwitchPreferenceCompat
             android:key="@string/pref_key_auto_bookmark"
             android:title="@string/pref_auto_bookmark"
+            android:defaultValue="true"
             android:summaryOn="@string/pref_auto_bookmark_enable"
             android:summaryOff="@string/pref_auto_bookmark_disable"/>
 
