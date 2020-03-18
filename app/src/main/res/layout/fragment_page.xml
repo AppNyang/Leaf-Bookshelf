@@ -20,8 +20,7 @@
             android:layout_marginStart="@dimen/page_margin"
             android:layout_marginEnd="@dimen/page_margin"
             android:scrollbars="none"
-            android:textAppearance="@style/TextAppearance.Page"
-            android:lineSpacingMultiplier="1.8" />
+            android:textAppearance="@style/TextAppearance.Page" />
 
     </FrameLayout>
 </layout>
