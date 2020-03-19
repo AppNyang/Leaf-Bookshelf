@@ -40,7 +40,7 @@
                 android:layout_marginStart="20dp"
                 android:backgroundTint="@color/menuBackground"
                 android:onClick="onTopMenuClicked"
-                app:iconSize="20dp"
+                app:iconSize="24dp"
                 app:icon="@drawable/ic_back" />
 
             <TextView
