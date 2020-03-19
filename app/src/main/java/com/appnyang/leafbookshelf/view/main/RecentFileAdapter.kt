@@ -31,8 +31,10 @@ class RecentFileAdapter(var items: List<RecentFile>, private val listener: OnHis
         fun displayUnifiedAd(recentPromo: RecentPromo) {
             val adView = view.adView as UnifiedNativeAdView
 
-            view.imagePromoIcon.setImageDrawable(recentPromo.unifiedNativeAd.icon.drawable)
-            adView.iconView = view.imagePromoIcon
+            if (recentPromo.unifiedNativeAd.icon != null) {
+                view.imagePromoIcon.setImageDrawable(recentPromo.unifiedNativeAd.icon.drawable)
+                adView.iconView = view.imagePromoIcon
+            }
 
             view.textPromoHeadline.text = recentPromo.unifiedNativeAd.headline
             adView.headlineView = view.textPromoHeadline
