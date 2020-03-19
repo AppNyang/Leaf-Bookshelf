@@ -111,4 +111,10 @@
         <item name="android:textColor">@color/darkForest</item>
     </style>
 
+    <style name="TextAppearance.History.Title" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/nanum_square</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/darkForest</item>
+    </style>
+
 </resources>

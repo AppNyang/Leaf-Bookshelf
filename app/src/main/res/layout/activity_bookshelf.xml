@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".view.bookshelf.activity.BookshelfActivity">
+
+    <data>
+        <variable name="viewModel" type="com.appnyang.leafbookshelf.viewmodel.BookshelfViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:elevation="4dp"
+            android:background="@color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:titleTextAppearance="@style/TextAppearance.ToolBarTitle.Collapsed"
+            app:title="@string/menu_my_bookshelf"
+            app:popupTheme="@style/Theme.MaterialComponents.Light" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/toolBar">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerHistories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:histories="@{viewModel.histories}"
+                app:item_click_listener="@{viewModel.onHistoryClickListener}"
+                tools:listitem="@layout/layout_recent_file" />
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

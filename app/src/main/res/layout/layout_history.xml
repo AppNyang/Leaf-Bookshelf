@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable name="listener" type="com.appnyang.leafbookshelf.view.bookshelf.OnHistoryItemClickListener" />
+        <variable name="item" type="com.appnyang.leafbookshelf.data.model.history.History" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="80dp"
+            android:layout_height="120dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginStart="4dp"
+            android:focusable="true"
+            android:clickable="true"
+            android:onClick="@{() -> listener.onItemClicked(item)}"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="8dp">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imageCover"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/background_leaf"
+                    android:contentDescription="@string/book_cover" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.History.Title"
+            android:text="@{item.title}"
+            android:lines="1"
+            android:ellipsize="end" />
+
+    </LinearLayout>
+</layout>
