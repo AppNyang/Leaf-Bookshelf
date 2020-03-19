@@ -27,6 +27,7 @@ class BookshelfActivity : AppCompatActivity() {
         }
 
         setSupportActionBar(toolBar)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         recyclerHistories.layoutManager = GridLayoutManager(this, 3)

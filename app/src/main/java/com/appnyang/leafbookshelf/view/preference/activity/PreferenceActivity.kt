@@ -16,6 +16,7 @@ class PreferenceActivity : AppCompatActivity(),
         setContentView(R.layout.activity_preference)
 
         setSupportActionBar(toolBar)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         supportFragmentManager
