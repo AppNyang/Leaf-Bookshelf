@@ -21,6 +21,7 @@ import com.appnyang.leafbookshelf.BuildConfig
 import com.appnyang.leafbookshelf.R
 import com.appnyang.leafbookshelf.data.model.bookmark.BookmarkType
 import com.appnyang.leafbookshelf.databinding.ActivityMainBinding
+import com.appnyang.leafbookshelf.view.bookshelf.activity.BookshelfActivity
 import com.appnyang.leafbookshelf.view.page.activity.PageActivity
 import com.appnyang.leafbookshelf.view.preference.activity.PreferenceActivity
 import com.appnyang.leafbookshelf.viewmodel.MainViewModel
@@ -151,7 +152,7 @@ class MainActivity : AppCompatActivity() {
 
         navigationView.setNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.menu_my_bookshelf -> {}
+                R.id.menu_my_bookshelf -> { startActivity(Intent(this, BookshelfActivity::class.java)) }
                 R.id.menu_bookmarks -> {}
                 R.id.menu_stats -> {}
                 R.id.menu_settings -> { startActivity(Intent(this, PreferenceActivity::class.java)) }
