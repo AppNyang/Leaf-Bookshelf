@@ -154,7 +154,7 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.menu_my_bookshelf -> { startActivity(Intent(this, BookshelfActivity::class.java)) }
                 R.id.menu_bookmarks -> {}
-                R.id.menu_stats -> {}
+                //R.id.menu_stats -> {}
                 R.id.menu_settings -> { startActivity(Intent(this, PreferenceActivity::class.java)) }
             }
 
