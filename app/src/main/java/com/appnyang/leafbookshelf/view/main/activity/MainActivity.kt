@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.annotation.MainThread
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -17,6 +18,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.updateLayoutParams
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.appnyang.leafbookshelf.BuildConfig
 import com.appnyang.leafbookshelf.R
 import com.appnyang.leafbookshelf.data.model.bookmark.BookmarkType
@@ -33,6 +35,10 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.chip.Chip
 import com.leinardi.android.speeddial.SpeedDialActionItem
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.math.abs
 
@@ -67,7 +73,9 @@ class MainActivity : AppCompatActivity() {
 
         initFab()
 
-        requestAds()
+        // To reduce stuttering, call requestAds in a new coroutine job.
+        // Keep in mind that it should run on the main thread.
+        lifecycleScope.launch { requestAds() }
     }
 
     /**
@@ -151,11 +159,18 @@ class MainActivity : AppCompatActivity() {
         }
 
         navigationView.setNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.menu_my_bookshelf -> { startActivity(Intent(this, BookshelfActivity::class.java)) }
-                R.id.menu_bookmarks -> {}
-                //R.id.menu_stats -> {}
-                R.id.menu_settings -> { startActivity(Intent(this, PreferenceActivity::class.java)) }
+            lifecycleScope.launch(Dispatchers.Default) {
+                delay(300)
+                when (it.itemId) {
+                    R.id.menu_my_bookshelf -> {
+                        startActivity(Intent(this@MainActivity, BookshelfActivity::class.java))
+                    }
+                    //R.id.menu_bookmarks -> {}
+                    //R.id.menu_stats -> {}
+                    R.id.menu_settings -> {
+                        startActivity(Intent(this@MainActivity, PreferenceActivity::class.java))
+                    }
+                }
             }
 
             drawer.closeDrawer(navigationView)
@@ -205,6 +220,10 @@ class MainActivity : AppCompatActivity() {
             .create()
     )
 
+    /**
+     * Request native ads.
+     */
+    @MainThread
     private fun requestAds() {
         ads.clear()
 
