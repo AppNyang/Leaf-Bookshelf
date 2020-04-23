@@ -35,7 +35,6 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.chip.Chip
 import com.leinardi.android.speeddial.SpeedDialActionItem
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -107,6 +106,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Subscribe observers of ViewModel.
+     */
     private fun subscribeObservers() {
         viewModel.recentFiles.observe(this, Observer { recentFiles ->
             showEmptyBookshelf(recentFiles.isEmpty())
