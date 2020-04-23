@@ -19,7 +19,8 @@
             android:layout_height="match_parent"
             android:layout_margin="@dimen/page_margin"
             android:scrollbars="none"
-            android:textAppearance="@style/TextAppearance.Page" />
+            android:textAppearance="@style/TextAppearance.Page"
+            android:includeFontPadding="false" />
 
     </FrameLayout>
 </layout>

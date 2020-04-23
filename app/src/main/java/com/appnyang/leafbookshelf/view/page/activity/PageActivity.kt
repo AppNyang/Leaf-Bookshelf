@@ -200,11 +200,11 @@ class PageActivity : AppCompatActivity() {
         }
 
         return PageViewModel.StaticLayoutParam(pager.width - (2f * resources.getDimension(R.dimen.page_margin)).toInt(),
-            pager.height - (3f * resources.getDimension(R.dimen.page_margin)).toInt(),
+            pager.height - (2f * resources.getDimension(R.dimen.page_margin)).toInt(),
             textPaint,
             viewModel.lineSpacing,
             0f,
-            true)
+            false)
     }
 
     /**
