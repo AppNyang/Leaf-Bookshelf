@@ -6,7 +6,8 @@
     <dimen name="main_content_margin">28dp</dimen>
     <dimen name="main_title_margin">14dp</dimen>
     <dimen name="main_section_margin">34dp</dimen>
-    <dimen name="main_recent_title_margin">20dp</dimen>
+    <dimen name="main_recent_text_horizontal_margin">20dp</dimen>
+    <dimen name="main_book_round">6dp</dimen>
 
     <dimen name="page_margin">16dp</dimen>
     <dimen name="page_menu_elevation">5dp</dimen>

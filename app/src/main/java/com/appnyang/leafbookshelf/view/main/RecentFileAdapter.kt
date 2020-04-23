@@ -11,6 +11,8 @@ import com.appnyang.leafbookshelf.viewmodel.RecentFile
 import com.appnyang.leafbookshelf.viewmodel.RecentHistory
 import com.appnyang.leafbookshelf.viewmodel.RecentPromo
 import com.google.android.gms.ads.formats.UnifiedNativeAdView
+import com.google.android.material.shape.CornerFamily
+import kotlinx.android.synthetic.main.layout_recent_file.view.*
 import kotlinx.android.synthetic.main.layout_recent_file_promo.view.*
 
 
@@ -24,6 +26,15 @@ class RecentFileAdapter(var items: List<RecentFile>, private val listener: OnHis
     inner class HistoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding: LayoutRecentFileBinding = DataBindingUtil.bind<LayoutRecentFileBinding>(view)!!.apply {
             listener = this@RecentFileAdapter.listener
+        }
+
+        init {
+            val radius = view.resources.getDimension(R.dimen.main_book_round)
+            view.imageCover.shapeAppearanceModel = view.imageCover.shapeAppearanceModel
+                .toBuilder()
+                .setTopRightCorner(CornerFamily.ROUNDED, radius)
+                .setBottomRightCorner(CornerFamily.ROUNDED, radius)
+                .build()
         }
     }
 

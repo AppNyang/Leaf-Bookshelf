@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">@color/lightForest</color>
-    <color name="colorPrimaryDark">@color/darkForest</color>
+    <color name="colorPrimary">@color/lightEmerald</color>
+    <color name="colorPrimaryDark">@color/darkEmerald</color>
     <color name="colorAccent">@color/darkForest</color>
 
     <!-- Theme colors -->
@@ -10,11 +10,16 @@
     <color name="darkLeaf">#89C64D</color>
     <color name="lightLeaf">#AAD047</color>
 
-    <color name="lightGray">#6D6D6D</color>
+    <color name="darkGray">#545454</color>
+    <color name="lightGray">#8C8C8C</color>
+
+    <color name="darkEmerald">#52D4A8</color>
+    <color name="lightEmerald">#88E2A1</color>
 
     <!-- Main -->
-    <color name="recentTitle">#2A2A2A</color>
-    <color name="recentTime">#6D6D6D</color>
+    <color name="recentTitle">@color/darkGray</color>
+    <color name="recentTime">@color/lightGray</color>
+    <color name="recentBookLine">#33545454</color>
 
     <!-- Page -->
     <color name="pageStatusBar">#D900574B</color>
