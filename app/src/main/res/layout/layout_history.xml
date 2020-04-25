@@ -36,7 +36,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     android:scaleType="centerCrop"
-                    android:background="@drawable/background_leaf"
+                    android:background="@drawable/ic_book_cover_red"
                     android:contentDescription="@string/book_cover" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
