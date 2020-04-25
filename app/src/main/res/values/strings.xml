@@ -82,6 +82,11 @@
     <string name="font_deep_sea">Deep Sea</string>
     <string name="font_burgundy">Burgundy</string>
 
+    <!-- Your Bookshelf -->
+    <string name="bookshelf_your">Your</string>
+    <string name="bookshelf_bookshelf">Bookshelf</string>
+    <string name="bookshelf_all">ALL</string>
+
     <!-- Dialog -->
     <string name="title_add_bookmark">Add Bookmark</string>
     <string name="button_add">Add</string>

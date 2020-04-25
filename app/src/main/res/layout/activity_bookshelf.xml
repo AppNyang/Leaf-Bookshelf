@@ -16,17 +16,57 @@
             android:id="@+id/toolBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:elevation="4dp"
             android:background="@color/white"
             app:layout_constraintTop_toTopOf="parent"
-            app:titleTextAppearance="@style/TextAppearance.ToolBarTitle.Collapsed"
-            app:title="@string/menu_my_bookshelf"
+            app:titleTextColor="@color/white"
             app:popupTheme="@style/Theme.MaterialComponents.Light" />
+
+        <TextView
+            android:id="@+id/textYour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            app:layout_constraintTop_toBottomOf="@id/toolBar"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="28sp"
+            android:fontFamily="@font/nanum_barun_gothic_l"
+            android:textColor="@color/darkGray"
+            android:letterSpacing="0.03"
+            android:text="@string/bookshelf_your" />
+
+        <TextView
+            android:id="@+id/textBookshelf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:layout_marginStart="24dp"
+            app:layout_constraintTop_toBottomOf="@id/textYour"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="36sp"
+            android:fontFamily="@font/nanum_barun_gothic_b"
+            android:textColor="@color/darkGray"
+            android:letterSpacing="0.03"
+            android:text="@string/bookshelf_bookshelf" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabMode="scrollable"
+            app:layout_constraintTop_toBottomOf="@id/textBookshelf"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bookshelf_all" />
+
+        </com.google.android.material.tabs.TabLayout>
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/toolBar">
+            app:layout_constraintTop_toBottomOf="@id/tabLayout">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerHistories"
