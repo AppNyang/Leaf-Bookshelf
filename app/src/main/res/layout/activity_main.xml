@@ -117,13 +117,6 @@
                             app:recent_files="@{viewModel.recentFiles}"
                             app:item_click_listener="@{viewModel.onHistoryClickListener}"
                             tools:listitem="@layout/layout_recent_file" />
-                        <View
-                            android:layout_width="24dp"
-                            android:layout_height="8dp"
-                            android:layout_marginTop="@dimen/main_section_margin"
-                            android:layout_marginBottom="@dimen/main_section_margin"
-                            android:layout_gravity="center_horizontal"
-                            android:background="@drawable/round_background" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
