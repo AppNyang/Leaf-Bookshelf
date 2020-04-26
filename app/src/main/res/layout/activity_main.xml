@@ -117,6 +117,24 @@
                             app:recent_files="@{viewModel.recentFiles}"
                             app:item_click_listener="@{viewModel.onHistoryClickListener}"
                             tools:listitem="@layout/layout_recent_file" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/main_title_margin"
+                            android:layout_marginTop="@dimen/main_content_margin"
+                            android:textAppearance="@style/TextAppearance.Main.Title"
+                            android:text="@string/collections" />
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerCollections"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scrollbars="none"
+                            android:orientation="horizontal"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:collections="@{viewModel.collections}"
+                            tools:listitem="@layout/layout_collection" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

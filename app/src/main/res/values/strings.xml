@@ -21,6 +21,7 @@
     <string name="bookshelf">Bookshelf</string>
     <string name="recent_files">Recents</string>
     <string name="collections">Collections</string>
+    <string name="collection_readable_books">%1$d Books</string>
     <string name="view_all">VIEW ALL</string>
     <string name="my_bookmarks">My bookmarks</string>
     <string name="book_cover">Book Cover</string>

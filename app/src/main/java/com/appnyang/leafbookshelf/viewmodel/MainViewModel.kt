@@ -1,6 +1,7 @@
 package com.appnyang.leafbookshelf.viewmodel
 
 import androidx.lifecycle.*
+import com.appnyang.leafbookshelf.data.model.collection.Collection
 import com.appnyang.leafbookshelf.data.repository.BookmarkRepository
 import com.appnyang.leafbookshelf.data.repository.HistoryRepository
 import com.appnyang.leafbookshelf.view.main.OnHistoryItemClickListener
@@ -20,6 +21,10 @@ class MainViewModel(historyRepo: HistoryRepository, private val bookmarkRepo: Bo
 
     val recentFiles = MediatorLiveData<List<RecentFile>>()
     val recentFilePromos = MutableLiveData<List<RecentPromo>>()
+
+    private val _collections = MutableLiveData<List<Collection>>()
+    val collections: LiveData<List<Collection>> = _collections
+
     val bookmarks = bookmarkRepo.loadBookmarks()
 
     init {
