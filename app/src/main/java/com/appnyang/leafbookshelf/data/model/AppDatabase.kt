@@ -4,10 +4,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.appnyang.leafbookshelf.data.model.bookmark.Bookmark
 import com.appnyang.leafbookshelf.data.model.bookmark.BookmarkDao
 import com.appnyang.leafbookshelf.data.model.history.History
 import com.appnyang.leafbookshelf.data.model.history.HistoryDao
+import com.appnyang.leafbookshelf.util.RoomTypeConverter
 
 /**
  * Database class.
@@ -15,6 +17,7 @@ import com.appnyang.leafbookshelf.data.model.history.HistoryDao
  * @author Sangwoo <sangwoo@yesang.com> on 2020-02-14.
  */
 @Database(entities = [Bookmark::class, History::class], version = 1, exportSchema = false)
+@TypeConverters(RoomTypeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun getBookmarkDao(): BookmarkDao
