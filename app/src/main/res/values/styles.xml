@@ -68,12 +68,34 @@
         <item name="rippleColor">@color/lightEmerald</item>
     </style>
 
+    <style name="Widget.App.Button.Dialog" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:paddingStart">32dp</item>
+        <item name="android:paddingEnd">32dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textAppearance">@style/TextAppearance.App.Widget.Button.Dialog</item>
+        <item name="rippleColor">@color/lightEmerald</item>
+        <item name="backgroundTint">@color/darkEmerald</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.SmallButton.Dialog</item>
+    </style>
+
     <style name="Widget.App.Button.TextButton.BottomSheetDialog" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textColor">@color/darkGray</item>
         <item name="android:textAppearance">@style/TextAppearance.App.Button.TextButton.BottomSheetDialog</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:gravity">start|center_vertical</item>
         <item name="rippleColor">@color/lightEmerald</item>
+    </style>
+
+    <style name="Widget.App.Button.TextButton.Dialog" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:paddingStart">32dp</item>
+        <item name="android:paddingEnd">32dp</item>
+        <item name="android:textColor">@color/darkGray</item>
+        <item name="android:textAppearance">@style/TextAppearance.App.Widget.Button.Dialog</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.SmallButton.Dialog</item>
     </style>
 
     <!-- Bottom sheet dialog -->
@@ -89,6 +111,8 @@
     <style name="ThemeOverlay.App.AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="alertDialogStyle">@style/AppAlertDialog</item>
         <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.App.Title.Text</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.App.Button.Dialog</item>
+        <item name="buttonBarNeutralButtonStyle">@style/Widget.App.Button.TextButton.Dialog</item>
     </style>
 
     <style name="AppAlertDialog" parent="MaterialAlertDialog.MaterialComponents">
@@ -115,6 +139,11 @@
         <item name="cornerFamilyBottomLeft">rounded</item>
         <item name="cornerSizeTopRight">32dp</item>
         <item name="cornerSizeBottomLeft">32dp</item>
+    </style>
+
+    <style name="ShapeAppearance.App.SmallButton.Dialog" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">24dp</item>
     </style>
 
     <!-- Text Appearance -->
@@ -182,6 +211,11 @@
         <item name="android:fontFamily">@font/nanum_square</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/darkForest</item>
+    </style>
+
+    <style name="TextAppearance.App.Widget.Button.Dialog" parent="TextAppearance.AppCompat.Widget.Button">
+        <item name="android:fontFamily">@font/noto_sans_cjk_r</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="TextAppearance.App.Button.TextButton.BottomSheetDialog" parent="TextAppearance.AppCompat.Widget.Button">
