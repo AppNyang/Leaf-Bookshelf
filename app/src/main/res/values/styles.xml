@@ -56,6 +56,12 @@
         <item name="android:textAppearance">@style/TextAppearance.Chip.Page</item>
     </style>
 
+    <!-- Button -->
+    <style name="Widget.App.Button.Icon.Emerald" parent="Button.Icon">
+        <item name="iconTint">@color/darkEmerald</item>
+        <item name="rippleColor">@color/lightEmerald</item>
+    </style>
+
     <!-- Text Appearance -->
     <style name="TextAppearance.ToolBarTitle.Collapsed" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@color/darkGray</item>

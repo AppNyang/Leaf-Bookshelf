@@ -48,6 +48,29 @@
             android:letterSpacing="0.03"
             android:text="@string/bookshelf_bookshelf" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonEdit"
+            style="@style/Widget.App.Button.Icon.Emerald"
+            android:layout_width="@dimen/icon_button_size"
+            android:layout_height="@dimen/icon_button_size"
+            app:layout_constraintEnd_toStartOf="@id/buttonAdd"
+            app:layout_constraintBottom_toBottomOf="@id/textBookshelf"
+            android:onClick="onButtonsClicked"
+            app:iconSize="@dimen/icon_button_icon_size"
+            app:icon="@drawable/ic_edit" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonAdd"
+            style="@style/Widget.App.Button.Icon.Emerald"
+            android:layout_width="@dimen/icon_button_size"
+            android:layout_height="@dimen/icon_button_size"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/textBookshelf"
+            android:onClick="onButtonsClicked"
+            app:iconSize="@dimen/icon_button_icon_size"
+            app:icon="@drawable/ic_plus" />
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"

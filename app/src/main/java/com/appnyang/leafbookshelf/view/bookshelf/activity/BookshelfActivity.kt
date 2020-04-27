@@ -3,6 +3,7 @@ package com.appnyang.leafbookshelf.view.bookshelf.activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -39,5 +40,13 @@ class BookshelfActivity : AppCompatActivity() {
                 putExtra(PageActivity.KEY_CHAR_INDEX, it.second)
             })
         })
+    }
+
+    /**
+     * Called when buttons are clicked.
+     *
+     * @param view Clicked button.
+     */
+    fun onButtonsClicked(view: View) {
     }
 }
