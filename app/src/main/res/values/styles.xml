@@ -11,6 +11,7 @@
         <item name="android:spotShadowAlpha">0.06</item>
 
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialog</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.App.AlertDialog</item>
     </style>
 
     <style name="Activity.Page" parent="AppTheme">
@@ -84,12 +85,36 @@
         <item name="shapeAppearance">@style/ShapeAppearance.App.BottomSheet</item>
     </style>
     
+    <!-- Alert dialog -->
+    <style name="ThemeOverlay.App.AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="alertDialogStyle">@style/AppAlertDialog</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.App.Title.Text</item>
+    </style>
+
+    <style name="AppAlertDialog" parent="MaterialAlertDialog.MaterialComponents">
+        <item name="shapeAppearance">@style/ShapeAppearance.App.AlertDialog</item>
+    </style>
+
+    <style name="MaterialAlertDialog.App.Title.Text" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="android:fontFamily">@font/noto_sans_cjk_r</item>
+        <item name="android:textColor">@color/darkGray</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
     <!-- Shape Appearance -->
     <style name="ShapeAppearance.App.BottomSheet" parent="ShapeAppearance.MaterialComponents.LargeComponent">
         <item name="cornerFamilyTopRight">rounded</item>
         <item name="cornerFamilyTopLeft">rounded</item>
         <item name="cornerSizeTopLeft">24dp</item>
         <item name="cornerSizeTopRight">24dp</item>
+    </style>
+
+    <style name="ShapeAppearance.App.AlertDialog" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamilyTopRight">rounded</item>
+        <item name="cornerFamilyBottomLeft">rounded</item>
+        <item name="cornerSizeTopRight">32dp</item>
+        <item name="cornerSizeBottomLeft">32dp</item>
     </style>
 
     <!-- Text Appearance -->

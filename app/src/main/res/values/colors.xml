@@ -16,6 +16,8 @@
     <color name="darkEmerald">#52D4A8</color>
     <color name="lightEmerald">#88E2A1</color>
 
+    <color name="darkOrange">#FE93AF</color>
+
     <!-- Main -->
     <color name="recentTitle">@color/darkGray</color>
     <color name="recentTime">@color/lightGray</color>
