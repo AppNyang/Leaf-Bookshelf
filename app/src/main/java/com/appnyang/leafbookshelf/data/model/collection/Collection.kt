@@ -12,6 +12,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "collections", indices = [Index(value= ["title"], unique = true)])
 data class Collection(
     val title: String,
+    val color: Int,
     val books: List<String>
 ) {
     @PrimaryKey(autoGenerate = true)

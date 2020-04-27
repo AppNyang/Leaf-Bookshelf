@@ -11,7 +11,7 @@
         android:layout_width="200dp"
         android:layout_height="60dp"
         app:cardCornerRadius="8dp"
-        app:cardBackgroundColor="@color/darkEmerald">
+        app:cardBackgroundColor="@{item.color}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
