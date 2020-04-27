@@ -3,6 +3,8 @@
     <dimen name="appbar_banner_height">180dp</dimen>
     <dimen name="drawer_round_corner">18dp</dimen>
 
+    <dimen name="activity_horizontal_margin">24dp</dimen>
+
     <dimen name="main_content_margin">28dp</dimen>
     <dimen name="main_title_margin">14dp</dimen>
     <dimen name="main_section_margin">34dp</dimen>
