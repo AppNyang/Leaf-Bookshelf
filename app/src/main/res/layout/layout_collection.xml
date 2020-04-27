@@ -4,9 +4,7 @@
 
     <data>
         <variable name="item" type="com.appnyang.leafbookshelf.data.model.collection.Collection" />
-        <variable
-            name="counter"
-            type="String" />
+        <variable name="counter" type="String" />
     </data>
 
     <androidx.cardview.widget.CardView
