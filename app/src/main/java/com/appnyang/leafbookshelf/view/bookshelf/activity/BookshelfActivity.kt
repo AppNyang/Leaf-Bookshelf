@@ -13,6 +13,7 @@ import com.appnyang.leafbookshelf.databinding.ActivityBookshelfBinding
 import com.appnyang.leafbookshelf.view.page.activity.PageActivity
 import com.appnyang.leafbookshelf.viewmodel.BookshelfViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.activity_bookshelf.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -58,6 +59,21 @@ class BookshelfActivity : AppCompatActivity() {
         when (view.id) {
             R.id.buttonAdd -> { bottomAddDialog.show() }
             R.id.buttonEdit -> {}
+            R.id.buttonAddNewBook -> {}
+            R.id.buttonAddNewCollection -> {
+                bottomAddDialog.dismiss()
+
+                MaterialAlertDialogBuilder(this)
+                    .setTitle(resources.getString(R.string.bookshelf_title_new_collection))
+                    .setView(R.layout.dialog_new_collection)
+                    .setNeutralButton(resources.getString(R.string.button_close)) { dialog, which ->
+                        // Respond to neutral button press
+                    }
+                    .setPositiveButton(resources.getString(R.string.button_add)) { dialog, which ->
+                        // Respond to positive button press
+                    }
+                    .show()
+            }
         }
     }
 }

@@ -90,12 +90,14 @@
     <string name="bookshelf_add">Add</string>
     <string name="bookshelf_new_book">a new book to this collection</string>
     <string name="bookshelf_new_collection">a new collection</string>
+    <string name="bookshelf_title_new_collection">New Collection</string>
     <string name="bookshelf_collection_name">Collection name</string>
 
     <!-- Dialog -->
     <string name="title_add_bookmark">Add Bookmark</string>
     <string name="button_add">Add</string>
     <string name="button_cancel">Cancel</string>
+    <string name="button_close">Close</string>
 
     <!-- Tag IDs DO NOT TRANSLATE -->
     <string name="tag_uri">TAG_URI</string>
