@@ -12,6 +12,7 @@
 
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialog</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.App.AlertDialog</item>
+        <item name="textInputStyle">@style/Widget.App.TextInputLayout</item>
     </style>
 
     <style name="Activity.Page" parent="AppTheme">
@@ -96,6 +97,15 @@
         <item name="android:textColor">@color/darkGray</item>
         <item name="android:textAppearance">@style/TextAppearance.App.Widget.Button.Dialog</item>
         <item name="shapeAppearance">@style/ShapeAppearance.App.SmallButton.Dialog</item>
+    </style>
+
+    <!-- Text Field -->
+    <style name="Widget.App.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="boxBackgroundColor">@color/white</item>
+        <item name="boxStrokeColor">@color/text_input_indicator</item>
+        <item name="android:textColorHint">@color/lightGray</item>
+        <item name="hintTextColor">@color/darkEmerald</item>
+        <item name="android:textColor">@color/darkEmerald</item>
     </style>
 
     <!-- Bottom sheet dialog -->
