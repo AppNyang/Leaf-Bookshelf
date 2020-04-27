@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/activity_horizontal_margin"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:includeFontPadding="false"
+        android:textColor="@color/lightGray"
+        android:fontFamily="@font/noto_sans_cjk_r"
+        android:textSize="16sp"
+        android:text="@string/bookshelf_add" />
+
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.App.Button.TextButton.BottomSheetDialog"
+        android:id="@+id/buttonAddNewBook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onButtonsClicked"
+        android:text="@string/bookshelf_new_book" />
+
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.App.Button.TextButton.BottomSheetDialog"
+        android:id="@+id/buttonAddNewCollection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onButtonsClicked"
+        android:text="@string/bookshelf_new_collection" />
+
+</LinearLayout>

@@ -65,6 +65,14 @@
         <item name="rippleColor">@color/lightEmerald</item>
     </style>
 
+    <style name="Widget.App.Button.TextButton.BottomSheetDialog" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/darkGray</item>
+        <item name="android:textAppearance">@style/TextAppearance.App.Button.TextButton.BottomSheetDialog</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="rippleColor">@color/lightEmerald</item>
+    </style>
+
     <!-- Text Appearance -->
     <style name="TextAppearance.ToolBarTitle.Collapsed" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@color/darkGray</item>
@@ -130,6 +138,11 @@
         <item name="android:fontFamily">@font/nanum_square</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/darkForest</item>
+    </style>
+
+    <style name="TextAppearance.App.Button.TextButton.BottomSheetDialog" parent="TextAppearance.AppCompat.Widget.Button">
+        <item name="android:fontFamily">@font/noto_sans_cjk_r</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
 </resources>

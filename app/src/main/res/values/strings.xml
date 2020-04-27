@@ -87,6 +87,9 @@
     <string name="bookshelf_your">Your</string>
     <string name="bookshelf_bookshelf">Bookshelf</string>
     <string name="bookshelf_all">ALL</string>
+    <string name="bookshelf_add">Add</string>
+    <string name="bookshelf_new_book">a new book to this collection</string>
+    <string name="bookshelf_new_collection">a new collection</string>
 
     <!-- Dialog -->
     <string name="title_add_bookmark">Add Bookmark</string>
