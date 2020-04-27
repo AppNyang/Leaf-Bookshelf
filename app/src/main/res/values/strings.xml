@@ -90,6 +90,7 @@
     <string name="bookshelf_add">Add</string>
     <string name="bookshelf_new_book">a new book to this collection</string>
     <string name="bookshelf_new_collection">a new collection</string>
+    <string name="bookshelf_collection_name">Collection name</string>
 
     <!-- Dialog -->
     <string name="title_add_bookmark">Add Bookmark</string>
