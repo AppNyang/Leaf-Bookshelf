@@ -12,12 +12,19 @@ import com.appnyang.leafbookshelf.R
 import com.appnyang.leafbookshelf.databinding.ActivityBookshelfBinding
 import com.appnyang.leafbookshelf.view.page.activity.PageActivity
 import com.appnyang.leafbookshelf.viewmodel.BookshelfViewModel
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.activity_bookshelf.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BookshelfActivity : AppCompatActivity() {
 
     private val viewModel by viewModel<BookshelfViewModel>()
+
+    private val bottomAddDialog: BottomSheetDialog by lazy {
+        BottomSheetDialog(this).apply {
+            setContentView(R.layout.dialog_bookshelf_add)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,5 +55,9 @@ class BookshelfActivity : AppCompatActivity() {
      * @param view Clicked button.
      */
     fun onButtonsClicked(view: View) {
+        when (view.id) {
+            R.id.buttonAdd -> { bottomAddDialog.show() }
+            R.id.buttonEdit -> {}
+        }
     }
 }
