@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.appnyang.leafbookshelf.R
+import com.appnyang.leafbookshelf.data.model.collection.Collection
 import com.appnyang.leafbookshelf.databinding.ActivityBookshelfBinding
 import com.appnyang.leafbookshelf.view.page.activity.PageActivity
 import com.appnyang.leafbookshelf.viewmodel.BookshelfViewModel
@@ -35,19 +36,53 @@ class BookshelfActivity : AppCompatActivity() {
             lifecycleOwner = this@BookshelfActivity
         }
 
+        subscribeObservers()
+
         setSupportActionBar(toolBar)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         recyclerHistories.layoutManager = GridLayoutManager(this, 3)
+    }
 
-        // Register observer.
+    /**
+     * Subscribe observers of ViewModel.
+     */
+    private fun subscribeObservers() {
         viewModel.historyClicked.observe(this, Observer {
             startActivity(Intent(this, PageActivity::class.java).apply {
                 putExtra(PageActivity.KEY_FILE_URI, Uri.parse(it.first))
                 putExtra(PageActivity.KEY_CHAR_INDEX, it.second)
             })
         })
+
+        viewModel.collections.observe(this, Observer { collections ->
+            updateTabs(collections)
+        })
+    }
+
+    /**
+     * Build tabLayout with given book collection list.
+     *
+     * @param collections A list of book collections.
+     */
+    private fun updateTabs(collections: List<Collection>) {
+        tabLayout.removeAllTabs()
+
+        // Add "ALL" tab.
+        tabLayout.newTab().let { tab ->
+            tab.text = resources.getString(R.string.bookshelf_all)
+            tab.tag = -1L
+            tabLayout.addTab(tab)
+        }
+
+        collections.forEach { collection ->
+            tabLayout.newTab().let { tab ->
+                tab.text = collection.title
+                tab.tag = collection.id
+                tabLayout.addTab(tab)
+            }
+        }
     }
 
     /**
