@@ -1,5 +1,6 @@
 package com.appnyang.leafbookshelf.data.model.collection
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import androidx.room.OnConflictStrategy.ABORT
 
@@ -15,10 +16,10 @@ interface CollectionDao {
     fun insert(collection: Collection)
 
     @Query("SELECT * FROM collections")
-    fun getCollections(): List<Collection>
+    fun getCollections(): LiveData<List<Collection>>
 
     @Query("SELECT books FROM collections WHERE id = :id")
-    fun getBooks(id: Long): List<String>
+    fun getBooks(id: Long): LiveData<List<String>>
 
     @Query("DELETE FROM collections WHERE id = :id")
     fun delete(id: Long)
