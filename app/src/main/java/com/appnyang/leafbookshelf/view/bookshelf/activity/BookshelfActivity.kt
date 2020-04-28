@@ -1,6 +1,7 @@
 package com.appnyang.leafbookshelf.view.bookshelf.activity
 
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -17,6 +18,7 @@ import com.appnyang.leafbookshelf.viewmodel.BookshelfViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.activity_bookshelf.*
+import kotlinx.android.synthetic.main.dialog_new_collection.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BookshelfActivity : AppCompatActivity() {
@@ -103,14 +105,18 @@ class BookshelfActivity : AppCompatActivity() {
             R.id.buttonAddNewCollection -> {
                 bottomAddDialog.dismiss()
 
+                val layout = layoutInflater.inflate(R.layout.dialog_new_collection, null)
                 MaterialAlertDialogBuilder(this)
                     .setTitle(resources.getString(R.string.bookshelf_title_new_collection))
-                    .setView(R.layout.dialog_new_collection)
-                    .setNeutralButton(resources.getString(R.string.button_close)) { dialog, which ->
-                        // Respond to neutral button press
-                    }
-                    .setPositiveButton(resources.getString(R.string.button_add)) { dialog, which ->
-                        // Respond to positive button press
+                    .setView(layout)
+                    .setNeutralButton(resources.getString(R.string.button_close)) { _, _ -> }
+                    .setPositiveButton(resources.getString(R.string.button_add)) { _, _ ->
+                        val title = layout.textCollectionName.editText?.text.toString()
+                        if (title.isNotBlank()) {
+                            viewModel.createCollection(
+                                Collection(title, Color.parseColor("#64D992"), mutableListOf())
+                            )
+                        }
                     }
                     .show()
             }

@@ -38,4 +38,15 @@ class BookshelfViewModel(
             _historyClicked.postValue(Pair(history.uri, charIndex))
         }
     }
+
+    /**
+     * Create a new collection to DB.
+     *
+     * @param collection The collection object to create.
+     */
+    fun createCollection(collection: Collection) {
+        viewModelScope.launch(Dispatchers.Default) {
+            collectionRepo.createCollection(collection)
+        }
+    }
 }
