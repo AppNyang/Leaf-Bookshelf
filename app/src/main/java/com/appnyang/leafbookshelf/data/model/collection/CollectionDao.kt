@@ -1,9 +1,7 @@
 package com.appnyang.leafbookshelf.data.model.collection
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy.REPLACE
-import androidx.room.Query
+import androidx.room.*
+import androidx.room.OnConflictStrategy.ABORT
 
 /**
  * Collections Data Access Object.
@@ -13,7 +11,7 @@ import androidx.room.Query
 @Dao
 interface CollectionDao {
 
-    @Insert(onConflict = REPLACE)
+    @Insert(onConflict = ABORT)
     fun insert(collection: Collection)
 
     @Query("SELECT * FROM collections")
