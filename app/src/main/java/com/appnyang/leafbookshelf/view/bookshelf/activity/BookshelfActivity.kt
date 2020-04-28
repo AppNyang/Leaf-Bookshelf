@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.appnyang.leafbookshelf.R
 import com.appnyang.leafbookshelf.data.model.collection.Collection
 import com.appnyang.leafbookshelf.databinding.ActivityBookshelfBinding
+import com.appnyang.leafbookshelf.view.collection.activity.CollectionActivity
 import com.appnyang.leafbookshelf.view.page.activity.PageActivity
 import com.appnyang.leafbookshelf.viewmodel.BookshelfViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -93,7 +94,11 @@ class BookshelfActivity : AppCompatActivity() {
     fun onButtonsClicked(view: View) {
         when (view.id) {
             R.id.buttonAdd -> { bottomAddDialog.show() }
-            R.id.buttonEdit -> {}
+            R.id.buttonEdit -> {
+                startActivity(Intent(this, CollectionActivity::class.java).apply {
+                    putExtra(CollectionActivity.KEY_COLLECTION_ID, tabLayout.getTabAt(tabLayout.selectedTabPosition)?.tag as Long)
+                })
+            }
             R.id.buttonAddNewBook -> {}
             R.id.buttonAddNewCollection -> {
                 bottomAddDialog.dismiss()
