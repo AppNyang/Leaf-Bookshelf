@@ -30,8 +30,8 @@ val viewModelModule: Module = module {
     viewModel { BookshelfViewModel(get(), get(), get()) }
     viewModel { CollectionViewModel(get()) }
 
-    factory { BookmarkRepository(get()) }
-    factory { HistoryRepository(get()) }
+    single { BookmarkRepository(get()) }
+    single { HistoryRepository(get()) }
     single { CollectionRepository(get()) }
 }
 
