@@ -38,6 +38,7 @@ val roomModule: Module = module {
     single { AppDatabase.getInstance(androidApplication()) }
     single { get<AppDatabase>().getBookmarkDao() }
     single { get<AppDatabase>().getHistoryDao() }
+    single { get<AppDatabase>().getCollectionDao() }
 }
 
 /**
