@@ -353,7 +353,7 @@ class PageViewModel(
     /**
      * Returns the order in which the chunks will be processed.
      * If chunkStart is 3 and chunkLength is 5, the sequence will be
-     * [3, 4, 0, 1, 2]
+     * [3, 4, 2, 1, 0]
      *
      * @param chunkStart Starting index of the chunk.
      * @param chunkLength Total size of the list of chunks.
