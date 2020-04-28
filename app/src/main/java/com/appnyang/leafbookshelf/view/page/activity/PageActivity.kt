@@ -2,7 +2,6 @@ package com.appnyang.leafbookshelf.view.page.activity
 
 import android.animation.ObjectAnimator
 import android.app.Dialog
-import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.Paint
 import android.net.Uri
@@ -166,7 +165,7 @@ class PageActivity : AppCompatActivity() {
         viewModel.fontSize = sharedPreferences.getString(getString(R.string.pref_key_font_size), "18").let {
             it?.toFloat() ?: 18f
         }
-        viewModel.fontColor = sharedPreferences.getString(getString(R.string.pref_key_font_color), "#FFF").let {
+        viewModel.fontColor = sharedPreferences.getString(getString(R.string.pref_key_font_color), "#2A2A2A").let {
             Color.parseColor(it)
         }
         viewModel.lineSpacing = sharedPreferences.getString(getString(R.string.pref_key_line_spacing), "1.8").let {
