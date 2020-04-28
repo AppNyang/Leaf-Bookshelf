@@ -1,8 +1,8 @@
 package com.appnyang.leafbookshelf.viewmodel
 
 import androidx.lifecycle.*
-import com.appnyang.leafbookshelf.data.model.collection.Collection
 import com.appnyang.leafbookshelf.data.repository.BookmarkRepository
+import com.appnyang.leafbookshelf.data.repository.CollectionRepository
 import com.appnyang.leafbookshelf.data.repository.HistoryRepository
 import com.appnyang.leafbookshelf.view.main.OnHistoryItemClickListener
 import com.google.android.gms.ads.formats.UnifiedNativeAd
@@ -14,7 +14,11 @@ import kotlinx.coroutines.launch
  *
  * @author Sangwoo <sangwoo@yesang.com> on 2020-01-20.
  */
-class MainViewModel(historyRepo: HistoryRepository, private val bookmarkRepo: BookmarkRepository) : ViewModel() {
+class MainViewModel(
+    historyRepo: HistoryRepository,
+    private val bookmarkRepo: BookmarkRepository,
+    collectionRepo: CollectionRepository
+) : ViewModel() {
 
     private val _historyClicked = MutableLiveData<Pair<String, Long>>()
     val historyClicked: LiveData<Pair<String, Long>> = _historyClicked
@@ -22,8 +26,7 @@ class MainViewModel(historyRepo: HistoryRepository, private val bookmarkRepo: Bo
     val recentFiles = MediatorLiveData<List<RecentFile>>()
     val recentFilePromos = MutableLiveData<List<RecentPromo>>()
 
-    private val _collections = MutableLiveData<List<Collection>>()
-    val collections: LiveData<List<Collection>> = _collections
+    val collections = collectionRepo.loadCollections()
 
     val bookmarks = bookmarkRepo.loadBookmarks()
 
