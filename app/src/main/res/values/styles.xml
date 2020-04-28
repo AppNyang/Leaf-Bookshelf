@@ -108,6 +108,16 @@
         <item name="android:textColor">@color/darkEmerald</item>
     </style>
 
+    <!-- Menu item -->
+    <style name="Widget.App.CardView.MenuItem" parent="Widget.MaterialComponents.CardView">
+        <item name="contentPaddingTop">12dp</item>
+        <item name="contentPaddingBottom">12dp</item>
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="rippleColor">@color/darkEmerald</item>
+    </style>
+
     <!-- Bottom sheet dialog -->
     <style name="AppBottomSheetDialog" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/Widget.App.Design.BottomSheet.Modal</item>
@@ -231,6 +241,21 @@
     <style name="TextAppearance.App.Button.TextButton.BottomSheetDialog" parent="TextAppearance.AppCompat.Widget.Button">
         <item name="android:fontFamily">@font/noto_sans_cjk_r</item>
         <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextAppearance.App.Manage.Title.Section" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/noto_sans_cjk_r</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextAppearance.App.Manage.Title" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/noto_sans_cjk_r</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextAppearance.App.Manage.Desc" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/noto_sans_cjk_r</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
 </resources>
