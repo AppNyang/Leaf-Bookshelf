@@ -82,14 +82,7 @@
             app:tabTextColor="@color/tab_text"
             app:tabMode="scrollable"
             app:layout_constraintTop_toBottomOf="@id/textBookshelf"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/bookshelf_all" />
-
-        </com.google.android.material.tabs.TabLayout>
+            app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
