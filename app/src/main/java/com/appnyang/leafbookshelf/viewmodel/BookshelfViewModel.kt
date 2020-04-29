@@ -23,7 +23,7 @@ class BookshelfViewModel(
     private val collectionRepo: CollectionRepository
 ) : ViewModel()  {
 
-    val histories = historyRepo.loadHistory()
+    val books = historyRepo.loadHistory()
     val collections = collectionRepo.loadCollections()
 
     private val _historyClicked = MutableLiveData<Pair<String, Long>>()

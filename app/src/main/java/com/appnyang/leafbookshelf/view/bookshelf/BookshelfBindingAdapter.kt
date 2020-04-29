@@ -5,15 +5,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.appnyang.leafbookshelf.data.model.history.History
 
 /**
- * History binding adapter.
+ * Bookshelf binding adapter.
  *
  * @author Sangwoo <sangwoo@yesang.com> on 2020-03-19.
  */
-@BindingAdapter("histories", "item_click_listener")
+@BindingAdapter("books", "item_click_listener")
 fun setHistories(view: RecyclerView, items: List<History>?, listener: OnHistoryItemClickListener) {
     if (items != null) {
         view.adapter?.let {
-            if (it is HistoryAdapter) {
+            if (it is BookshelfAdapter) {
                 it.items = items
                 it.notifyDataSetChanged()
             }
@@ -21,7 +21,7 @@ fun setHistories(view: RecyclerView, items: List<History>?, listener: OnHistoryI
             view.setHasFixedSize(true)
 
             // Create an adapter because view.adapter is null.
-            HistoryAdapter(items, listener).let {
+            BookshelfAdapter(items, listener).let {
                 view.adapter = it
             }
         }
