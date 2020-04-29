@@ -8,7 +8,6 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.GridLayoutManager
 import com.appnyang.leafbookshelf.R
 import com.appnyang.leafbookshelf.data.model.collection.Collection
 import com.appnyang.leafbookshelf.databinding.ActivityBookshelfBinding
@@ -44,8 +43,6 @@ class BookshelfActivity : AppCompatActivity() {
         setSupportActionBar(toolBar)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        recyclerHistories.layoutManager = GridLayoutManager(this, 3)
     }
 
     /**

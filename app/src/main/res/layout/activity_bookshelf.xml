@@ -93,6 +93,7 @@
                 android:id="@+id/recyclerHistories"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:books="@{viewModel.books}"
                 app:item_click_listener="@{viewModel.onHistoryClickListener}"
                 tools:listitem="@layout/layout_book_item" />
