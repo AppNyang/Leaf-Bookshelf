@@ -9,8 +9,8 @@ import com.appnyang.leafbookshelf.data.model.history.History
  *
  * @author Sangwoo <sangwoo@yesang.com> on 2020-03-19.
  */
-@BindingAdapter("books", "item_click_listener")
-fun setHistories(view: RecyclerView, items: List<History>?, listener: OnHistoryItemClickListener) {
+@BindingAdapter("books", "item_click_listener", "item_long_click_listener")
+fun setHistories(view: RecyclerView, items: List<History>?, listener: OnHistoryItemClickListener, longClickListener: OnBookshelfItemLongClickListener) {
     if (items != null) {
         view.adapter?.let {
             if (it is BookshelfAdapter) {
@@ -21,7 +21,7 @@ fun setHistories(view: RecyclerView, items: List<History>?, listener: OnHistoryI
             view.setHasFixedSize(true)
 
             // Create an adapter because view.adapter is null.
-            BookshelfAdapter(items, listener).let {
+            BookshelfAdapter(items, listener, longClickListener).let {
                 view.adapter = it
             }
         }

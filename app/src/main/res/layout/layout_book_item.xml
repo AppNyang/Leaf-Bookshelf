@@ -17,7 +17,7 @@
         android:focusable="true"
         android:clickable="true"
         android:checkable="true"
-        android:onClick="@{() -> listener.onItemClicked(item)}"
+        android:onClick="@{(view) -> listener.onItemClicked(view, item)}"
         app:rippleColor="@color/darkEmerald"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="0dp"
