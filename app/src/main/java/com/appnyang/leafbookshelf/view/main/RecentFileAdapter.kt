@@ -27,15 +27,6 @@ class RecentFileAdapter(var items: List<RecentFile>, private val listener: OnHis
         val binding: LayoutRecentFileBinding = DataBindingUtil.bind<LayoutRecentFileBinding>(view)!!.apply {
             listener = this@RecentFileAdapter.listener
         }
-
-        init {
-            val radius = view.resources.getDimension(R.dimen.main_book_round)
-            view.imageCover.shapeAppearanceModel = view.imageCover.shapeAppearanceModel
-                .toBuilder()
-                .setTopRightCorner(CornerFamily.ROUNDED, radius)
-                .setBottomRightCorner(CornerFamily.ROUNDED, radius)
-                .build()
-        }
     }
 
     inner class PromoViewHolder(val view: View) : RecyclerView.ViewHolder(view) {

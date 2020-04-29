@@ -166,6 +166,15 @@
         <item name="cornerSize">24dp</item>
     </style>
 
+    <style name="ShapeAppearance.App.SmallBookCover" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamilyTopRight">rounded</item>
+        <item name="cornerFamilyBottomRight">rounded</item>
+        <item name="cornerSizeTopRight">6dp</item>
+        <item name="cornerSizeBottomRight">6dp</item>
+        <item name="cornerSizeTopLeft">0dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+    </style>
+
     <!-- Text Appearance -->
     <style name="TextAppearance.ToolBarTitle.Collapsed" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@color/darkGray</item>

@@ -30,6 +30,7 @@
                 android:layout_marginTop="2dp"
                 app:layout_constraintTop_toTopOf="@id/readingProgress"
                 app:layout_constraintStart_toStartOf="parent"
+                app:shapeAppearance="@style/ShapeAppearance.App.SmallBookCover"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_book_cover_red"
                 android:contentDescription="@string/book_cover" />
