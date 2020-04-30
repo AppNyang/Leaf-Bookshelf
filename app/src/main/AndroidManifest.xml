@@ -16,10 +16,12 @@
         android:theme="@style/Theme.App">
         <activity
             android:name=".view.collection.activity.CollectionActivity"
-            android:parentActivityName=".view.bookshelf.activity.BookshelfActivity" />
+            android:parentActivityName=".view.bookshelf.activity.BookshelfActivity"
+            android:theme="@style/Theme.App.WhiteStatusBar" />
         <activity
             android:name=".view.bookshelf.activity.BookshelfActivity"
-            android:parentActivityName=".view.main.activity.MainActivity" />
+            android:parentActivityName=".view.main.activity.MainActivity"
+            android:theme="@style/Theme.App.WhiteStatusBar" />
         <activity
             android:name=".view.preference.activity.PreferenceActivity"
             android:parentActivityName=".view.main.activity.MainActivity" />
