@@ -14,7 +14,7 @@ interface BookDao {
     fun insert(book: Book)
 
     @Query("SELECT * FROM book")
-    fun getBooks(): List<LiveData<Book>>
+    fun getBooks(): LiveData<List<Book>>
 
     @Update
     fun update(book: Book)
