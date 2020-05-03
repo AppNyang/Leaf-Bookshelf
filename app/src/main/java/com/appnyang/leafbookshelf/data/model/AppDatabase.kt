@@ -5,6 +5,8 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.appnyang.leafbookshelf.data.model.book.Book
+import com.appnyang.leafbookshelf.data.model.book.BookDao
 import com.appnyang.leafbookshelf.data.model.bookmark.Bookmark
 import com.appnyang.leafbookshelf.data.model.bookmark.BookmarkDao
 import com.appnyang.leafbookshelf.data.model.collection.Collection
@@ -20,12 +22,13 @@ import com.appnyang.leafbookshelf.util.RoomTypeConverter
  *
  * @author Sangwoo <sangwoo@yesang.com> on 2020-02-14.
  */
-@Database(entities = [User::class, Collection::class, Bookmark::class, History::class], version = 1, exportSchema = false)
+@Database(entities = [User::class, Collection::class, Book::class, Bookmark::class, History::class], version = 1, exportSchema = false)
 @TypeConverters(RoomTypeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun getUserDao(): UserDao
     abstract fun getCollectionDao(): CollectionDao
+    abstract fun getBookDao(): BookDao
     abstract fun getBookmarkDao(): BookmarkDao
     abstract fun getHistoryDao(): HistoryDao
 
