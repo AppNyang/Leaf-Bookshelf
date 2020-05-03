@@ -29,6 +29,8 @@ class CollectionAdapter(var items: List<Collection>) : RecyclerView.Adapter<Coll
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.item = items[position]
-        holder.binding.counter = holder.bookCountTemplate.format(items[position].books.size)
+
+        // TODO: Make it work correctly.
+        holder.binding.counter = "0 Books"//holder.bookCountTemplate.format(items[position].books.size)
     }
 }

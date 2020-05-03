@@ -105,7 +105,7 @@ class BookshelfActivity : AppCompatActivity() {
         collections.forEach { collection ->
             tabLayout.newTab().let { tab ->
                 tab.text = collection.title
-                tab.tag = collection.id
+                tab.tag = collection.collectionId
                 tabLayout.addTab(tab)
             }
         }
@@ -149,9 +149,10 @@ class BookshelfActivity : AppCompatActivity() {
                     .setPositiveButton(resources.getString(R.string.button_add)) { _, _ ->
                         val title = layout.textCollectionName.editText?.text.toString()
                         if (title.isNotBlank()) {
-                            viewModel.createCollection(
+                            // TODO: Make it work!!
+                            /*viewModel.createCollection(
                                 Collection(title, Color.parseColor("#64D992"), mutableListOf())
-                            )
+                            )*/
                         }
                     }
                     .show()

@@ -15,21 +15,18 @@ interface CollectionDao {
     @Insert(onConflict = ABORT)
     fun insert(collection: Collection)
 
-    @Query("SELECT * FROM collections")
+    @Query("SELECT * FROM collection")
     fun getCollections(): LiveData<List<Collection>>
 
-    @Query("SELECT * FROM collections WHERE id = :id")
+    @Query("SELECT * FROM collection WHERE collectionId = :id")
     fun getCollection(id: Long): LiveData<Collection>
 
-    @Query("SELECT books FROM collections WHERE id = :id")
-    fun getBooks(id: Long): LiveData<List<String>>
+    /*@Query("SELECT books FROM collection WHERE id = :id")
+    fun getBooks(id: Long): LiveData<List<String>>*/
 
     @Update
     fun update(collection: Collection)
 
     @Delete
     fun delete(collection: Collection)
-
-    @Query("DELETE FROM collections WHERE id = :id")
-    fun delete(id: Long)
 }

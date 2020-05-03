@@ -46,14 +46,15 @@ class CollectionViewModel(private val collectionRepo: CollectionRepository) : Vi
 
     /**
      * Remove all contained books of this collection.
+     * TODO: Make it work.
      */
     fun emptyCollection() {
-        viewModelScope.launch(Dispatchers.Default) {
+        /*viewModelScope.launch(Dispatchers.Default) {
             collection.value?.let {
                 it.books.clear()
                 collectionRepo.updateCollection(it)
             }
-        }
+        }*/
     }
 
     /**
