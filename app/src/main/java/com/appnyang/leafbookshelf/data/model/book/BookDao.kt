@@ -11,7 +11,7 @@ import androidx.room.*
 @Dao
 interface BookDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(book: Book)
+    fun insert(book: Book): Long
 
     @Query("SELECT * FROM book")
     fun getBooks(): LiveData<List<Book>>

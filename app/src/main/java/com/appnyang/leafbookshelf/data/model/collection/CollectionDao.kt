@@ -13,7 +13,7 @@ import androidx.room.OnConflictStrategy.ABORT
 interface CollectionDao {
 
     @Insert(onConflict = ABORT)
-    fun insert(collection: Collection)
+    fun insert(collection: Collection): Long
 
     @Query("SELECT * FROM collection")
     fun getCollections(): LiveData<List<Collection>>
