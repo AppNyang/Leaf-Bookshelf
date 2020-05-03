@@ -40,8 +40,9 @@ class BookshelfViewModel(
         when (state.value) {
             State.Default -> {
                 viewModelScope.launch(Dispatchers.Default) {
-                    val charIndex = bookmarkRepo.loadLastRead(history.uri)?.index ?: 0L
-                    _historyClicked.postValue(Pair(history.uri, charIndex))
+                    // TODO: Make it work!!
+                    /*val charIndex = bookmarkRepo.loadLastRead(history.uri)?.index ?: 0L
+                    _historyClicked.postValue(Pair(history.uri, charIndex))*/
                 }
             }
             State.Checked -> {

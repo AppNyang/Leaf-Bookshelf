@@ -120,14 +120,15 @@ class PageViewModel(
     fun readBookFromUri(uri: Uri, contentResolver: ContentResolver, layoutParam: StaticLayoutParam, charIndex: Long = 0L) {
         currentUri = uri.toString()
 
+        // TODO: Make it work!!
         // Fetch bookmarks.
-        if (::bookmarksDbSource.isInitialized) {
+        /*if (::bookmarksDbSource.isInitialized) {
             _bookmarks.removeSource(bookmarksDbSource)
         }
         bookmarksDbSource = bookmarkRepo.loadBookmarks(currentUri)
         // Activity should register unique LiveData to observe,
         // so we have to use MediatorLiveData instead of MutableLiveData.
-        _bookmarks.addSource(bookmarksDbSource) { _bookmarks.value = it }
+        _bookmarks.addSource(bookmarksDbSource) { _bookmarks.value = it }*/
 
         viewModelScope.launch(Dispatchers.Default) {
             // Get lastReadTime to count the total reading time asynchronously.
@@ -146,10 +147,11 @@ class PageViewModel(
 
             var loadIndex = charIndex
             if (charIndex < 0) {
-                val lastRead = bookmarkRepo.loadLastRead(currentUri)
+                // TODO: Make it work!!
+                /*val lastRead = bookmarkRepo.loadLastRead(currentUri)
                 if (lastRead != null) {
                     loadIndex = lastRead.index
-                }
+                }*/
             }
 
             paginateBook(chunkedText, layoutParam, loadIndex)
@@ -556,7 +558,8 @@ class PageViewModel(
      * @param type BookmarkType.
      */
     fun saveCurrentBookmark(title: String, type: BookmarkType = BookmarkType.CUSTOM) {
-        saveBookmark(Bookmark(currentUri, title, getCurrentTextIndex(), type.name, getCurrentDateTimeAsString()))
+        // TODO: Make it work!!
+        //saveBookmark(Bookmark(currentUri, title, getCurrentTextIndex(), type.name, getCurrentDateTimeAsString()))
     }
 
     /**
@@ -567,7 +570,8 @@ class PageViewModel(
     private fun saveBookmark(bookmark: Bookmark) {
         if (!isPaginating.get()) {
             viewModelScope.launch(Dispatchers.Default) {
-                bookmarkRepo.saveBookmark(bookmark)
+                // TODO: Make it work!!
+                //bookmarkRepo.saveBookmark(bookmark)
             }
         }
     }
@@ -580,7 +584,8 @@ class PageViewModel(
      */
     fun deleteBookmark(title: String, index: Long) {
         viewModelScope.launch(Dispatchers.Default) {
-            bookmarkRepo.deleteBookmark(currentUri, title, index)
+            // TODO: Make it work!!
+            //bookmarkRepo.deleteBookmark(currentUri, title, index)
         }
     }
 

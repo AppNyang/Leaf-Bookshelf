@@ -117,7 +117,8 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        viewModel.bookmarks.observe(this, Observer {
+        // TODO: Make it work!!
+        /*viewModel.bookmarks.observe(this, Observer {
             chipGroupBookmarks.removeAllViews()
             synchronized(this) {
                 it.asSequence()
@@ -137,7 +138,7 @@ class MainActivity : AppCompatActivity() {
                         chipGroupBookmarks.addView(chip)
                     }
             }
-        })
+        })*/
 
         viewModel.historyClicked.observe(this, Observer {
             openPageActivity(Uri.parse(it.first), it.second)

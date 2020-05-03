@@ -14,21 +14,21 @@ interface BookmarkDao {
     @Insert(onConflict = REPLACE)
     fun insert(bookmark: Bookmark)
 
+    @Query("SELECT * FROM bookmark WHERE ownerBookId = :bookId")
+    fun getBookmarks(bookId: Long): LiveData<List<Bookmark>>
+
     @Update
     fun update(bookmark: Bookmark)
 
-    @Query("SELECT * FROM bookmarks")
-    fun getBookmarks(): LiveData<List<Bookmark>>
+    @Delete
+    fun delete(bookmark: Bookmark)
 
-    @Query("SELECT * FROM bookmarks WHERE uri = :uri")
-    fun getBookmarks(uri: String): LiveData<List<Bookmark>>
-
-    @Query("SELECT * FROM bookmarks WHERE uri = :uri AND type = \"LAST_READ\"")
-    fun getLastRead(uri: String): Bookmark?
+    /*@Query("SELECT * FROM bookmark WHERE ownerBookId = :bookId AND type = \"LAST_READ\"")
+    fun getLastRead(bookId: Long): Bookmark?
 
     @Transaction
-    fun upsertLastRead(bookmark: Bookmark) {
-        val lastRead = getLastRead(bookmark.uri)
+    fun upsertLastRead(bookId: Long) {
+        val lastRead = getLastRead(bookId)
         if (lastRead != null) {
             bookmark.id = lastRead.id
         }
@@ -39,5 +39,5 @@ interface BookmarkDao {
     fun deleteByIndex(uri: String, title: String, index: Long)
 
     @Query("DELETE FROM bookmarks")
-    fun deleteAll()
+    fun deleteAll()*/
 }

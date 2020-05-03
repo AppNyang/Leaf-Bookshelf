@@ -1,24 +1,24 @@
 package com.appnyang.leafbookshelf.data.model.bookmark
 
 import androidx.room.Entity
-import androidx.room.Index
 import androidx.room.PrimaryKey
 
 /**
- * Bookmark Entity.
+ * Bookmark entity.
+ * Bookmark has one-to-many relationship with Book.
  *
  * @author Sangwoo <sangwoo@yesang.com> on 2020-02-14.
  */
-@Entity(tableName = "bookmarks")
+@Entity
 data class Bookmark(
-    val uri: String,
-    val title: String,
+    val ownerBookId: Long,
+    val displayName: String,
     val index: Long,
     val type: String,
-    val updateDate: String
+    val createAt: String
 ) {
     @PrimaryKey(autoGenerate = true)
-    var id: Long = 0
+    var bookmarkId: Long = 0
 }
 
 enum class BookmarkType {

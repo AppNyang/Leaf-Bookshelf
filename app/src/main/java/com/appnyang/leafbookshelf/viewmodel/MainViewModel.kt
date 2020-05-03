@@ -28,7 +28,8 @@ class MainViewModel(
 
     val collections = collectionRepo.loadCollections()
 
-    val bookmarks = bookmarkRepo.loadBookmarks()
+    // TODO: Make it work!!
+    val bookmarks = null// bookmarkRepo.loadBookmarks()
 
     init {
         // This empty live data prevents 'Failed to call observer method' error.
@@ -59,7 +60,8 @@ class MainViewModel(
      * @param index Char index of the bookmark.
      */
     fun deleteBookmark(uri: String, title: String, index: Long) {
-        viewModelScope.launch(Dispatchers.Default) { bookmarkRepo.deleteBookmark(uri, title, index) }
+        // TODO: Make it work!!
+        //viewModelScope.launch(Dispatchers.Default) { bookmarkRepo.deleteBookmark(uri, title, index) }
     }
 
     /**
@@ -69,8 +71,9 @@ class MainViewModel(
         viewModelScope.launch(Dispatchers.Default) {
             when (recentFile) {
                 is RecentHistory -> {
-                    val charIndex = bookmarkRepo.loadLastRead(recentFile.uri)?.index ?: 0L
-                    _historyClicked.postValue(Pair(recentFile.uri, charIndex))
+                    // TODO: Make it work!!
+                    /*val charIndex = bookmarkRepo.loadLastRead(recentFile.uri)?.index ?: 0L
+                    _historyClicked.postValue(Pair(recentFile.uri, charIndex))*/
                 }
             }
         }
