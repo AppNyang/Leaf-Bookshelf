@@ -1,11 +1,11 @@
 package com.appnyang.leafbookshelf
 
 import com.appnyang.leafbookshelf.util.RoomTypeConverter
-import io.kotlintest.matchers.collections.shouldHaveSize
-import io.kotlintest.matchers.string.shouldBeEqualIgnoringCase
-import io.kotlintest.matchers.string.shouldHaveLineCount
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.StringSpec
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldBeEqualIgnoringCase
+import io.kotest.matchers.string.shouldHaveLineCount
 import org.koin.test.KoinTest
 
 /**
