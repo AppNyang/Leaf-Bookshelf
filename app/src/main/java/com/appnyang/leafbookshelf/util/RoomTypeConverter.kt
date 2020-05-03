@@ -1,5 +1,6 @@
 package com.appnyang.leafbookshelf.util
 
+import android.net.Uri
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -28,4 +29,10 @@ class RoomTypeConverter {
 
     @TypeConverter
     fun stringToDateTime(time: String): DateTime = ISODateTimeFormat.dateTime().parseDateTime(time)
+
+    @TypeConverter
+    fun uriToString(uri: Uri): String = uri.toString()
+
+    @TypeConverter
+    fun stringToUri(uri: String): Uri = Uri.parse(uri)
 }
