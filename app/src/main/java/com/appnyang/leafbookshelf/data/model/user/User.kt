@@ -11,7 +11,7 @@ import org.joda.time.DateTime
  *
  * @author Sangwoo <sangwoo@yesang.com> on 2020-05-04.
  */
-@Entity(indices = [Index(value= ["email"], unique = true)])
+@Entity(indices = [Index(value = ["email"], unique = true)])
 data class User(
     val email: String,
     var displayName: String,

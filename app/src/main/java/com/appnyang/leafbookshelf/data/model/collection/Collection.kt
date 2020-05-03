@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey
  *
  * @author Sangwoo <sangwoo@yesang.com> on 2020-04-25.
  */
-@Entity(indices = [Index(value= ["title"], unique = true)])
+@Entity(indices = [Index(value = ["title"], unique = true)])
 data class Collection(
     val ownerId: Long,
     var title: String,

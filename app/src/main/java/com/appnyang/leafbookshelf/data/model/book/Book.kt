@@ -13,7 +13,7 @@ import org.joda.time.DateTime
  *
  * @author Sangwoo <sangwoo@yesang.com> on 2020-05-04.
  */
-@Entity(indices = [Index(value= ["uri"], unique = true)])
+@Entity(indices = [Index(value = ["uri"], unique = true)])
 data class Book(
     var uri: Uri,
     var displayName: String,
