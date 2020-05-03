@@ -11,6 +11,8 @@ import com.appnyang.leafbookshelf.data.model.collection.Collection
 import com.appnyang.leafbookshelf.data.model.collection.CollectionDao
 import com.appnyang.leafbookshelf.data.model.history.History
 import com.appnyang.leafbookshelf.data.model.history.HistoryDao
+import com.appnyang.leafbookshelf.data.model.user.User
+import com.appnyang.leafbookshelf.data.model.user.UserDao
 import com.appnyang.leafbookshelf.util.RoomTypeConverter
 
 /**
@@ -18,10 +20,11 @@ import com.appnyang.leafbookshelf.util.RoomTypeConverter
  *
  * @author Sangwoo <sangwoo@yesang.com> on 2020-02-14.
  */
-@Database(entities = [Bookmark::class, History::class, Collection::class], version = 1, exportSchema = false)
+@Database(entities = [User::class, Bookmark::class, History::class, Collection::class], version = 1, exportSchema = false)
 @TypeConverters(RoomTypeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
+    abstract fun getUserDao(): UserDao
     abstract fun getBookmarkDao(): BookmarkDao
     abstract fun getHistoryDao(): HistoryDao
     abstract fun getCollectionDao(): CollectionDao
