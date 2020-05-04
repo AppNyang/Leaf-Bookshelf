@@ -11,7 +11,12 @@ import com.appnyang.leafbookshelf.data.model.collection.Collection
  * @author Sangwoo <sangwoo@yesang.com> on 2020-05-04.
  */
 
-@Entity(primaryKeys = ["collectionId", "bookId"])
+@Entity(
+    primaryKeys = ["collectionId", "bookId"],
+    foreignKeys = [
+        ForeignKey(entity = Collection::class, parentColumns = ["collectionId"], childColumns = ["collectionId"], onDelete = ForeignKey.CASCADE),
+        ForeignKey(entity = Book::class, parentColumns = ["bookId"], childColumns = ["bookId"], onDelete = ForeignKey.CASCADE)
+    ])
 data class CollectionBookCrossRef(
     val collectionId: Long,
     val bookId: Long

@@ -1,7 +1,10 @@
 package com.appnyang.leafbookshelf.data.model.bookmark
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import com.appnyang.leafbookshelf.data.model.book.Book
+import org.joda.time.DateTime
 
 /**
  * Bookmark entity.
@@ -9,7 +12,7 @@ import androidx.room.PrimaryKey
  *
  * @author Sangwoo <sangwoo@yesang.com> on 2020-02-14.
  */
-@Entity
+@Entity(foreignKeys = [ForeignKey(entity = Book::class, parentColumns = ["bookId"], childColumns = ["ownerBookId"], onDelete = ForeignKey.CASCADE)])
 data class Bookmark(
     val ownerBookId: Long,
     val displayName: String,
