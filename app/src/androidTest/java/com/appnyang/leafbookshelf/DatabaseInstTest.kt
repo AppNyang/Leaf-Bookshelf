@@ -13,7 +13,9 @@ import com.appnyang.leafbookshelf.data.model.CollectionBookCrossRef
 import com.appnyang.leafbookshelf.data.model.CollectionWithBooksDao
 import com.appnyang.leafbookshelf.data.model.book.Book
 import com.appnyang.leafbookshelf.data.model.book.BookDao
+import com.appnyang.leafbookshelf.data.model.bookmark.Bookmark
 import com.appnyang.leafbookshelf.data.model.bookmark.BookmarkDao
+import com.appnyang.leafbookshelf.data.model.bookmark.BookmarkType
 import com.appnyang.leafbookshelf.data.model.collection.Collection
 import com.appnyang.leafbookshelf.data.model.collection.CollectionDao
 import com.appnyang.leafbookshelf.data.model.user.User
@@ -188,6 +190,70 @@ class CollectionDaoTest : DatabaseInstTest() {
         assertThat("A collection should be deleted", collectionDao.getCollections().getValueBlocking()!!.size, equalTo(0))
 
         assertThat("Relation should have no item", collectionWithBooksDao.getRelations().getValueBlocking()!!.size, equalTo(0))
+    }
+}
+
+/**
+ * Tests of BookDao.
+ */
+@RunWith(AndroidJUnit4::class)
+class BookDaoTest : DatabaseInstTest() {
+
+    @Test
+    @Throws(Exception::class)
+    fun createAndRead() {
+        val book = Book(Uri.parse("file:///~/book"), "Book#1", Uri.parse("file:///~/cover"), "", 0, DateTime.now())
+        val id = bookDao.insert(book)
+
+        val readBook = bookDao.getBook(id).getValueBlocking()
+        assertThat("Two books should be same", readBook, equalTo(book))
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun relationBetweenBookAndBookmarks() {
+        val book = Book(Uri.parse("file:///~/book"), "Book#1", Uri.parse("file:///~/cover"), "", 0, DateTime.now())
+        val id = bookDao.insert(book)
+
+        val bookmarks = listOf(
+            Bookmark(id, "Chapter 1", 100, BookmarkType.CUSTOM.name, DateTime.now()),
+            Bookmark(id, "Chapter 2", 100, BookmarkType.CUSTOM.name, DateTime.now()),
+            Bookmark(id, "Chapter 3", 100, BookmarkType.CUSTOM.name, DateTime.now())
+        )
+
+        bookmarks.forEach {
+            bookmarkDao.insert(it)
+        }
+
+        val withBookmarks = bookDao.getBookWithBookmarks(id).getValueBlocking()
+
+        assertThat("BookWithBookmarks should not null", withBookmarks, notNullValue())
+        assertThat("BookWithBookmarks should have three bookmarks", withBookmarks!!.bookmarks.size, equalTo(3))
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun cascadeBookmarksDelete() {
+        val book = Book(Uri.parse("file:///~/book"), "Book#1", Uri.parse("file:///~/cover"), "", 0, DateTime.now())
+        val id = bookDao.insert(book)
+
+        val bookmarks = listOf(
+            Bookmark(id, "Chapter 1", 100, BookmarkType.CUSTOM.name, DateTime.now()),
+            Bookmark(id, "Chapter 2", 100, BookmarkType.CUSTOM.name, DateTime.now()),
+            Bookmark(id, "Chapter 3", 100, BookmarkType.CUSTOM.name, DateTime.now())
+        )
+
+        bookmarks.forEach {
+            bookmarkDao.insert(it)
+        }
+
+        book.bookId = id
+        bookDao.delete(book)
+        val readBook = bookDao.getBook(id).getValueBlocking()
+        assertThat("Book should deleted", readBook, nullValue())
+
+        val readBookmarks = bookmarkDao.getBookmarks(id).getValueBlocking()
+        assertThat("Size of bookmarks should be zero", readBookmarks!!.size, equalTo(0))
     }
 }
 
