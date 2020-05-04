@@ -15,7 +15,7 @@ data class Bookmark(
     val displayName: String,
     val index: Long,
     val type: String,
-    val createAt: String
+    val createAt: DateTime
 ) {
     @PrimaryKey(autoGenerate = true)
     var bookmarkId: Long = 0
