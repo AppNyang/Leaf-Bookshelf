@@ -40,4 +40,7 @@ interface CollectionWithBooksDao {
     @Transaction
     @Query("SELECT * FROM collection WHERE collectionId = :id")
     fun getCollectionWithBooks(id: Long): LiveData<CollectionWithBooks>
+
+    @Query("SELECT * FROM collectionbookcrossref")
+    fun getRelations(): LiveData<List<CollectionBookCrossRef>>
 }
