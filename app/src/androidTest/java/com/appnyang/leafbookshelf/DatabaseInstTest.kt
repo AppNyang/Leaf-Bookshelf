@@ -159,9 +159,35 @@ class CollectionDaoTest : DatabaseInstTest() {
         val withBooks = collectionWithBooksDao.getCollectionWithBooks(collectionId).getValueBlocking()
 
         bookDao.delete(withBooks!!.books[0])
+        assertThat("A book should be deleted", bookDao.getBooks().getValueBlocking()!!.size, equalTo(1))
+
+        assertThat("Relation should have one item", collectionWithBooksDao.getRelations().getValueBlocking()!!.size, equalTo(1))
 
         val withBooks2 = collectionWithBooksDao.getCollectionWithBooks(collectionId).getValueBlocking()
         assertThat("CollectionWithBooks should have one books", withBooks2!!.books.size, equalTo(1))
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun cascadeCollectionDelete() {
+        val collection = Collection(0, "Fantasy", 0)
+        val collectionId = collectionDao.insert(collection)
+
+        val books = listOf(
+            Book(Uri.parse("file:///~/book"), "Book#1", Uri.parse("file:///~/cover"), "", 0, DateTime.now()),
+            Book(Uri.parse("file:///~/book2"), "Book#2", Uri.parse("file:///~/cover2"), "", 0, DateTime.now())
+        )
+
+        books.forEach {
+            val bookId = bookDao.insert(it)
+            collectionWithBooksDao.insert(CollectionBookCrossRef(collectionId, bookId))
+        }
+
+        collection.collectionId = collectionId
+        collectionDao.delete(collection)
+        assertThat("A collection should be deleted", collectionDao.getCollections().getValueBlocking()!!.size, equalTo(0))
+
+        assertThat("Relation should have no item", collectionWithBooksDao.getRelations().getValueBlocking()!!.size, equalTo(0))
     }
 }
 
