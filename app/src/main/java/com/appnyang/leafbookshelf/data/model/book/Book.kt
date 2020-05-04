@@ -1,9 +1,8 @@
 package com.appnyang.leafbookshelf.data.model.book
 
 import android.net.Uri
-import androidx.room.Entity
-import androidx.room.Index
-import androidx.room.PrimaryKey
+import androidx.room.*
+import com.appnyang.leafbookshelf.data.model.bookmark.Bookmark
 import org.joda.time.DateTime
 
 /**
@@ -25,3 +24,12 @@ data class Book(
     @PrimaryKey(autoGenerate = true)
     var bookId: Long = 0
 }
+
+data class BookWithBookmarks(
+    @Embedded val book: Book,
+    @Relation(
+        parentColumn = "bookId",
+        entityColumn = "ownerBookId"
+    )
+    val bookmarks: List<Bookmark>
+)

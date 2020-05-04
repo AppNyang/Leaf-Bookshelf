@@ -16,6 +16,13 @@ interface BookDao {
     @Query("SELECT * FROM book")
     fun getBooks(): LiveData<List<Book>>
 
+    @Query("SELECT * FROM book WHERE bookId = :id")
+    fun getBook(id: Long): LiveData<Book>
+
+    @Transaction
+    @Query("SELECT * FROM book WHERE bookId = :id")
+    fun getBookWithBookmarks(id: Long): LiveData<BookWithBookmarks>
+
     @Update
     fun update(book: Book)
 
