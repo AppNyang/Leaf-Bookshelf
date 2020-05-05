@@ -1,5 +1,7 @@
 package com.appnyang.leafbookshelf.viewmodel
 
+import android.net.Uri
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,6 +22,9 @@ class BookViewModel(private val bookRepo: BookRepository) : ViewModel() {
     private val _bookWithBookmarks = MutableLiveData<BookWithBookmarks>()
     val bookWithBookmarks: LiveData<BookWithBookmarks> = _bookWithBookmarks
 
+    private val _buttonClicked = MutableLiveData<View>()
+    val buttonClicked: LiveData<View> = _buttonClicked
+
     /**
      * Get flow of book with given bookId and collect.
      *
@@ -29,6 +34,30 @@ class BookViewModel(private val bookRepo: BookRepository) : ViewModel() {
         viewModelScope.launch(Dispatchers.Default) {
             bookRepo.getBookWithBookmarks(bookId).collect {
                 _bookWithBookmarks.postValue(it)
+            }
+        }
+    }
+
+    /**
+     * Called when the buttons clicked.
+     *
+     * @param view View of the button.
+     */
+    fun buttonClicked(view: View) {
+        _buttonClicked.value = view
+    }
+
+    /**
+     * Set new book cover.
+     *
+     * @param uri Uri of the image.
+     */
+    fun setBookCover(uri: Uri) {
+        bookWithBookmarks.value?.let {
+            it.book.coverUri = uri
+
+            viewModelScope.launch(Dispatchers.Default) {
+                bookRepo.updateBook(it.book)
             }
         }
     }
