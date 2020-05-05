@@ -29,4 +29,11 @@ class BookRepository(private val bookDao: BookDao) {
      * @return Index of inserted Book.
      */
     fun saveBook(book: Book): Long = bookDao.insert(book)
+
+    /**
+     * Update the given book.
+     *
+     * @param book Book to update.
+     */
+    fun updateBook(book: Book) = bookDao.update(book)
 }

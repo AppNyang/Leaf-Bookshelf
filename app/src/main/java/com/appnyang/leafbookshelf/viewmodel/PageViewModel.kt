@@ -17,7 +17,6 @@ import com.appnyang.leafbookshelf.data.model.book.Book
 import com.appnyang.leafbookshelf.data.model.book.BookWithBookmarks
 import com.appnyang.leafbookshelf.data.model.bookmark.Bookmark
 import com.appnyang.leafbookshelf.data.model.bookmark.BookmarkType
-import com.appnyang.leafbookshelf.data.model.history.History
 import com.appnyang.leafbookshelf.data.repository.BookRepository
 import com.appnyang.leafbookshelf.data.repository.BookmarkRepository
 import com.appnyang.leafbookshelf.data.repository.HistoryRepository
@@ -32,7 +31,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
 import org.joda.time.Interval
-import org.joda.time.format.ISODateTimeFormat
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.nio.charset.Charset
@@ -80,8 +78,6 @@ class PageViewModel(
 
     val bTts = MutableLiveData(false)
     val bAuto = MutableLiveData(false)
-
-    private lateinit var openTime: DateTime
 
     // TTS Service.
     private lateinit var ttsService: TtsService
@@ -605,33 +601,18 @@ class PageViewModel(
     }
 
     /**
-     * Append current file to open history.
-     * This called only when the activity is closed.
+     * Update read info from book before close the activity.
      */
-    fun saveHistory() {
-        /*if (::openTime.isInitialized) {
-            viewModelScope.launch(Dispatchers.Default) {
-                val readTime = Interval(openTime, DateTime.now()).toDuration().standardMinutes.toInt() + lastReadTime
+    fun updateBookBeforeClose() {
+        bookWithBookmarks.value?.let { bookWithBookmarks ->
+            val currentReadTime = Interval(bookWithBookmarks.book.lastOpenedAt, DateTime.now()).toDuration().standardMinutes.toInt()
+            bookWithBookmarks.book.readTime += currentReadTime
+            bookWithBookmarks.book.quote = getQuote()
+            bookWithBookmarks.book.lastOpenedAt = DateTime.now()
 
-                historyRepository.saveHistory(
-                    History(
-                        currentUri,
-                        openedFileName.value?.toString() ?: "",
-                        readTime,
-                        getCurrentDateTimeAsString(),
-                        getQuote()
-                    )
-                )
-            }
-        }*/
+            bookRepo.updateBook(bookWithBookmarks.book)
+        }
     }
-
-    /**
-     * Return date-time as ISO date time format string.
-     *
-     * @return ISO date-time format string.
-     */
-    private fun getCurrentDateTimeAsString(): String = DateTime.now().toString(ISODateTimeFormat.dateTime())
 
     /**
      * Return two lines string of current page.
