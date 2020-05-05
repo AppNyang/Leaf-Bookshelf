@@ -4,7 +4,7 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.appnyang.leafbookshelf.R
-import com.appnyang.leafbookshelf.viewmodel.RecentFile
+import com.appnyang.leafbookshelf.viewmodel.Recents
 import org.joda.time.DateTime
 import org.joda.time.Interval
 import org.joda.time.format.ISODateTimeFormat
@@ -15,7 +15,7 @@ import org.joda.time.format.ISODateTimeFormat
  * @author Sangwoo <sangwoo@yesang.com> on 2020-02-22.
  */
 @BindingAdapter("recent_files", "item_click_listener")
-fun setRecentFiles(view: RecyclerView, items: List<RecentFile>, listener: OnHistoryItemClickListener) {
+fun setRecentFiles(view: RecyclerView, items: List<Recents>, listener: OnHistoryItemClickListener) {
     view.adapter?.let {
         if (it is RecentFileAdapter) {
             it.items = items

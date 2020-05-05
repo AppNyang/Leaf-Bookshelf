@@ -21,14 +21,14 @@ class MainViewModel(
     private val _historyClicked = MutableLiveData<Pair<String, Long>>()
     val historyClicked: LiveData<Pair<String, Long>> = _historyClicked
 
-    val recentFiles = MediatorLiveData<List<RecentFile>>()
+    val recentFiles = MediatorLiveData<List<Recents>>()
     val recentFilePromos = MutableLiveData<List<RecentPromo>>()
 
     val collections = collectionRepo.loadCollections()
 
     init {
         // This empty live data prevents 'Failed to call observer method' error.
-        recentFiles.addSource(MutableLiveData<List<RecentFile>>(listOf())) { recentFiles.value = it }
+        recentFiles.addSource(MutableLiveData<List<Recents>>(listOf())) { recentFiles.value = it }
         recentFiles.addSource(historyRepo.loadAsRecentHistory()) { recentFiles.value = it }
         recentFiles.addSource(recentFilePromos) {
             // Called when all ads has been loaded.
@@ -63,7 +63,7 @@ class MainViewModel(
     }
 }
 
-sealed class RecentFile
+sealed class Recents
 
 data class RecentHistory(
     val uri: String,
@@ -72,8 +72,8 @@ data class RecentHistory(
     val lastOpen: String,
     val quote: String,
     val cover: String
-) : RecentFile()
+) : Recents()
 
 data class RecentPromo(
     val unifiedNativeAd: UnifiedNativeAd
-) : RecentFile()
+) : Recents()

@@ -7,12 +7,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.appnyang.leafbookshelf.R
 import com.appnyang.leafbookshelf.databinding.LayoutRecentFileBinding
-import com.appnyang.leafbookshelf.viewmodel.RecentFile
+import com.appnyang.leafbookshelf.viewmodel.Recents
 import com.appnyang.leafbookshelf.viewmodel.RecentHistory
 import com.appnyang.leafbookshelf.viewmodel.RecentPromo
 import com.google.android.gms.ads.formats.UnifiedNativeAdView
-import com.google.android.material.shape.CornerFamily
-import kotlinx.android.synthetic.main.layout_recent_file.view.*
 import kotlinx.android.synthetic.main.layout_recent_file_promo.view.*
 
 
@@ -21,7 +19,7 @@ import kotlinx.android.synthetic.main.layout_recent_file_promo.view.*
  *
  * @author Sangwoo <sangwoo@yesang.com> on 2020-02-22.
  */
-class RecentFileAdapter(var items: List<RecentFile>, private val listener: OnHistoryItemClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RecentFileAdapter(var items: List<Recents>, private val listener: OnHistoryItemClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     inner class HistoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding: LayoutRecentFileBinding = DataBindingUtil.bind<LayoutRecentFileBinding>(view)!!.apply {
@@ -76,6 +74,6 @@ class RecentFileAdapter(var items: List<RecentFile>, private val listener: OnHis
     }
 }
 
-class OnHistoryItemClickListener(private val listener: (recentFile: RecentFile) -> Unit) {
-    fun onItemClicked(recentFile: RecentFile) { listener(recentFile) }
+class OnHistoryItemClickListener(private val listener: (recentFile: Recents) -> Unit) {
+    fun onItemClicked(recentFile: Recents) { listener(recentFile) }
 }
