@@ -11,7 +11,7 @@ import com.appnyang.leafbookshelf.viewmodel.Recents
 import com.appnyang.leafbookshelf.viewmodel.RecentFile
 import com.appnyang.leafbookshelf.viewmodel.RecentPromo
 import com.google.android.gms.ads.formats.UnifiedNativeAdView
-import kotlinx.android.synthetic.main.layout_recent_file_promo.view.*
+import kotlinx.android.synthetic.main.layout_recent_promo.view.*
 
 
 /**
@@ -60,7 +60,7 @@ class RecentFileAdapter(var items: List<Recents>, private val listener: OnHistor
             HistoryViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.layout_recent_file, parent, false))
         }
         else {
-            PromoViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.layout_recent_file_promo, parent, false))
+            PromoViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.layout_recent_promo, parent, false))
         }
     }
 
