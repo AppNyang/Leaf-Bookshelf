@@ -607,7 +607,9 @@ class PageViewModel(
             bookWithBookmarks.book.quote = getQuote()
             bookWithBookmarks.book.lastOpenedAt = DateTime.now()
 
-            bookRepo.updateBook(bookWithBookmarks.book)
+            viewModelScope.launch(Dispatchers.Default) {
+                bookRepo.updateBook(bookWithBookmarks.book)
+            }
         }
     }
 
