@@ -7,9 +7,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.appnyang.leafbookshelf.R
 import com.appnyang.leafbookshelf.databinding.LayoutRecentFileBinding
-import com.appnyang.leafbookshelf.viewmodel.Recents
 import com.appnyang.leafbookshelf.viewmodel.RecentFile
 import com.appnyang.leafbookshelf.viewmodel.RecentPromo
+import com.appnyang.leafbookshelf.viewmodel.Recents
 import com.google.android.gms.ads.formats.UnifiedNativeAdView
 import kotlinx.android.synthetic.main.layout_recent_promo.view.*
 
