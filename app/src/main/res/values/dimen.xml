@@ -22,6 +22,9 @@
     <dimen name="main_recent_text_horizontal_margin">20dp</dimen>
     <dimen name="main_book_round">6dp</dimen>
 
+    <dimen name="recent_book_width">70dp</dimen>
+    <dimen name="recent_book_height">105dp</dimen>
+
     <dimen name="page_margin">16dp</dimen>
     <dimen name="page_menu_elevation">5dp</dimen>
     <dimen name="page_chip_horizontal_padding">15dp</dimen>

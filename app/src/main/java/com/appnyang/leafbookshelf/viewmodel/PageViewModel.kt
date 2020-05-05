@@ -605,6 +605,7 @@ class PageViewModel(
             val currentReadTime = Interval(bookWithBookmarks.book.lastOpenedAt, DateTime.now()).toDuration().standardMinutes.toInt()
             bookWithBookmarks.book.readTime += currentReadTime
             bookWithBookmarks.book.quote = getQuote()
+            bookWithBookmarks.book.readingProgress = getReadingProgress()
             bookWithBookmarks.book.lastOpenedAt = DateTime.now()
 
             viewModelScope.launch(Dispatchers.Default) {
@@ -624,6 +625,15 @@ class PageViewModel(
             .splitToSequence("\n", limit = 3)
             .filterIndexed { index, _ -> index < 2 }
             .joinToString("\n")
+
+    /**
+     * Return reading progress using ratio between current page and size.
+     *
+     * @return Float value of reading progress.
+     */
+    private fun getReadingProgress(): Float =
+        ((currentPage.value?.toFloat() ?: 0f) / (pagedBook.value?.size?.toFloat() ?: 1f))
+            .coerceAtMost(1.0f)
 
     /**
      * This data class used for build StaticLayout.

@@ -23,6 +23,7 @@ data class Book(
 ) {
     @PrimaryKey(autoGenerate = true)
     var bookId: Long = 0
+    var readingProgress: Float = 0f
 }
 
 data class BookWithBookmarks(

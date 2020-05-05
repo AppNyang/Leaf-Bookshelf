@@ -74,7 +74,8 @@ data class RecentFile(
     val coverUri: Uri,
     val quote: String,
     val readTime: Int,
-    val lastOpenedAt: DateTime
+    val lastOpenedAt: DateTime,
+    val readingProgress: Float
 ) : Recents()
 
 data class RecentPromo(

@@ -1,5 +1,6 @@
 package com.appnyang.leafbookshelf.view.main
 
+import android.view.View
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -70,4 +71,11 @@ fun setReadableReadTime(view: TextView, readTime: Int, lastOpenedAt: DateTime) {
     readableTime += " · $readableDuration"
 
     view.text = readableTime
+}
+
+@BindingAdapter("reading_progress")
+fun setReadingProgress(view: View, readingProgress: Float) {
+    val progressHeight = readingProgress * view.resources.getDimension(R.dimen.recent_book_height)
+
+    view.layoutParams.height = progressHeight.toInt()
 }
