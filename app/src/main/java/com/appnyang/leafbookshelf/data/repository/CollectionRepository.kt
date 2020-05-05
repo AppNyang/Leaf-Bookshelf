@@ -1,6 +1,7 @@
 package com.appnyang.leafbookshelf.data.repository
 
 import androidx.lifecycle.LiveData
+import com.appnyang.leafbookshelf.data.model.CollectionWithBooksDao
 import com.appnyang.leafbookshelf.data.model.collection.Collection
 import com.appnyang.leafbookshelf.data.model.collection.CollectionDao
 
@@ -9,7 +10,10 @@ import com.appnyang.leafbookshelf.data.model.collection.CollectionDao
  *
  * @author Sangwoo <sangwoo@yesang.com> on 2020-04-28.
  */
-class CollectionRepository(private val collectionDao: CollectionDao) {
+class CollectionRepository(
+    private val collectionDao: CollectionDao,
+    private val collectionWithBooksDao: CollectionWithBooksDao
+) {
 
     /**
      * Fetch all collections form DB.

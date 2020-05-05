@@ -31,7 +31,7 @@ val viewModelModule: Module = module {
     viewModel { CollectionViewModel(get()) }
 
     single { BookmarkRepository(get()) }
-    single { CollectionRepository(get()) }
+    single { CollectionRepository(get(), get()) }
     single { BookRepository(get()) }
 }
 
@@ -43,6 +43,7 @@ val roomModule: Module = module {
     single { get<AppDatabase>().getBookmarkDao() }
     single { get<AppDatabase>().getCollectionDao() }
     single { get<AppDatabase>().getBookDao() }
+    single { get<AppDatabase>().getCollectionWithBooksDao() }
 }
 
 /**
