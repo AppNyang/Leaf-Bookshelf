@@ -13,7 +13,6 @@ import androidx.annotation.MainThread
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.updateLayoutParams
 import androidx.databinding.DataBindingUtil
@@ -21,7 +20,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.appnyang.leafbookshelf.BuildConfig
 import com.appnyang.leafbookshelf.R
-import com.appnyang.leafbookshelf.data.model.bookmark.BookmarkType
 import com.appnyang.leafbookshelf.databinding.ActivityMainBinding
 import com.appnyang.leafbookshelf.view.bookshelf.activity.BookshelfActivity
 import com.appnyang.leafbookshelf.view.page.activity.PageActivity
@@ -32,8 +30,6 @@ import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.formats.UnifiedNativeAd
 import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.chip.Chip
-import com.leinardi.android.speeddial.SpeedDialActionItem
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -114,29 +110,6 @@ class MainActivity : AppCompatActivity() {
                 requestAds()
             }
         })
-
-        // TODO: Make it work!!
-        /*viewModel.bookmarks.observe(this, Observer {
-            chipGroupBookmarks.removeAllViews()
-            synchronized(this) {
-                it.asSequence()
-                    .filter { bookmark -> bookmark.type == BookmarkType.CUSTOM.name }
-                    .forEach { bookmark ->
-                        val chip = layoutInflater.inflate(R.layout.layout_bookmark_chip, chipGroupBookmarks, false) as Chip
-                        chip.text = bookmark.title
-                        chip.setTag(R.string.tag_uri, bookmark.uri)
-                        chip.setTag(R.string.tag_title, bookmark.title)
-                        chip.setTag(R.string.tag_index, bookmark.index)
-                        chip.setOnCloseIconClickListener { view ->
-                            viewModel.deleteBookmark(view.getTag(R.string.tag_uri).toString(), view.getTag(R.string.tag_title).toString(), view.getTag(R.string.tag_index).toString().toLong())
-                        }
-                        chip.setOnClickListener { view ->
-                            openPageActivity(Uri.parse(view.getTag(R.string.tag_uri).toString()), view.getTag(R.string.tag_index).toString().toLong())
-                        }
-                        chipGroupBookmarks.addView(chip)
-                    }
-            }
-        })*/
 
         viewModel.historyClicked.observe(this, Observer {
             openPageActivity(Uri.parse(it.first), it.second)

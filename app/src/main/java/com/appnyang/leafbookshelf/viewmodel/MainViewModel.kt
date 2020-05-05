@@ -1,7 +1,6 @@
 package com.appnyang.leafbookshelf.viewmodel
 
 import androidx.lifecycle.*
-import com.appnyang.leafbookshelf.data.repository.BookmarkRepository
 import com.appnyang.leafbookshelf.data.repository.CollectionRepository
 import com.appnyang.leafbookshelf.data.repository.HistoryRepository
 import com.appnyang.leafbookshelf.view.main.OnHistoryItemClickListener
@@ -16,7 +15,6 @@ import kotlinx.coroutines.launch
  */
 class MainViewModel(
     historyRepo: HistoryRepository,
-    private val bookmarkRepo: BookmarkRepository,
     collectionRepo: CollectionRepository
 ) : ViewModel() {
 
@@ -27,9 +25,6 @@ class MainViewModel(
     val recentFilePromos = MutableLiveData<List<RecentPromo>>()
 
     val collections = collectionRepo.loadCollections()
-
-    // TODO: Make it work!!
-    val bookmarks = null// bookmarkRepo.loadBookmarks()
 
     init {
         // This empty live data prevents 'Failed to call observer method' error.
@@ -50,18 +45,6 @@ class MainViewModel(
                 }
             }.toList()
         }
-    }
-
-    /**
-     * Delete a bookmark.
-     *
-     * @param uri Uri of the bookmark.
-     * @param title Title of the bookmark to delete.
-     * @param index Char index of the bookmark.
-     */
-    fun deleteBookmark(uri: String, title: String, index: Long) {
-        // TODO: Make it work!!
-        //viewModelScope.launch(Dispatchers.Default) { bookmarkRepo.deleteBookmark(uri, title, index) }
     }
 
     /**

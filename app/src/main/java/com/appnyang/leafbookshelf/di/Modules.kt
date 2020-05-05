@@ -26,7 +26,7 @@ import org.koin.dsl.module
  * ViewModel Module.
  */
 val viewModelModule: Module = module {
-    viewModel { MainViewModel(get(), get(), get()) }
+    viewModel { MainViewModel(get(), get()) }
     viewModel { PageViewModel(get(), get(), get(), get()) }
     viewModel { BookshelfViewModel(get(), get(), get()) }
     viewModel { CollectionViewModel(get()) }
