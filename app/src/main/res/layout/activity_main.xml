@@ -171,8 +171,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_closed_book"
-                android:onClick="onFabClickListener"
-                app:layout_behavior="com.leinardi.android.speeddial.SpeedDialView$ScrollingViewSnackbarBehavior" />
+                android:onClick="onFabClickListener" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
