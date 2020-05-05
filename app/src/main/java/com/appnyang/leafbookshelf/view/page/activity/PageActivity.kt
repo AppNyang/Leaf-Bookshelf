@@ -210,6 +210,10 @@ class PageActivity : AppCompatActivity() {
      * Subscribe live data from ViewModel.
      */
     private fun subscribeObservers() {
+        viewModel.bookWithBookmarks.observe(this, Observer {
+
+        })
+
         // Called when the first chunk is paginated.
         viewModel.pagedBook.observe(this, Observer {
             // Setup ViewPager.

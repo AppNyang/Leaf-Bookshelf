@@ -1,7 +1,9 @@
 package com.appnyang.leafbookshelf.data.model.book
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Book Data Access Object.
@@ -22,6 +24,10 @@ interface BookDao {
     @Transaction
     @Query("SELECT * FROM book WHERE bookId = :id")
     fun getBookWithBookmarks(id: Long): LiveData<BookWithBookmarks>
+
+    @Transaction
+    @Query("SELECT * FROM book WHERE uri = :uri")
+    fun getBookWithBookmarks(uri: Uri): Flow<BookWithBookmarks?>
 
     @Update
     fun update(book: Book)

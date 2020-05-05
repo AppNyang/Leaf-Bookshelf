@@ -13,6 +13,8 @@ import androidx.annotation.WorkerThread
 import androidx.core.text.toSpanned
 import androidx.lifecycle.*
 import com.appnyang.leafbookshelf.core.LeafApp
+import com.appnyang.leafbookshelf.data.model.book.Book
+import com.appnyang.leafbookshelf.data.model.book.BookWithBookmarks
 import com.appnyang.leafbookshelf.data.model.bookmark.Bookmark
 import com.appnyang.leafbookshelf.data.model.bookmark.BookmarkType
 import com.appnyang.leafbookshelf.data.model.history.History
@@ -25,6 +27,7 @@ import com.appnyang.leafbookshelf.util.SingleLiveEvent
 import com.appnyang.leafbookshelf.util.icu.CharsetDetector
 import com.appnyang.leafbookshelf.util.styler.DefaultStyler
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
@@ -46,11 +49,13 @@ class PageViewModel(
     private val bookmarkRepo: BookmarkRepository,
     private val historyRepository: HistoryRepository,
     val sharedPreferenceLiveData: SharedPreferenceLiveData,
-    application: Application)
-    : AndroidViewModel(application) {
+    application: Application
+) : AndroidViewModel(application) {
 
     private val _openedFileName = MutableLiveData<CharSequence>()
     val openedFileName: LiveData<CharSequence> = _openedFileName
+    private val _bookWithBookmarks = MutableLiveData<BookWithBookmarks>()
+    val bookWithBookmarks: LiveData<BookWithBookmarks> = _bookWithBookmarks
 
     private val _pagedBook = MutableLiveData<LinkedList<Spanned>>()
     val pagedBook: LiveData<LinkedList<Spanned>> = _pagedBook
@@ -120,43 +125,44 @@ class PageViewModel(
      * @param charIndex The char position the user last read. If it is lower than 0, read from last-read position.
      */
     fun readBookFromUri(uri: Uri, contentResolver: ContentResolver, layoutParam: StaticLayoutParam, charIndex: Long = 0L) {
-        currentUri = uri.toString()
+        // TODO: Add wrong uri handler.
 
-        // TODO: Make it work!!
-        // Fetch bookmarks.
-        /*if (::bookmarksDbSource.isInitialized) {
-            _bookmarks.removeSource(bookmarksDbSource)
-        }
-        bookmarksDbSource = bookmarkRepo.loadBookmarks(currentUri)
-        // Activity should register unique LiveData to observe,
-        // so we have to use MediatorLiveData instead of MutableLiveData.
-        _bookmarks.addSource(bookmarksDbSource) { _bookmarks.value = it }*/
+        // True when BookWithBookmarks has been loaded.
+        val isBookLoaded = AtomicBoolean(false)
 
         viewModelScope.launch(Dispatchers.Default) {
-            // Get lastReadTime to count the total reading time asynchronously.
-            launch {
-                val history = historyRepository.loadHistory(currentUri)
-                if (history != null) {
-                    lastReadTime = history.readTime
+            // Read a Book with Bookmarks.
+            bookRepo.getBookWithBookmarks(uri).collect {
+                if (it == null) {
+                    // Create a new Book.
+                    val displayName = fetchBookNameFromUri(uri, contentResolver)
+                    val book = Book(uri, displayName, Uri.parse("color:red"), "", 0, DateTime.now())
+                    bookRepo.saveBook(book)
                 }
-                openTime = DateTime.now()
+                else {
+                    if (!isBookLoaded.getAndSet(true)) {
+                        launch {
+                            it.book.lastOpenedAt = DateTime.now()
+
+                            val chunkedText = fetchBookFromUri(uri, contentResolver)
+                            var loadIndex = charIndex
+                            // The charIndex less than 0 means "Open recently read page".
+                            if (charIndex < 0) {
+                                loadIndex = 0
+                                bookWithBookmarks.value?.let { bookWithBookmarks ->
+                                    loadIndex = bookWithBookmarks.bookmarks
+                                        .firstOrNull { bookmark -> bookmark.type == BookmarkType.LAST_READ.name }?.index
+                                        ?: 0
+                                }
+                            }
+
+                            paginateBook(chunkedText, layoutParam, loadIndex)
+                        }
+                    }
+
+                    _bookWithBookmarks.postValue(it)
+                }
             }
-
-            // Read file name asynchronously.
-            launch(Dispatchers.IO) { fetchBookNameFromUri(uri, contentResolver) }
-
-            val chunkedText = fetchBookFromUri(uri, contentResolver)
-
-            var loadIndex = charIndex
-            if (charIndex < 0) {
-                // TODO: Make it work!!
-                /*val lastRead = bookmarkRepo.loadLastRead(currentUri)
-                if (lastRead != null) {
-                    loadIndex = lastRead.index
-                }*/
-            }
-
-            paginateBook(chunkedText, layoutParam, loadIndex)
         }
     }
 
@@ -165,16 +171,28 @@ class PageViewModel(
      *
      * @param uri URI of the file to read.
      * @param contentResolver Android Content Resolver.
+     * @return File name.
      */
     @WorkerThread
-    private fun fetchBookNameFromUri(uri: Uri, contentResolver: ContentResolver) {
+    private suspend fun fetchBookNameFromUri(uri: Uri, contentResolver: ContentResolver): String = withContext(Dispatchers.IO) {
         val cursor: Cursor? = contentResolver.query(uri, null, null, null, null, null)
+        var displayName = ""
 
         cursor?.use {
             if (it.moveToFirst()) {
-                _openedFileName.postValue(it.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME)))
+                displayName = it.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
             }
         }
+
+        displayName.reversed()
+            .split(".", limit = 2).let {
+                if (it.size >= 2) {
+                    it[1]
+                }
+                else {
+                    it[0]
+                }
+            }.reversed()
     }
 
     /**
