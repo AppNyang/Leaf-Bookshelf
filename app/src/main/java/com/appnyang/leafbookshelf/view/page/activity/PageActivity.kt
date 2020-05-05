@@ -2,6 +2,7 @@ package com.appnyang.leafbookshelf.view.page.activity
 
 import android.animation.ObjectAnimator
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Paint
 import android.net.Uri
@@ -27,6 +28,7 @@ import com.appnyang.leafbookshelf.data.model.bookmark.BookmarkType
 import com.appnyang.leafbookshelf.databinding.ActivityPageBinding
 import com.appnyang.leafbookshelf.util.afterMeasured
 import com.appnyang.leafbookshelf.util.transformer.DepthPageTransformer
+import com.appnyang.leafbookshelf.view.book.activity.BookActivity
 import com.appnyang.leafbookshelf.view.page.fragment.PageFragment
 import com.appnyang.leafbookshelf.view.page.fragment.TextAppearancePreferenceFragment
 import com.appnyang.leafbookshelf.viewmodel.PageViewModel
@@ -354,11 +356,16 @@ class PageActivity : AppCompatActivity() {
                 onBackPressed()
             }
             R.id.buttonAddBookmark -> {
-                if (!viewModel.isPaginating.get()) {
+                viewModel.bookWithBookmarks.value?.let {
+                    startActivity(Intent(this, BookActivity::class.java).apply {
+                        putExtra(BookActivity.KEY_BOOK_ID, it.book.bookId)
+                    })
+                }
+                /*if (!viewModel.isPaginating.get()) {
                     viewModel.displayMenu()
                     AddBookmarkDialog(viewModel.pagedBook.value?.get(viewModel.currentPage.value ?: 0)?.substring(0..10)?.trim() ?: "", viewModel)
                         .show(supportFragmentManager, "AddBookmark")
-                }
+                }*/
             }
         }
     }

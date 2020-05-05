@@ -22,6 +22,14 @@ class BookRepository(private val bookDao: BookDao) {
     suspend fun getBooksAsync(): List<Book> = bookDao.getBooksAsync()
 
     /**
+     * Fetch a book with bookmarks given id from the database.
+     *
+     * @param bookId Primary key for searching a book.
+     * @return A BookWithBookmarks if exist or null.
+     */
+    fun getBookWithBookmarks(bookId: Long): Flow<BookWithBookmarks?> = bookDao.getBookWithBookmarks(bookId)
+
+    /**
      * Fetch a book with bookmarks given uri from the database.
      *
      * @param uri Primary key for searching a book.

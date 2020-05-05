@@ -19,5 +19,26 @@ class BookActivity : AppCompatActivity() {
             viewModel = this@BookActivity.viewModel
             lifecycleOwner = this@BookActivity
         }
+
+        readBook()
+    }
+
+    /**
+     * Read the book from the database.
+     */
+    private fun readBook() {
+        val bookId = intent.getLongExtra(KEY_BOOK_ID, -1L)
+
+        // bookId should greater than zero.
+        if (bookId < 0) {
+            finish()
+        }
+        else {
+            viewModel.loadBook(bookId)
+        }
+    }
+
+    companion object {
+        const val KEY_BOOK_ID = "KEY_BOOK_ID"
     }
 }

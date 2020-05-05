@@ -30,7 +30,7 @@ interface BookDao {
 
     @Transaction
     @Query("SELECT * FROM book WHERE bookId = :id")
-    fun getBookWithBookmarks(id: Long): LiveData<BookWithBookmarks>
+    fun getBookWithBookmarks(id: Long): Flow<BookWithBookmarks?>
 
     @Transaction
     @Query("SELECT * FROM book WHERE uri = :uri")
