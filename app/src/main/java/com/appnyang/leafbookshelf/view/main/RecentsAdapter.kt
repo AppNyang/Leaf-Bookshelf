@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.appnyang.leafbookshelf.R
 import com.appnyang.leafbookshelf.databinding.LayoutRecentFileBinding
 import com.appnyang.leafbookshelf.viewmodel.Recents
-import com.appnyang.leafbookshelf.viewmodel.RecentHistory
+import com.appnyang.leafbookshelf.viewmodel.RecentFile
 import com.appnyang.leafbookshelf.viewmodel.RecentPromo
 import com.google.android.gms.ads.formats.UnifiedNativeAdView
 import kotlinx.android.synthetic.main.layout_recent_file_promo.view.*
@@ -48,7 +48,7 @@ class RecentFileAdapter(var items: List<Recents>, private val listener: OnHistor
 
     override fun getItemViewType(position: Int): Int =
         when (items[position]) {
-            is RecentHistory -> 0
+            is RecentFile -> 0
             is RecentPromo -> 1
         }
 
@@ -68,7 +68,7 @@ class RecentFileAdapter(var items: List<Recents>, private val listener: OnHistor
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (val recentFile = items[position]) {
-            is RecentHistory -> (holder as HistoryViewHolder).binding.item = recentFile
+            is RecentFile -> (holder as HistoryViewHolder).binding.item = recentFile
             is RecentPromo -> (holder as PromoViewHolder).displayUnifiedAd(recentFile)
         }
     }

@@ -3,7 +3,7 @@ package com.appnyang.leafbookshelf.data.repository
 import androidx.lifecycle.LiveData
 import com.appnyang.leafbookshelf.data.model.history.History
 import com.appnyang.leafbookshelf.data.model.history.HistoryDao
-import com.appnyang.leafbookshelf.viewmodel.RecentHistory
+import com.appnyang.leafbookshelf.viewmodel.RecentFile
 
 /**
  * History Repository.
@@ -38,5 +38,5 @@ class HistoryRepository(private val historyDao: HistoryDao) {
      *
      * @return A list of 6 items of history.
      */
-    fun loadAsRecentHistory(): LiveData<List<RecentHistory>> = historyDao.getRecentHistory()
+    fun loadAsRecentHistory(): LiveData<List<RecentFile>> = historyDao.getRecentHistory()
 }

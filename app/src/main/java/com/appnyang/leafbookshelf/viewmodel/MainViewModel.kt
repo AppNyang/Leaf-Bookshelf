@@ -53,7 +53,7 @@ class MainViewModel(
     val onHistoryClickListener = OnHistoryItemClickListener { recentFile ->
         viewModelScope.launch(Dispatchers.Default) {
             when (recentFile) {
-                is RecentHistory -> {
+                is RecentFile -> {
                     // TODO: Make it work!!
                     /*val charIndex = bookmarkRepo.loadLastRead(recentFile.uri)?.index ?: 0L
                     _historyClicked.postValue(Pair(recentFile.uri, charIndex))*/
@@ -65,7 +65,7 @@ class MainViewModel(
 
 sealed class Recents
 
-data class RecentHistory(
+data class RecentFile(
     val uri: String,
     val title: String,
     val readTime: Int,

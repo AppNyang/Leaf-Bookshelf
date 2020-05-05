@@ -4,7 +4,7 @@
 
     <data>
         <variable name="listener" type="com.appnyang.leafbookshelf.view.main.OnHistoryItemClickListener" />
-        <variable name="item" type="com.appnyang.leafbookshelf.viewmodel.RecentHistory" />
+        <variable name="item" type="com.appnyang.leafbookshelf.viewmodel.RecentFile" />
     </data>
 
     <androidx.cardview.widget.CardView
