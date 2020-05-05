@@ -35,7 +35,7 @@
             android:text="@string/bookshelf_your" />
 
         <TextView
-            android:id="@+id/textCollection"
+            android:id="@+id/textBook"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
@@ -47,6 +47,191 @@
             android:textColor="@color/darkGray"
             android:letterSpacing="0.03"
             android:text="@string/book_page_title" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textBook"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:orientation="vertical">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textDisplayName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:hint="@string/book_book_name">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:inputType="text"
+                        android:text="@{viewModel.bookWithBookmarks.book.displayName}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Book Cover -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/manage_section_margin"
+                    android:textAppearance="@style/TextAppearance.App.Manage.Title.Section"
+                    android:textColor="@color/lightGray"
+                    android:includeFontPadding="false"
+                    android:text="@string/book_book_cover" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/imageCover"
+                        android:layout_width="@dimen/recent_book_width"
+                        android:layout_height="@dimen/recent_book_height"
+                        android:layout_marginTop="@dimen/manage_section_title_margin"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:shapeAppearance="@style/ShapeAppearance.App.SmallBookCover"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_book_cover_red"
+                        android:contentDescription="@string/book_cover" />
+
+                    <View
+                        android:layout_width="2dp"
+                        android:layout_height="105dp"
+                        app:layout_constraintTop_toTopOf="@id/imageCover"
+                        app:layout_constraintStart_toStartOf="@id/imageCover"
+                        android:layout_marginStart="10dp"
+                        android:background="@color/recentBookLine" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        style="@style/Widget.App.CardView.MenuItem"
+                        android:id="@+id/changeCover"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/imageCover"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginTop="@dimen/manage_section_title_margin">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="@style/TextAppearance.App.Manage.Title"
+                                android:textColor="@color/darkGray"
+                                android:includeFontPadding="false"
+                                android:text="@string/book_title_change_cover" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/manage_section_title_desc_margin"
+                                android:textAppearance="@style/TextAppearance.App.Manage.Desc"
+                                android:textColor="@color/lightGray"
+                                android:includeFontPadding="false"
+                                android:text="@string/book_desc_change_cover" />
+
+                        </LinearLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- Management -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/manage_section_margin"
+                    android:textAppearance="@style/TextAppearance.App.Manage.Title.Section"
+                    android:textColor="@color/lightGray"
+                    android:includeFontPadding="false"
+                    android:text="@string/collection_management" />
+
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.App.CardView.MenuItem"
+                    android:id="@+id/manageChange"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/manage_section_title_margin">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.App.Manage.Title"
+                            android:textColor="@color/darkGray"
+                            android:includeFontPadding="false"
+                            android:text="@string/book_title_change_file" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/manage_section_title_desc_margin"
+                            android:textAppearance="@style/TextAppearance.App.Manage.Desc"
+                            android:textColor="@color/lightGray"
+                            android:includeFontPadding="false"
+                            android:text="@string/book_desc_change_file" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.App.CardView.MenuItem"
+                    android:id="@+id/manageDelete"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/manage_section_title_margin"
+                    android:onClick="@{ _ -> viewModel.deleteBook() }">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.App.Manage.Title"
+                            android:textColor="@color/darkGray"
+                            android:includeFontPadding="false"
+                            android:text="@string/book_title_delete_this" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/manage_section_title_desc_margin"
+                            android:textAppearance="@style/TextAppearance.App.Manage.Desc"
+                            android:textColor="@color/lightGray"
+                            android:includeFontPadding="false"
+                            android:text="@string/book_desc_delete_this" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

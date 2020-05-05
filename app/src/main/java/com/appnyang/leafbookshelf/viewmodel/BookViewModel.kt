@@ -32,4 +32,10 @@ class BookViewModel(private val bookRepo: BookRepository) : ViewModel() {
             }
         }
     }
+
+    /**
+     * Delete this book form the database.
+     */
+    fun deleteBook() {
+    }
 }

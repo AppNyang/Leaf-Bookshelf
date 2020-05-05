@@ -105,6 +105,14 @@
 
     <!-- Your Book -->
     <string name="book_page_title">Book</string>
+    <string name="book_book_name">Book name</string>
+    <string name="book_book_cover">Book cover</string>
+    <string name="book_title_change_cover">Change book cover</string>
+    <string name="book_desc_change_cover">Open a image as book cover. Decorate your book cover with pretty image!</string>
+    <string name="book_title_change_file">Change book file</string>
+    <string name="book_desc_change_file">Link other files with this book. This is useful if the file name has been changed.</string>
+    <string name="book_title_delete_this">Delete this book</string>
+    <string name="book_desc_delete_this">Delete this book from the list. This action does not delete the actual file.</string>
 
     <!-- Dialog -->
     <string name="title_add_bookmark">Add Bookmark</string>
