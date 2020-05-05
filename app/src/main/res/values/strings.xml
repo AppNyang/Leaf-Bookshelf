@@ -99,7 +99,7 @@
     <string name="collection_page_title">Collection</string>
     <string name="collection_management">Management</string>
     <string name="collection_title_empty_this">Empty this collection</string>
-    <string name="collection_desc_empty_this">Remove all books in this collection. this action does not delete the actual file.</string>
+    <string name="collection_desc_empty_this">Remove all books in this collection. This action does not delete the actual file.</string>
     <string name="collection_title_delete_this">Delete this collection</string>
     <string name="collection_desc_delete_this">Empty this collection and delete. This action cannot be undone!</string>
 
