@@ -140,7 +140,7 @@ class PageActivity : AppCompatActivity() {
         super.onStop()
 
         // Save a bookmark.
-        viewModel.saveCurrentBookmark(getString(R.string.last_read), BookmarkType.LAST_READ)
+        viewModel.bookmarkCurrentPage(getString(R.string.last_read), BookmarkType.LAST_READ)
 
         viewModel.saveHistory()
     }
@@ -475,7 +475,7 @@ class AddBookmarkDialog(private val title: String, private val viewModel: PageVi
                 .setTitle(R.string.title_add_bookmark)
                 .setIcon(R.drawable.ic_bookmark)
                 .setPositiveButton(R.string.button_add) { _, _ ->
-                    viewModel.saveCurrentBookmark(view.editBookmarkTitle.text.toString())
+                    viewModel.bookmarkCurrentPage(view.editBookmarkTitle.text.toString())
                 }
                 .setNegativeButton(R.string.button_cancel) { _, _ ->
                     dialog?.cancel()

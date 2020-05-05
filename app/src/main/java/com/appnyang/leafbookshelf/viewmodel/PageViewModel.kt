@@ -572,9 +572,10 @@ class PageViewModel(
      * @param displayName Title of the bookmark.
      * @param type BookmarkType.
      */
-        // TODO: Make it work!!
-        //saveBookmark(Bookmark(currentUri, title, getCurrentTextIndex(), type.name, getCurrentDateTimeAsString()))
     fun bookmarkCurrentPage(displayName: String, type: BookmarkType = BookmarkType.CUSTOM) {
+        bookWithBookmarks.value?.let { bookWithBookmarks ->
+            saveBookmark(Bookmark(bookWithBookmarks.book.bookId, displayName, getCurrentTextIndex(), type.name, DateTime.now()))
+        }
     }
 
     /**
@@ -585,8 +586,7 @@ class PageViewModel(
     private fun saveBookmark(bookmark: Bookmark) {
         if (!isPaginating.get()) {
             viewModelScope.launch(Dispatchers.Default) {
-                // TODO: Make it work!!
-                //bookmarkRepo.saveBookmark(bookmark)
+                bookmarkRepo.saveBookmark(bookmark)
             }
         }
     }
