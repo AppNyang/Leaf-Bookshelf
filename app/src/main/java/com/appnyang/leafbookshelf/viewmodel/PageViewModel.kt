@@ -66,7 +66,6 @@ class PageViewModel(
     private val _showBookmark = MutableLiveData(false)
     val showBookmark: LiveData<Boolean> = _showBookmark
 
-    private lateinit var bookmarksDbSource: LiveData<List<Bookmark>>
     private val _bookmarks = MediatorLiveData<List<Bookmark>>()
     val bookmarks: LiveData<List<Bookmark>> = _bookmarks
 
