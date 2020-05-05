@@ -37,5 +37,12 @@ class BookViewModel(private val bookRepo: BookRepository) : ViewModel() {
      * Delete this book form the database.
      */
     fun deleteBook() {
+        bookWithBookmarks.value?.let {
+            val book = it.book
+
+            viewModelScope.launch(Dispatchers.Default) {
+                bookRepo.deleteBook(book)
+            }
+        }
     }
 }

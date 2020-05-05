@@ -3,6 +3,7 @@ package com.appnyang.leafbookshelf.view.book.activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.appnyang.leafbookshelf.R
 import com.appnyang.leafbookshelf.databinding.ActivityBookBinding
 import com.appnyang.leafbookshelf.viewmodel.BookViewModel
@@ -20,6 +21,13 @@ class BookActivity : AppCompatActivity() {
             viewModel = this@BookActivity.viewModel
             lifecycleOwner = this@BookActivity
         }
+
+        viewModel.bookWithBookmarks.observe(this, Observer {
+            // If it is null, it means the book has been deleted.
+            if (it == null) {
+                finish()
+            }
+        })
 
         setSupportActionBar(toolBar)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back)

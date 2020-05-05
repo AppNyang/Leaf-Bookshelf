@@ -59,4 +59,11 @@ class BookRepository(private val bookDao: BookDao) {
      * @param book Book to update.
      */
     fun updateBook(book: Book) = bookDao.update(book)
+
+    /**
+     * Delete the given book from the database.
+     *
+     * @param book Book to delete.
+     */
+    fun deleteBook(book: Book) = bookDao.delete(book)
 }
