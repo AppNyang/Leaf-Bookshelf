@@ -34,8 +34,8 @@
                 app:layout_constraintTop_toTopOf="@id/readingProgress"
                 app:layout_constraintStart_toStartOf="parent"
                 app:shapeAppearance="@style/ShapeAppearance.App.SmallBookCover"
+                app:cover="@{item.coverUri}"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_book_cover_red"
                 android:contentDescription="@string/book_cover" />
 
             <View

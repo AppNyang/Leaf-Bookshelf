@@ -102,7 +102,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:shapeAppearance="@style/ShapeAppearance.App.SmallBookCover"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/ic_book_cover_red"
+                        app:cover="@{viewModel.bookWithBookmarks.book.coverUri}"
                         android:contentDescription="@string/book_cover" />
 
                     <View
