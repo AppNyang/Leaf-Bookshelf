@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil
 import com.appnyang.leafbookshelf.R
 import com.appnyang.leafbookshelf.databinding.ActivityBookBinding
 import com.appnyang.leafbookshelf.viewmodel.BookViewModel
+import kotlinx.android.synthetic.main.activity_book.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BookActivity : AppCompatActivity() {
@@ -19,6 +20,10 @@ class BookActivity : AppCompatActivity() {
             viewModel = this@BookActivity.viewModel
             lifecycleOwner = this@BookActivity
         }
+
+        setSupportActionBar(toolBar)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         readBook()
     }
