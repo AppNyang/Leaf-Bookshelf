@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.appnyang.leafbookshelf.R
-import com.appnyang.leafbookshelf.data.model.history.History
 import com.appnyang.leafbookshelf.databinding.LayoutBookItemBinding
 import com.google.android.material.card.MaterialCardView
 import kotlinx.android.synthetic.main.layout_book_item.view.*
@@ -17,7 +16,8 @@ import kotlinx.android.synthetic.main.layout_book_item.view.*
  *
  * @author Sangwoo <sangwoo@yesang.com> on 2020-03-19.
  */
-class BookshelfAdapter(
+// TODO:
+/*class BookshelfAdapter(
     var items: List<History>,
     private val listener: OnHistoryItemClickListener,
     private val longClickListener: OnBookshelfItemLongClickListener
@@ -59,4 +59,4 @@ class OnHistoryItemClickListener(private val listener: (card: MaterialCardView, 
 
 class OnBookshelfItemLongClickListener(private val listener: (card: MaterialCardView) -> Unit) {
     fun onItemLongClicked(card: MaterialCardView) { listener(card) }
-}
+}*/

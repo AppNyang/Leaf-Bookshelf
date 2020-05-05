@@ -7,9 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.appnyang.leafbookshelf.data.model.collection.Collection
 import com.appnyang.leafbookshelf.data.repository.BookmarkRepository
 import com.appnyang.leafbookshelf.data.repository.CollectionRepository
-import com.appnyang.leafbookshelf.data.repository.HistoryRepository
-import com.appnyang.leafbookshelf.view.bookshelf.OnBookshelfItemLongClickListener
-import com.appnyang.leafbookshelf.view.bookshelf.OnHistoryItemClickListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -19,12 +16,11 @@ import kotlinx.coroutines.launch
  * @author Sangwoo <sangwoo@yesang.com> on 2020-03-19.
  */
 class BookshelfViewModel(
-    historyRepo: HistoryRepository,
     bookmarkRepo: BookmarkRepository,
     private val collectionRepo: CollectionRepository
 ) : ViewModel()  {
 
-    val books = historyRepo.loadHistory()
+    val books = null//historyRepo.loadHistory()
     val collections = collectionRepo.loadCollections()
 
     private val _historyClicked = MutableLiveData<Pair<String, Long>>()
@@ -36,7 +32,8 @@ class BookshelfViewModel(
     /**
      * On recent files item clicked.
      */
-    val onHistoryClickListener = OnHistoryItemClickListener { card, history ->
+    // TODO:
+    /*val onHistoryClickListener = OnHistoryItemClickListener { card, history ->
         when (state.value) {
             State.Default -> {
                 viewModelScope.launch(Dispatchers.Default) {
@@ -56,7 +53,7 @@ class BookshelfViewModel(
             State.Default -> { _state.value = State.Checked }
             State.Checked -> { _state.value = State.Default }
         }
-    }
+    }*/
 
     /**
      * Create a new collection to DB.

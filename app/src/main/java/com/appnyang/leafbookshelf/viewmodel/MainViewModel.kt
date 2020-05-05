@@ -2,7 +2,6 @@ package com.appnyang.leafbookshelf.viewmodel
 
 import androidx.lifecycle.*
 import com.appnyang.leafbookshelf.data.repository.CollectionRepository
-import com.appnyang.leafbookshelf.data.repository.HistoryRepository
 import com.appnyang.leafbookshelf.view.main.OnHistoryItemClickListener
 import com.google.android.gms.ads.formats.UnifiedNativeAd
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +13,6 @@ import kotlinx.coroutines.launch
  * @author Sangwoo <sangwoo@yesang.com> on 2020-01-20.
  */
 class MainViewModel(
-    historyRepo: HistoryRepository,
     collectionRepo: CollectionRepository
 ) : ViewModel() {
 

@@ -79,7 +79,7 @@ class BookshelfActivity : AppCompatActivity() {
                     BottomSheetBehavior.from(bottomSheetMenu).state = BottomSheetBehavior.STATE_HIDDEN
 
                     recyclerHistories.children.forEach { child ->
-                        child.cardBookItem.isChecked = false
+                        //child.cardBookItem.isChecked = false
                     }
                 }
                 BookshelfViewModel.State.Checked -> { BottomSheetBehavior.from(bottomSheetMenu).state = BottomSheetBehavior.STATE_EXPANDED }
