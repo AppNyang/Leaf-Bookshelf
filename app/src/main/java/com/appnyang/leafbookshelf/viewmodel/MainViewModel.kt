@@ -29,10 +29,10 @@ class MainViewModel(
     val collections = collectionRepo.loadCollections()
 
     init {
-        /*recents.addSource(
+        recents.addSource(
             bookRepo.getRecentBooks()
                 .asLiveData(Dispatchers.Default + viewModelScope.coroutineContext)
-        ) { recents.value = it }*/
+        ) { recents.value = it }
         /*recentFiles.addSource(recentFilePromos) {
             // Called when all ads has been loaded.
             recentFiles.value = sequence {

@@ -1,10 +1,10 @@
 package com.appnyang.leafbookshelf.data.repository
 
 import android.net.Uri
-import androidx.lifecycle.LiveData
 import com.appnyang.leafbookshelf.data.model.book.Book
 import com.appnyang.leafbookshelf.data.model.book.BookDao
 import com.appnyang.leafbookshelf.data.model.book.BookWithBookmarks
+import com.appnyang.leafbookshelf.viewmodel.RecentFile
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -21,6 +21,14 @@ class BookRepository(private val bookDao: BookDao) {
      * @return A BookWithBookmarks if exist or null.
      */
     fun getBookWithBookmarks(uri: Uri): Flow<BookWithBookmarks?> = bookDao.getBookWithBookmarks(uri)
+
+    /**
+     * Fetch books sorted in descending order by lastOpenedAt with given limit.
+     *
+     * @param limit The number of rows to fetch.
+     * @return Flow of Book if exist or null.
+     */
+    fun getRecentBooks(limit: Int = 6): Flow<List<RecentFile>?> = bookDao.getRecentBooks(limit)
 
     /**
      * Insert a new Book.
