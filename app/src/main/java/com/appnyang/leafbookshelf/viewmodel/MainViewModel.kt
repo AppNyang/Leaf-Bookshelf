@@ -35,7 +35,7 @@ class MainViewModel(
         ) { recents.value = it }
         recents.addSource(recentPromos) {
             // Called when all books and ads has been loaded.
-            recents.value = sequence<Recents> {
+            recents.value = sequence {
                 // recents should contain recent books.
                 recents.value?.let { files ->
                     val promo = it.iterator()
