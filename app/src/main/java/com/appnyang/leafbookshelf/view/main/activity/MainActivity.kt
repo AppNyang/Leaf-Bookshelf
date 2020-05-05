@@ -30,6 +30,7 @@ import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.formats.UnifiedNativeAd
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -176,7 +177,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onFabClickListener(view: View) {
-        openFromStorage()
+        if (view is FloatingActionButton) {
+            openFromStorage()
+        }
     }
 
     /**
