@@ -17,25 +17,27 @@ interface BookmarkDao {
     @Query("SELECT * FROM bookmark WHERE ownerBookId = :bookId")
     fun getBookmarks(bookId: Long): LiveData<List<Bookmark>>
 
+    @Query("SELECT * FROM bookmark WHERE ownerBookId = :bookId AND type = \"LAST_READ\"")
+    fun getLastRead(bookId: Long): Bookmark?
+
+    @Transaction
+    fun upsertLastRead(bookmark: Bookmark) {
+        if (bookmark.type == BookmarkType.LAST_READ.name) {
+            val lastRead = getLastRead(bookmark.ownerBookId)
+            if (lastRead != null) {
+                bookmark.bookmarkId = lastRead.bookmarkId
+            }
+            insert(bookmark)
+        }
+    }
+
     @Update
     fun update(bookmark: Bookmark)
 
     @Delete
     fun delete(bookmark: Bookmark)
 
-    /*@Query("SELECT * FROM bookmark WHERE ownerBookId = :bookId AND type = \"LAST_READ\"")
-    fun getLastRead(bookId: Long): Bookmark?
-
-    @Transaction
-    fun upsertLastRead(bookId: Long) {
-        val lastRead = getLastRead(bookId)
-        if (lastRead != null) {
-            bookmark.id = lastRead.id
-        }
-        insert(bookmark)
-    }
-
-    @Query("DELETE FROM bookmarks WHERE uri = :uri AND title = :title AND \"index\" = :index")
+    /*@Query("DELETE FROM bookmarks WHERE uri = :uri AND title = :title AND \"index\" = :index")
     fun deleteByIndex(uri: String, title: String, index: Long)
 
     @Query("DELETE FROM bookmarks")

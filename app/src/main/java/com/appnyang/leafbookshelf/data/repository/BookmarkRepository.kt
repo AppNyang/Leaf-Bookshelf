@@ -1,6 +1,5 @@
 package com.appnyang.leafbookshelf.data.repository
 
-import androidx.lifecycle.LiveData
 import com.appnyang.leafbookshelf.data.model.bookmark.Bookmark
 import com.appnyang.leafbookshelf.data.model.bookmark.BookmarkDao
 import com.appnyang.leafbookshelf.data.model.bookmark.BookmarkType
@@ -39,14 +38,14 @@ class BookmarkRepository(private val bookmarkDao: BookmarkDao) {
      *
      * @param bookmark A Bookmark to save.
      */
-    /*fun saveBookmark(bookmark: Bookmark) {
+    fun saveBookmark(bookmark: Bookmark) {
         if (bookmark.type == BookmarkType.LAST_READ.name) {
             bookmarkDao.upsertLastRead(bookmark)
         }
         else {
             bookmarkDao.insert(bookmark)
         }
-    }*/
+    }
 
     /**
      * Delete a bookmark from the database.
