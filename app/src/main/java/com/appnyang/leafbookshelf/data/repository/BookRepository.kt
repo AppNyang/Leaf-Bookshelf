@@ -15,6 +15,13 @@ import kotlinx.coroutines.flow.Flow
 class BookRepository(private val bookDao: BookDao) {
 
     /**
+     * Fetch all books from the database.
+     *
+     * @return A list of books.
+     */
+    suspend fun getBooksAsync(): List<Book> = bookDao.getBooksAsync()
+
+    /**
      * Fetch a book with bookmarks given uri from the database.
      *
      * @param uri Primary key for searching a book.

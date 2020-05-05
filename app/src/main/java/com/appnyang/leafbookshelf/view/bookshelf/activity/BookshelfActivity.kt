@@ -10,6 +10,7 @@ import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.appnyang.leafbookshelf.R
+import com.appnyang.leafbookshelf.data.model.CollectionWithBooks
 import com.appnyang.leafbookshelf.data.model.collection.Collection
 import com.appnyang.leafbookshelf.databinding.ActivityBookshelfBinding
 import com.appnyang.leafbookshelf.view.collection.activity.CollectionActivity
@@ -18,6 +19,7 @@ import com.appnyang.leafbookshelf.viewmodel.BookshelfViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_bookshelf.*
 import kotlinx.android.synthetic.main.dialog_new_collection.view.*
 import kotlinx.android.synthetic.main.layout_book_item.view.*
@@ -55,6 +57,15 @@ class BookshelfActivity : AppCompatActivity() {
         setSupportActionBar(toolBar)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        tabLayout.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                viewModel.requestBooks(tab?.tag as Long)
+            }
+        })
     }
 
     /**
@@ -68,8 +79,10 @@ class BookshelfActivity : AppCompatActivity() {
             })
         })
 
-        viewModel.collections.observe(this, Observer { collections ->
-            updateTabs(collections)
+        viewModel.collectionsWithBooks.observe(this, Observer { collections ->
+            if (collections != null) {
+                updateTabs(collections)
+            }
         })
 
         // When changed stat of the activity.
@@ -78,8 +91,8 @@ class BookshelfActivity : AppCompatActivity() {
                 BookshelfViewModel.State.Default -> {
                     BottomSheetBehavior.from(bottomSheetMenu).state = BottomSheetBehavior.STATE_HIDDEN
 
-                    recyclerHistories.children.forEach { child ->
-                        //child.cardBookItem.isChecked = false
+                    recyclerBooks.children.forEach { child ->
+                        child.cardBookItem.isChecked = false
                     }
                 }
                 BookshelfViewModel.State.Checked -> { BottomSheetBehavior.from(bottomSheetMenu).state = BottomSheetBehavior.STATE_EXPANDED }
@@ -92,7 +105,7 @@ class BookshelfActivity : AppCompatActivity() {
      *
      * @param collections A list of book collections.
      */
-    private fun updateTabs(collections: List<Collection>) {
+    private fun updateTabs(collections: List<CollectionWithBooks>) {
         tabLayout.removeAllTabs()
 
         // Add "ALL" tab.
@@ -102,10 +115,10 @@ class BookshelfActivity : AppCompatActivity() {
             tabLayout.addTab(tab)
         }
 
-        collections.forEach { collection ->
+        collections.forEach { collectionWithBooks ->
             tabLayout.newTab().let { tab ->
-                tab.text = collection.title
-                tab.tag = collection.collectionId
+                tab.text = collectionWithBooks.collection.title
+                tab.tag = collectionWithBooks.collection.collectionId
                 tabLayout.addTab(tab)
             }
         }
@@ -149,10 +162,9 @@ class BookshelfActivity : AppCompatActivity() {
                     .setPositiveButton(resources.getString(R.string.button_add)) { _, _ ->
                         val title = layout.textCollectionName.editText?.text.toString()
                         if (title.isNotBlank()) {
-                            // TODO: Make it work!!
-                            /*viewModel.createCollection(
-                                Collection(title, Color.parseColor("#64D992"), mutableListOf())
-                            )*/
+                            viewModel.createCollection(
+                                Collection(1L, title, Color.parseColor("#64D992"))
+                            )
                         }
                     }
                     .show()

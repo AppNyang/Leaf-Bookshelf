@@ -1,12 +1,12 @@
 package com.appnyang.leafbookshelf.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import com.appnyang.leafbookshelf.data.model.book.Book
 import com.appnyang.leafbookshelf.data.model.collection.Collection
-import com.appnyang.leafbookshelf.data.repository.BookmarkRepository
+import com.appnyang.leafbookshelf.data.repository.BookRepository
 import com.appnyang.leafbookshelf.data.repository.CollectionRepository
+import com.appnyang.leafbookshelf.view.bookshelf.OnBookshelfItemClickListener
+import com.appnyang.leafbookshelf.view.bookshelf.OnBookshelfItemLongClickListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -16,12 +16,16 @@ import kotlinx.coroutines.launch
  * @author Sangwoo <sangwoo@yesang.com> on 2020-03-19.
  */
 class BookshelfViewModel(
-    bookmarkRepo: BookmarkRepository,
-    private val collectionRepo: CollectionRepository
+    private val collectionRepo: CollectionRepository,
+    private val bookRepo: BookRepository
 ) : ViewModel()  {
 
-    val books = null//historyRepo.loadHistory()
-    val collections = collectionRepo.loadCollections()
+    val collectionsWithBooks = collectionRepo.getCollectionsWithBooks()
+        .asLiveData(Dispatchers.Default + viewModelScope.coroutineContext)
+
+    // List of books to display given collection.
+    private val _books = MutableLiveData<List<Book>>()
+    val books: LiveData<List<Book>> = _books
 
     private val _historyClicked = MutableLiveData<Pair<String, Long>>()
     val historyClicked: LiveData<Pair<String, Long>> = _historyClicked
@@ -30,10 +34,29 @@ class BookshelfViewModel(
     val state: LiveData<State> = _state
 
     /**
-     * On recent files item clicked.
+     * Find books from collectionWithBooks and set books to _books live data to show.
+     *
+     * @param collectionId Collection id to find.
      */
-    // TODO:
-    /*val onHistoryClickListener = OnHistoryItemClickListener { card, history ->
+    fun requestBooks(collectionId: Long) {
+        viewModelScope.launch {
+            if (collectionId < 0) {
+                launch(Dispatchers.Default) {
+                    _books.postValue(bookRepo.getBooksAsync())
+                }
+            }
+            else {
+                collectionsWithBooks.value
+                    ?.firstOrNull { it.collection.collectionId == collectionId }
+                    ?.let { _books.value = it.books }
+            }
+        }
+    }
+
+    /**
+     * On bookshelf book item clicked.
+     */
+    val onBookshelfClickListener = OnBookshelfItemClickListener { card, history ->
         when (state.value) {
             State.Default -> {
                 viewModelScope.launch(Dispatchers.Default) {
@@ -53,7 +76,7 @@ class BookshelfViewModel(
             State.Default -> { _state.value = State.Checked }
             State.Checked -> { _state.value = State.Default }
         }
-    }*/
+    }
 
     /**
      * Create a new collection to DB.

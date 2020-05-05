@@ -44,7 +44,7 @@ interface CollectionWithBooksDao {
 
     @Transaction
     @Query("SELECT * FROM collection")
-    fun getCollectionsWithBooks(): Flow<List<CollectionWithBooks>?>
+    fun getCollectionsWithBooks(): Flow<List<CollectionWithBooks>>
 
     @Query("SELECT * FROM collectionbookcrossref")
     fun getRelations(): LiveData<List<CollectionBookCrossRef>>

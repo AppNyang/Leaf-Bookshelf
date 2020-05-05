@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.appnyang.leafbookshelf.R
+import com.appnyang.leafbookshelf.data.model.book.Book
 import com.appnyang.leafbookshelf.databinding.LayoutBookItemBinding
 import com.google.android.material.card.MaterialCardView
 import kotlinx.android.synthetic.main.layout_book_item.view.*
@@ -16,10 +17,9 @@ import kotlinx.android.synthetic.main.layout_book_item.view.*
  *
  * @author Sangwoo <sangwoo@yesang.com> on 2020-03-19.
  */
-// TODO:
-/*class BookshelfAdapter(
-    var items: List<History>,
-    private val listener: OnHistoryItemClickListener,
+class BookshelfAdapter(
+    var items: List<Book>,
+    private val listener: OnBookshelfItemClickListener,
     private val longClickListener: OnBookshelfItemLongClickListener
 ) : RecyclerView.Adapter<BookshelfAdapter.BookshelfViewHolder>() {
 
@@ -53,10 +53,10 @@ import kotlinx.android.synthetic.main.layout_book_item.view.*
     }
 }
 
-class OnHistoryItemClickListener(private val listener: (card: MaterialCardView, history: History) -> Unit) {
-    fun onItemClicked(view: View, history: History) { listener(view as MaterialCardView, history) }
+class OnBookshelfItemClickListener(private val listener: (card: MaterialCardView, book: Book) -> Unit) {
+    fun onItemClicked(view: View, book: Book) { listener(view as MaterialCardView, book) }
 }
 
 class OnBookshelfItemLongClickListener(private val listener: (card: MaterialCardView) -> Unit) {
     fun onItemLongClicked(card: MaterialCardView) { listener(card) }
-}*/
+}

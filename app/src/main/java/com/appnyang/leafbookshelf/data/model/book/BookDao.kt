@@ -19,6 +19,9 @@ interface BookDao {
     @Query("SELECT * FROM book")
     fun getBooks(): LiveData<List<Book>>
 
+    @Query("SELECT * FROM book")
+    suspend fun getBooksAsync(): List<Book>
+
     @Query("SELECT * FROM book WHERE bookId = :id")
     fun getBook(id: Long): LiveData<Book>
 

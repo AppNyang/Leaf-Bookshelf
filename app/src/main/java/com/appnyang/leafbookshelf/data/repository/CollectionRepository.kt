@@ -36,7 +36,7 @@ class CollectionRepository(
      *
      * @return A Flow list of CollectionWithBooks if exist or null.
      */
-    fun getCollectionsWithBooks(): Flow<List<CollectionWithBooks>?> = collectionWithBooksDao.getCollectionsWithBooks()
+    fun getCollectionsWithBooks(): Flow<List<CollectionWithBooks>> = collectionWithBooksDao.getCollectionsWithBooks()
 
     /**
      * Create a new collection to DB.
