@@ -25,6 +25,8 @@
     <string name="view_all">VIEW ALL</string>
     <string name="my_bookmarks">My bookmarks</string>
     <string name="book_cover">Book Cover</string>
+    <string name="few_seconds_read">few seconds read</string>
+    <string name="few_seconds_ago">few seconds ago</string>
     <plurals name="read_hours">
         <item quantity="one">%d hour</item>
         <item quantity="other">%d hours</item>

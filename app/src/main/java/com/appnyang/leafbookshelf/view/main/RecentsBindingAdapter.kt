@@ -42,7 +42,12 @@ fun setReadableReadTime(view: TextView, readTime: Int, lastOpenedAt: DateTime) {
     if (hours != 0) {
         readableTime = view.resources.getQuantityString(R.plurals.read_hours, hours, hours)
     }
-    readableTime += view.resources.getQuantityString(R.plurals.read_mins, mins, mins)
+    if (mins != 0) {
+        readableTime += view.resources.getQuantityString(R.plurals.read_mins, mins, mins)
+    }
+    if (hours == 0 && mins == 0) {
+        readableTime = view.resources.getString(R.string.few_seconds_read)
+    }
 
     val duration = Interval(lastOpenedAt, DateTime.now()).toDuration()
 
@@ -53,6 +58,9 @@ fun setReadableReadTime(view: TextView, readTime: Int, lastOpenedAt: DateTime) {
         }
         duration.standardHours > 0 -> {
             view.resources.getQuantityString(R.plurals.readable_hours_ago, duration.standardHours.toInt(), duration.standardHours.toInt())
+        }
+        duration.standardDays == 0L && duration.standardHours == 0L && duration.standardMinutes == 0L -> {
+            view.resources.getString(R.string.few_seconds_ago)
         }
         else -> {
             view.resources.getQuantityString(R.plurals.readable_mins_ago, duration.standardMinutes.toInt(), duration.standardMinutes.toInt())
