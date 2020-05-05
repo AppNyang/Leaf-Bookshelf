@@ -4,7 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.*
 import com.appnyang.leafbookshelf.data.repository.BookRepository
 import com.appnyang.leafbookshelf.data.repository.CollectionRepository
-import com.appnyang.leafbookshelf.view.main.OnHistoryItemClickListener
+import com.appnyang.leafbookshelf.view.main.OnRecentsItemClickListener
 import com.google.android.gms.ads.formats.UnifiedNativeAd
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -53,13 +53,13 @@ class MainViewModel(
     /**
      * On recent files item clicked.
      */
-    val onHistoryClickListener = OnHistoryItemClickListener { recentFile ->
+    val onRecentsClickListener = OnRecentsItemClickListener { recents ->
         viewModelScope.launch(Dispatchers.Default) {
-            when (recentFile) {
+            when (recents) {
                 is RecentFile -> {
                     // TODO: Make it work!!
-                    /*val charIndex = bookmarkRepo.loadLastRead(recentFile.uri)?.index ?: 0L
-                    _historyClicked.postValue(Pair(recentFile.uri, charIndex))*/
+                    /*val charIndex = bookmarkRepo.loadLastRead(recents.uri)?.index ?: 0L
+                    _historyClicked.postValue(Pair(recents.uri, charIndex))*/
                 }
             }
         }

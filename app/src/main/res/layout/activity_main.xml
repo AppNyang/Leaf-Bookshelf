@@ -114,8 +114,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                            app:recent_files="@{viewModel.recents}"
-                            app:item_click_listener="@{viewModel.onHistoryClickListener}"
+                            app:recents="@{viewModel.recents}"
+                            app:item_click_listener="@{viewModel.onRecentsClickListener}"
                             tools:listitem="@layout/layout_recent_file" />
 
                         <TextView

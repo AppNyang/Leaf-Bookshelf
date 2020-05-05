@@ -19,9 +19,9 @@ import kotlinx.android.synthetic.main.layout_recent_promo.view.*
  *
  * @author Sangwoo <sangwoo@yesang.com> on 2020-02-22.
  */
-class RecentFileAdapter(var items: List<Recents>, private val listener: OnHistoryItemClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RecentFileAdapter(var items: List<Recents>, private val listener: OnRecentsItemClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    inner class HistoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class FileViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding: LayoutRecentFileBinding = DataBindingUtil.bind<LayoutRecentFileBinding>(view)!!.apply {
             listener = this@RecentFileAdapter.listener
         }
@@ -57,7 +57,7 @@ class RecentFileAdapter(var items: List<Recents>, private val listener: OnHistor
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == 0) {
-            HistoryViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.layout_recent_file, parent, false))
+            FileViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.layout_recent_file, parent, false))
         }
         else {
             PromoViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.layout_recent_promo, parent, false))
@@ -68,12 +68,12 @@ class RecentFileAdapter(var items: List<Recents>, private val listener: OnHistor
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (val recentFile = items[position]) {
-            is RecentFile -> (holder as HistoryViewHolder).binding.item = recentFile
+            is RecentFile -> (holder as FileViewHolder).binding.item = recentFile
             is RecentPromo -> (holder as PromoViewHolder).displayUnifiedAd(recentFile)
         }
     }
 }
 
-class OnHistoryItemClickListener(private val listener: (recentFile: Recents) -> Unit) {
-    fun onItemClicked(recentFile: Recents) { listener(recentFile) }
+class OnRecentsItemClickListener(private val listener: (recents: Recents) -> Unit) {
+    fun onItemClicked(recents: Recents) { listener(recents) }
 }

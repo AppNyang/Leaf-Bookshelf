@@ -3,7 +3,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable name="listener" type="com.appnyang.leafbookshelf.view.main.OnHistoryItemClickListener" />
+        <variable name="listener" type="com.appnyang.leafbookshelf.view.main.OnRecentsItemClickListener" />
         <variable name="item" type="com.appnyang.leafbookshelf.viewmodel.RecentFile" />
     </data>
 

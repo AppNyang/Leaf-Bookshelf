@@ -9,8 +9,8 @@ import com.appnyang.leafbookshelf.viewmodel.Recents
  *
  * @author Sangwoo <sangwoo@yesang.com> on 2020-02-22.
  */
-@BindingAdapter("recent_files", "item_click_listener")
-fun setRecentFiles(view: RecyclerView, items: List<Recents>?, listener: OnHistoryItemClickListener) {
+@BindingAdapter("recents", "item_click_listener")
+fun setRecents(view: RecyclerView, items: List<Recents>?, listener: OnRecentsItemClickListener) {
     if (items != null) {
         view.adapter?.let {
             if (it is RecentFileAdapter) {
