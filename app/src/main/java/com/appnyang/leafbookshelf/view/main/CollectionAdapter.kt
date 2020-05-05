@@ -6,16 +6,15 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.appnyang.leafbookshelf.R
-import com.appnyang.leafbookshelf.data.model.collection.Collection
+import com.appnyang.leafbookshelf.data.model.CollectionWithBooks
 import com.appnyang.leafbookshelf.databinding.LayoutCollectionBinding
-import java.util.*
 
 /**
  * Adapter to show book collections with RecyclerView.
  *
  * @author Sangwoo <sangwoo@yesang.com> on 2020-04-25.
  */
-class CollectionAdapter(var items: List<Collection>) : RecyclerView.Adapter<CollectionAdapter.ViewHolder>() {
+class CollectionAdapter(var items: List<CollectionWithBooks>) : RecyclerView.Adapter<CollectionAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding: LayoutCollectionBinding = DataBindingUtil.bind(view)!!
@@ -31,6 +30,6 @@ class CollectionAdapter(var items: List<Collection>) : RecyclerView.Adapter<Coll
         holder.binding.item = items[position]
 
         // TODO: Make it work correctly.
-        holder.binding.counter = "0 Books"//holder.bookCountTemplate.format(items[position].books.size)
+        holder.binding.counter = holder.bookCountTemplate.format(items[position].books.size)
     }
 }

@@ -1,9 +1,11 @@
 package com.appnyang.leafbookshelf.data.repository
 
 import androidx.lifecycle.LiveData
+import com.appnyang.leafbookshelf.data.model.CollectionWithBooks
 import com.appnyang.leafbookshelf.data.model.CollectionWithBooksDao
 import com.appnyang.leafbookshelf.data.model.collection.Collection
 import com.appnyang.leafbookshelf.data.model.collection.CollectionDao
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Collection Repository.
@@ -28,6 +30,13 @@ class CollectionRepository(
      * @return A Collection.
      */
     fun loadCollection(id: Long): LiveData<Collection> = collectionDao.getCollection(id)
+
+    /**
+     * Fetch all collections with books form the database.
+     *
+     * @return A Flow list of CollectionWithBooks if exist or null.
+     */
+    fun getCollectionsWithBooks(): Flow<List<CollectionWithBooks>?> = collectionWithBooksDao.getCollectionsWithBooks()
 
     /**
      * Create a new collection to DB.

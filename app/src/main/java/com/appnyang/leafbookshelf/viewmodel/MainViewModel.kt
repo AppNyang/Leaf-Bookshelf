@@ -26,7 +26,8 @@ class MainViewModel(
     val recents = MediatorLiveData<List<Recents>>()
     val recentPromos = MutableLiveData<List<RecentPromo>>()
 
-    val collections = collectionRepo.loadCollections()
+    val collectionsWithBooks = collectionRepo.getCollectionsWithBooks()
+        .asLiveData(Dispatchers.Default + viewModelScope.coroutineContext)
 
     init {
         recents.addSource(

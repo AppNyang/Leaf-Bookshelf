@@ -4,7 +4,7 @@ import android.util.TypedValue
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.appnyang.leafbookshelf.data.model.collection.Collection
+import com.appnyang.leafbookshelf.data.model.CollectionWithBooks
 import com.appnyang.leafbookshelf.util.MarginDecoration
 
 /**
@@ -13,7 +13,7 @@ import com.appnyang.leafbookshelf.util.MarginDecoration
  * @author Sangwoo <sangwoo@yesang.com> on 2020-04-25.
  */
 @BindingAdapter("collections")
-fun setCollections(view: RecyclerView, items: List<Collection>?) {
+fun setCollections(view: RecyclerView, items: List<CollectionWithBooks>?) {
     if (items != null) {
         view.adapter?.let {
             if (it is CollectionAdapter) {

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.appnyang.leafbookshelf.data.model.book.Book
 import com.appnyang.leafbookshelf.data.model.collection.Collection
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Relationship Collection and Book.
@@ -40,6 +41,10 @@ interface CollectionWithBooksDao {
     @Transaction
     @Query("SELECT * FROM collection WHERE collectionId = :id")
     fun getCollectionWithBooks(id: Long): LiveData<CollectionWithBooks>
+
+    @Transaction
+    @Query("SELECT * FROM collection")
+    fun getCollectionsWithBooks(): Flow<List<CollectionWithBooks>?>
 
     @Query("SELECT * FROM collectionbookcrossref")
     fun getRelations(): LiveData<List<CollectionBookCrossRef>>

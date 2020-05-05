@@ -132,7 +132,7 @@
                             android:scrollbars="none"
                             android:orientation="horizontal"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                            app:collections="@{viewModel.collections}"
+                            app:collections="@{viewModel.collectionsWithBooks}"
                             tools:listitem="@layout/layout_collection" />
                     </LinearLayout>
 
