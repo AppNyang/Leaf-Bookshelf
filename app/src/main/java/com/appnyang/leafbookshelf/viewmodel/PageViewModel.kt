@@ -16,6 +16,7 @@ import com.appnyang.leafbookshelf.core.LeafApp
 import com.appnyang.leafbookshelf.data.model.bookmark.Bookmark
 import com.appnyang.leafbookshelf.data.model.bookmark.BookmarkType
 import com.appnyang.leafbookshelf.data.model.history.History
+import com.appnyang.leafbookshelf.data.repository.BookRepository
 import com.appnyang.leafbookshelf.data.repository.BookmarkRepository
 import com.appnyang.leafbookshelf.data.repository.HistoryRepository
 import com.appnyang.leafbookshelf.service.TtsService
@@ -41,6 +42,7 @@ import java.util.concurrent.atomic.AtomicBoolean
  * @author Sangwoo <sangwoo@yesang.com> on 2020-01-20.
  */
 class PageViewModel(
+    private val bookRepo: BookRepository,
     private val bookmarkRepo: BookmarkRepository,
     private val historyRepository: HistoryRepository,
     val sharedPreferenceLiveData: SharedPreferenceLiveData,

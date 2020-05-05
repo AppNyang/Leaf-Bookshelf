@@ -2,6 +2,7 @@ package com.appnyang.leafbookshelf.di
 
 import androidx.preference.PreferenceManager
 import com.appnyang.leafbookshelf.data.model.AppDatabase
+import com.appnyang.leafbookshelf.data.repository.BookRepository
 import com.appnyang.leafbookshelf.data.repository.BookmarkRepository
 import com.appnyang.leafbookshelf.data.repository.CollectionRepository
 import com.appnyang.leafbookshelf.data.repository.HistoryRepository
@@ -26,13 +27,14 @@ import org.koin.dsl.module
  */
 val viewModelModule: Module = module {
     viewModel { MainViewModel(get(), get(), get()) }
-    viewModel { PageViewModel(get(), get(), get(), get()) }
+    viewModel { PageViewModel(get(), get(), get(), get(), get()) }
     viewModel { BookshelfViewModel(get(), get(), get()) }
     viewModel { CollectionViewModel(get()) }
 
     single { BookmarkRepository(get()) }
     single { HistoryRepository(get()) }
     single { CollectionRepository(get()) }
+    single { BookRepository(get()) }
 }
 
 /**
@@ -43,6 +45,7 @@ val roomModule: Module = module {
     single { get<AppDatabase>().getBookmarkDao() }
     single { get<AppDatabase>().getHistoryDao() }
     single { get<AppDatabase>().getCollectionDao() }
+    single { get<AppDatabase>().getBookDao() }
 }
 
 /**
