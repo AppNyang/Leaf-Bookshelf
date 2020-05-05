@@ -20,8 +20,8 @@ class MainViewModel(
     collectionRepo: CollectionRepository
 ) : ViewModel() {
 
-    private val _historyClicked = MutableLiveData<Pair<String, Long>>()
-    val historyClicked: LiveData<Pair<String, Long>> = _historyClicked
+    private val _historyClicked = MutableLiveData<Pair<Uri, Long>>()
+    val historyClicked: LiveData<Pair<Uri, Long>> = _historyClicked
 
     val recents = MediatorLiveData<List<Recents>>()
     val recentPromos = MutableLiveData<List<RecentPromo>>()
@@ -58,9 +58,7 @@ class MainViewModel(
         viewModelScope.launch(Dispatchers.Default) {
             when (recents) {
                 is RecentFile -> {
-                    // TODO: Make it work!!
-                    /*val charIndex = bookmarkRepo.loadLastRead(recents.uri)?.index ?: 0L
-                    _historyClicked.postValue(Pair(recents.uri, charIndex))*/
+                    _historyClicked.postValue(Pair(recents.uri, -1))
                 }
             }
         }

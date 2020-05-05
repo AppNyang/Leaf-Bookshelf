@@ -122,7 +122,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         viewModel.historyClicked.observe(this, Observer {
-            openPageActivity(Uri.parse(it.first), it.second)
+            openPageActivity(it.first, it.second)
         })
     }
 
