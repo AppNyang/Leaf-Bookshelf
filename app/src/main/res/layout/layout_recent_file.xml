@@ -65,7 +65,7 @@
                 android:ellipsize="end"
                 android:textAppearance="@style/TextAppearance.Main.Recent.Title"
                 android:includeFontPadding="false"
-                android:text="@{item.title}" />
+                android:text="@{item.displayName}" />
 
             <TextView
                 android:id="@+id/textReadTime"

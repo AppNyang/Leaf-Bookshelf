@@ -1,5 +1,6 @@
 package com.appnyang.leafbookshelf.viewmodel
 
+import android.net.Uri
 import androidx.lifecycle.*
 import com.appnyang.leafbookshelf.data.repository.BookRepository
 import com.appnyang.leafbookshelf.data.repository.CollectionRepository
@@ -7,6 +8,7 @@ import com.appnyang.leafbookshelf.view.main.OnHistoryItemClickListener
 import com.google.android.gms.ads.formats.UnifiedNativeAd
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.joda.time.DateTime
 
 /**
  * Main View Model.
@@ -67,12 +69,12 @@ class MainViewModel(
 sealed class Recents
 
 data class RecentFile(
-    val uri: String,
-    val title: String,
-    val readTime: Int,
-    val lastOpen: String,
+    val uri: Uri,
+    val displayName: String,
+    val coverUri: Uri,
     val quote: String,
-    val cover: String
+    val readTime: Int,
+    val lastOpenedAt: DateTime
 ) : Recents()
 
 data class RecentPromo(
