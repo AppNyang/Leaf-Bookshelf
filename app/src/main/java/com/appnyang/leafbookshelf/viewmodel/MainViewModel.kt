@@ -24,7 +24,7 @@ class MainViewModel(
     val historyClicked: LiveData<Pair<String, Long>> = _historyClicked
 
     val recents = MediatorLiveData<List<Recents>>()
-    val recentFilePromos = MutableLiveData<List<RecentPromo>>()
+    val recentPromos = MutableLiveData<List<RecentPromo>>()
 
     val collections = collectionRepo.loadCollections()
 
@@ -33,21 +33,22 @@ class MainViewModel(
             bookRepo.getRecentBooks()
                 .asLiveData(Dispatchers.Default + viewModelScope.coroutineContext)
         ) { recents.value = it }
-        /*recentFiles.addSource(recentFilePromos) {
-            // Called when all ads has been loaded.
-            recentFiles.value = sequence {
-                recentFiles.value?.let { files ->
+        recents.addSource(recentPromos) {
+            // Called when all books and ads has been loaded.
+            recents.value = sequence<Recents> {
+                // recents should contain recent books.
+                recents.value?.let { files ->
                     val promo = it.iterator()
                     files.forEachIndexed { index, recentFile ->
-                        // Add promo for every multiple of 3.
-                        if (index % 3 == 0 && promo.hasNext()) {
+                        yield(recentFile)
+                        // Add promo for every multiple of 3. eg) 3, 6 ...
+                        if ((index + 1) % 3 == 0 && promo.hasNext()) {
                             yield(promo.next())
                         }
-                        yield(recentFile)
                     }
                 }
             }.toList()
-        }*/
+        }
     }
 
     /**

@@ -66,9 +66,18 @@ class MainActivity : AppCompatActivity() {
 
         initToolBar()
 
-        // To reduce stuttering, call requestAds in a new coroutine job.
-        // Keep in mind that it should run on the main thread.
-        lifecycleScope.launch { requestAds() }
+        // Initialize adLoader.
+        adLoader = AdLoader.Builder(this@MainActivity, BuildConfig.RECENT_FILE_PROMO_ID)
+            .forUnifiedNativeAd {
+                ads.add(it)
+
+                if (!adLoader.isLoading) {
+                    ads
+                        .map { ad -> RecentPromo(ad) }
+                        .let { promos -> viewModel.recentPromos.value = promos }
+                }
+            }
+            .build()
     }
 
     /**
@@ -104,9 +113,10 @@ class MainActivity : AppCompatActivity() {
      * Subscribe observers of ViewModel.
      */
     private fun subscribeObservers() {
-        viewModel.recents.observe(this, Observer { recentFiles ->
-            showEmptyBookshelf(recentFiles.isEmpty())
-            if (!adLoader.isLoading && recentFiles.none { it is RecentPromo }) {
+        viewModel.recents.observe(this, Observer { recents ->
+            showEmptyBookshelf(recents.isEmpty())
+
+            if (!adLoader.isLoading && recents.none { it is RecentPromo }) {
                 requestAds()
             }
         })
@@ -157,21 +167,12 @@ class MainActivity : AppCompatActivity() {
      */
     @MainThread
     private fun requestAds() {
-        ads.clear()
-
-        adLoader = AdLoader.Builder(this, BuildConfig.RECENT_FILE_PROMO_ID)
-            .forUnifiedNativeAd {
-                ads.add(it)
-
-                if (!adLoader.isLoading) {
-                    ads
-                        .map { ad -> RecentPromo(ad) }
-                        .let { promos -> viewModel.recentFilePromos.value = promos }
-                }
-            }
-            .build()
-
-        adLoader.loadAds(AdRequest.Builder().build(), 2)
+        // To reduce stuttering, call requestAds in a new coroutine job.
+        // Keep in mind that it should run on the main thread.
+        lifecycleScope.launch(Dispatchers.Main) {
+            ads.clear()
+            adLoader.loadAds(AdRequest.Builder().build(), 2)
+        }
     }
 
     fun onFabClickListener(view: View) {
