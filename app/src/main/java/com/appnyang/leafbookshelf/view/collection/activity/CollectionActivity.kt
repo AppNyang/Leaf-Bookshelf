@@ -22,9 +22,13 @@ class CollectionActivity : AppCompatActivity() {
             lifecycleOwner = this@CollectionActivity
         }
 
-        viewModel.collectionDeleted.observe(this, Observer {
-            finish()
+        viewModel.collection.observe(this, Observer {
+            // If it is null, it means the collection has been deleted.
+            if (it == null) {
+                finish()
+            }
         })
+
 
         setSupportActionBar(toolBar)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back)

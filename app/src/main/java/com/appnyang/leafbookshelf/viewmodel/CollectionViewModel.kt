@@ -17,9 +17,6 @@ class CollectionViewModel(private val collectionRepo: CollectionRepository) : Vi
     private val _collection = MediatorLiveData<Collection>()
     val collection: LiveData<Collection> = _collection
 
-    private val _collectionDeleted = SingleLiveEvent<Any>()
-    val collectionDeleted: LiveData<Any> = _collectionDeleted
-
     /**
      * Read given collection from DB.
      *
@@ -61,11 +58,9 @@ class CollectionViewModel(private val collectionRepo: CollectionRepository) : Vi
      * Delete this collection.
      */
     fun deleteCollection() {
-        viewModelScope.launch(Dispatchers.Default) {
-            collection.value?.let {
-                collectionRepo.deleteCollection(it)
-
-                _collectionDeleted.postCall()
+        collection.value?.let {
+            viewModelScope.launch(Dispatchers.Default) {
+                    collectionRepo.deleteCollection(it)
             }
         }
     }
