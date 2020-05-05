@@ -32,8 +32,6 @@ import com.appnyang.leafbookshelf.view.page.fragment.TextAppearancePreferenceFra
 import com.appnyang.leafbookshelf.viewmodel.PageViewModel
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
-import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
 import kotlinx.android.synthetic.main.activity_page.*
 import kotlinx.android.synthetic.main.dialog_add_bookmark.view.*
 import kotlinx.coroutines.Dispatchers
@@ -296,8 +294,9 @@ class PageActivity : AppCompatActivity() {
         viewModel.sharedPreferenceLiveData.observe(this, Observer {
             readPreferences()
 
+            // TODO: Fix null exception of value!!
             viewModel.readBookFromUri(
-                Uri.parse(viewModel.currentUri),
+                viewModel.bookWithBookmarks.value!!.book.uri,
                 applicationContext.contentResolver,
                 buildLayoutParam(),
                 viewModel.getCurrentTextIndex()

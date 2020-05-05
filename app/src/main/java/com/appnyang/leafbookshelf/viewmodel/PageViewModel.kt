@@ -52,8 +52,6 @@ class PageViewModel(
     application: Application
 ) : AndroidViewModel(application) {
 
-    private val _openedFileName = MutableLiveData<CharSequence>()
-    val openedFileName: LiveData<CharSequence> = _openedFileName
     private val _bookWithBookmarks = MutableLiveData<BookWithBookmarks>()
     val bookWithBookmarks: LiveData<BookWithBookmarks> = _bookWithBookmarks
 
@@ -83,9 +81,6 @@ class PageViewModel(
     val bTts = MutableLiveData(false)
     val bAuto = MutableLiveData(false)
 
-    lateinit var currentUri: String
-
-    private var lastReadTime = 0
     private lateinit var openTime: DateTime
 
     // TTS Service.
@@ -98,7 +93,7 @@ class PageViewModel(
 
             setOnUserCancelReadListener()
 
-            val title = openedFileName.value ?: ""
+            val title = ""
             pagedBook.value?.let { book ->
                 ttsService.read(title, book, currentPage)
             }
@@ -614,7 +609,7 @@ class PageViewModel(
      * This called only when the activity is closed.
      */
     fun saveHistory() {
-        if (::openTime.isInitialized) {
+        /*if (::openTime.isInitialized) {
             viewModelScope.launch(Dispatchers.Default) {
                 val readTime = Interval(openTime, DateTime.now()).toDuration().standardMinutes.toInt() + lastReadTime
 
@@ -628,7 +623,7 @@ class PageViewModel(
                     )
                 )
             }
-        }
+        }*/
     }
 
     /**
