@@ -78,7 +78,9 @@
                 app:layout_constraintStart_toEndOf="@id/imageCover"
                 android:maxLines="1"
                 android:textAppearance="@style/TextAppearance.Main.Recent.Time"
-                android:includeFontPadding="false" />
+                android:includeFontPadding="false"
+                app:readable_read_time="@{item.readTime}"
+                app:readable_last_open="@{item.lastOpenedAt}" />
 
             <View
                 android:layout_width="2dp"

@@ -1,8 +1,12 @@
 package com.appnyang.leafbookshelf.view.main
 
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.appnyang.leafbookshelf.R
 import com.appnyang.leafbookshelf.viewmodel.Recents
+import org.joda.time.DateTime
+import org.joda.time.Interval
 
 /**
  * Recent files binding adapter.
@@ -28,8 +32,8 @@ fun setRecents(view: RecyclerView, items: List<Recents>?, listener: OnRecentsIte
     }
 }
 
-/*@BindingAdapter("readable_read_time", "readable_last_open")
-fun setReadableReadTime(view: TextView, readTime: Int, lastOpen: String) {
+@BindingAdapter("readable_read_time", "readable_last_open")
+fun setReadableReadTime(view: TextView, readTime: Int, lastOpenedAt: DateTime) {
     val hours = readTime / 60
     val mins = readTime % 60
 
@@ -40,8 +44,7 @@ fun setReadableReadTime(view: TextView, readTime: Int, lastOpen: String) {
     }
     readableTime += view.resources.getQuantityString(R.plurals.read_mins, mins, mins)
 
-    val lastOpenTime = ISODateTimeFormat.dateTime().parseDateTime(lastOpen)
-    val duration = Interval(lastOpenTime, DateTime.now()).toDuration()
+    val duration = Interval(lastOpenedAt, DateTime.now()).toDuration()
 
     val readableDuration: String
     readableDuration = when {
@@ -59,4 +62,4 @@ fun setReadableReadTime(view: TextView, readTime: Int, lastOpen: String) {
     readableTime += " · $readableDuration"
 
     view.text = readableTime
-}*/
+}
