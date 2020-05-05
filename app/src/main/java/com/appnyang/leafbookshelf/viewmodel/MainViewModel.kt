@@ -29,7 +29,7 @@ class MainViewModel(
     init {
         // This empty live data prevents 'Failed to call observer method' error.
         recentFiles.addSource(MutableLiveData<List<Recents>>(listOf())) { recentFiles.value = it }
-        recentFiles.addSource(historyRepo.loadAsRecentHistory()) { recentFiles.value = it }
+        //recentFiles.addSource(historyRepo.loadAsRecentHistory()) { recentFiles.value = it }
         recentFiles.addSource(recentFilePromos) {
             // Called when all ads has been loaded.
             recentFiles.value = sequence {

@@ -21,9 +21,6 @@ interface HistoryDao {
     @Query("SELECT * FROM history ORDER BY lastOpen DESC")
     fun getHistory(): LiveData<List<History>>
 
-    @Query("SELECT * FROM history ORDER BY lastOpen DESC LIMIT 6")
-    fun getRecentHistory(): LiveData<List<RecentFile>>
-
     @Transaction
     fun upsert(history: History) {
         val old = getHistory(history.uri)
