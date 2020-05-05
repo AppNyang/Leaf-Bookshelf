@@ -19,7 +19,6 @@ import com.appnyang.leafbookshelf.data.model.bookmark.Bookmark
 import com.appnyang.leafbookshelf.data.model.bookmark.BookmarkType
 import com.appnyang.leafbookshelf.data.repository.BookRepository
 import com.appnyang.leafbookshelf.data.repository.BookmarkRepository
-import com.appnyang.leafbookshelf.data.repository.HistoryRepository
 import com.appnyang.leafbookshelf.service.TtsService
 import com.appnyang.leafbookshelf.util.SharedPreferenceLiveData
 import com.appnyang.leafbookshelf.util.SingleLiveEvent
@@ -45,7 +44,6 @@ import java.util.concurrent.atomic.AtomicBoolean
 class PageViewModel(
     private val bookRepo: BookRepository,
     private val bookmarkRepo: BookmarkRepository,
-    private val historyRepository: HistoryRepository,
     val sharedPreferenceLiveData: SharedPreferenceLiveData,
     application: Application
 ) : AndroidViewModel(application) {
