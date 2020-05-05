@@ -70,8 +70,6 @@ class MainActivity : AppCompatActivity() {
 
         initToolBar()
 
-        initFab()
-
         // To reduce stuttering, call requestAds in a new coroutine job.
         // Keep in mind that it should run on the main thread.
         lifecycleScope.launch { requestAds() }
@@ -182,48 +180,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Initialize the Floating Action Button.
-     */
-    private fun initFab() {
-        dialFab.addAllActionItems(buildFabItems())
-
-        // Add the fab click listener.
-        dialFab.setOnActionSelectedListener { item ->
-            when (item.id) {
-                R.id.fab_folder -> {
-                    openFromStorage()
-                }
-                R.id.fab_google_drive -> {}
-                R.id.fab_dropbox -> {}
-            }
-
-            dialFab.close()
-
-            true
-        }
-    }
-
-    /**
-     * Return the list of sub-items of fab.
-     *
-     * @return List of sub-items of fab.
-     */
-    private fun buildFabItems() = listOf<SpeedDialActionItem>(
-        SpeedDialActionItem.Builder(R.id.fab_folder, R.drawable.ic_folder)
-            .setFabBackgroundColor(ResourcesCompat.getColor(resources, R.color.lightLeaf, theme))
-            .setFabImageTintColor(ResourcesCompat.getColor(resources, R.color.white, theme))
-            .create(),
-        SpeedDialActionItem.Builder(R.id.fab_google_drive, R.drawable.ic_google_drive)
-            .setFabBackgroundColor(ResourcesCompat.getColor(resources, R.color.lightLeaf, theme))
-            .setFabImageTintColor(ResourcesCompat.getColor(resources, R.color.white, theme))
-            .create(),
-        SpeedDialActionItem.Builder(R.id.fab_dropbox, R.drawable.ic_dropbox)
-            .setFabBackgroundColor(ResourcesCompat.getColor(resources, R.color.lightLeaf, theme))
-            .setFabImageTintColor(ResourcesCompat.getColor(resources, R.color.white, theme))
-            .create()
-    )
-
-    /**
      * Request native ads.
      */
     @MainThread
@@ -243,6 +199,10 @@ class MainActivity : AppCompatActivity() {
             .build()
 
         adLoader.loadAds(AdRequest.Builder().build(), 2)
+    }
+
+    fun onFabClickListener(view: View) {
+        openFromStorage()
     }
 
     /**

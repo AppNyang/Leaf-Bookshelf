@@ -13,6 +13,9 @@
     <dimen name="icon_button_size">48dp</dimen>
     <dimen name="icon_button_icon_size">28dp</dimen>
 
+    <dimen name="fab_layout_margin">16dp</dimen>
+    <dimen name="fab_elevation">48dp</dimen>
+
     <dimen name="main_content_margin">28dp</dimen>
     <dimen name="main_title_margin">14dp</dimen>
     <dimen name="main_section_margin">34dp</dimen>

@@ -166,15 +166,14 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.core.widget.NestedScrollView>
 
-            <com.leinardi.android.speeddial.SpeedDialView
-                android:id="@+id/dialFab"
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                style="@style/Widget.App.FloatingActionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                app:sdMainFabClosedBackgroundColor="@color/lightForest"
-                app:sdMainFabClosedSrc="@drawable/ic_closed_book"
-                app:sdMainFabClosedIconColor="@color/white"
+                android:src="@drawable/ic_closed_book"
+                android:onClick="onFabClickListener"
                 app:layout_behavior="com.leinardi.android.speeddial.SpeedDialView$ScrollingViewSnackbarBehavior" />
+
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         <com.google.android.material.navigation.NavigationView

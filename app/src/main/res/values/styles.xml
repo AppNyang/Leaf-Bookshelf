@@ -102,6 +102,16 @@
         <item name="android:textAppearance">@style/TextAppearance.App.Widget.Button.Dialog</item>
         <item name="shapeAppearance">@style/ShapeAppearance.App.SmallButton.Dialog</item>
     </style>
+    
+    <!-- FAB -->
+    <style name="Widget.App.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="android:layout_gravity">bottom|end</item>
+        <item name="android:layout_margin">@dimen/fab_layout_margin</item>
+        <item name="android:elevation">@dimen/fab_elevation</item>
+        <item name="rippleColor">@color/lightEmerald</item>
+        <item name="tint">@color/white</item>
+        <item name="android:backgroundTint">@color/darkEmerald</item>
+    </style>
 
     <!-- Text Field -->
     <style name="Widget.App.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- FAB -->
+    <style name="Widget.App.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="android:layout_gravity">bottom|end</item>
+        <item name="android:layout_margin">@dimen/fab_layout_margin</item>
+        <item name="android:elevation">@dimen/fab_elevation</item>
+        <item name="rippleColor">@color/lightEmerald</item>
+        <item name="tint">@color/white</item>
+        <item name="android:backgroundTint">@color/darkEmerald</item>
+        <item name="android:outlineSpotShadowColor">@color/darkEmerald</item>
+        <item name="android:outlineAmbientShadowColor">@color/darkEmerald</item>
+    </style>
+
+</resources>
