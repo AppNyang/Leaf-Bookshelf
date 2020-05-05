@@ -569,12 +569,12 @@ class PageViewModel(
     /**
      * Bookmark the current page.
      *
-     * @param title Title of the bookmark.
+     * @param displayName Title of the bookmark.
      * @param type BookmarkType.
      */
-    fun saveCurrentBookmark(title: String, type: BookmarkType = BookmarkType.CUSTOM) {
         // TODO: Make it work!!
         //saveBookmark(Bookmark(currentUri, title, getCurrentTextIndex(), type.name, getCurrentDateTimeAsString()))
+    fun bookmarkCurrentPage(displayName: String, type: BookmarkType = BookmarkType.CUSTOM) {
     }
 
     /**
