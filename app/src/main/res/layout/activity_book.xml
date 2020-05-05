@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.appnyang.leafbookshelf.view.book.activity.BookActivity">
+
+    <data>
+        <variable name="viewModel" type="com.appnyang.leafbookshelf.viewmodel.BookViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:titleTextColor="@color/white"
+            app:popupTheme="@style/Theme.MaterialComponents.Light" />
+
+        <TextView
+            android:id="@+id/textYour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            app:layout_constraintTop_toBottomOf="@id/toolBar"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="28sp"
+            android:fontFamily="@font/nanum_barun_gothic_l"
+            android:textColor="@color/darkGray"
+            android:letterSpacing="0.03"
+            android:text="@string/bookshelf_your" />
+
+        <TextView
+            android:id="@+id/textCollection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            app:layout_constraintTop_toBottomOf="@id/textYour"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="36sp"
+            android:fontFamily="@font/nanum_barun_gothic_b"
+            android:textColor="@color/darkGray"
+            android:letterSpacing="0.03"
+            android:text="@string/book_page_title" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

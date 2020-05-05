@@ -6,10 +6,7 @@ import com.appnyang.leafbookshelf.data.repository.BookRepository
 import com.appnyang.leafbookshelf.data.repository.BookmarkRepository
 import com.appnyang.leafbookshelf.data.repository.CollectionRepository
 import com.appnyang.leafbookshelf.util.SharedPreferenceLiveData
-import com.appnyang.leafbookshelf.viewmodel.BookshelfViewModel
-import com.appnyang.leafbookshelf.viewmodel.CollectionViewModel
-import com.appnyang.leafbookshelf.viewmodel.MainViewModel
-import com.appnyang.leafbookshelf.viewmodel.PageViewModel
+import com.appnyang.leafbookshelf.viewmodel.*
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
@@ -29,6 +26,7 @@ val viewModelModule: Module = module {
     viewModel { PageViewModel(get(), get(), get(), get()) }
     viewModel { BookshelfViewModel(get(), get()) }
     viewModel { CollectionViewModel(get()) }
+    viewModel { BookViewModel(get()) }
 
     single { BookmarkRepository(get()) }
     single { CollectionRepository(get(), get()) }

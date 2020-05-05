@@ -103,6 +103,9 @@
     <string name="collection_title_delete_this">Delete this collection</string>
     <string name="collection_desc_delete_this">Empty this collection and delete. This action cannot be undone!</string>
 
+    <!-- Your Book -->
+    <string name="book_page_title">Book</string>
+
     <!-- Dialog -->
     <string name="title_add_bookmark">Add Bookmark</string>
     <string name="button_add">Add</string>

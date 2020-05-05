@@ -15,6 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.App">
         <activity
+            android:name=".view.book.activity.BookActivity"
+            android:parentActivityName=".view.page.activity.PageActivity"
+            android:theme="@style/Theme.App.WhiteStatusBar" />
+        <activity
             android:name=".view.collection.activity.CollectionActivity"
             android:parentActivityName=".view.bookshelf.activity.BookshelfActivity"
             android:theme="@style/Theme.App.WhiteStatusBar" />
