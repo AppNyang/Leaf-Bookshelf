@@ -134,17 +134,6 @@
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             app:collections="@{viewModel.collections}"
                             tools:listitem="@layout/layout_collection" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/main_title_margin"
-                            android:textAppearance="@style/TextAppearance.Main.Title"
-                            android:text="@string/my_bookmarks" />
-                        <com.google.android.material.chip.ChipGroup
-                            android:id="@+id/chipGroupBookmarks"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
                     </LinearLayout>
 
                     <!-- Show this if the book history is empty. -->
