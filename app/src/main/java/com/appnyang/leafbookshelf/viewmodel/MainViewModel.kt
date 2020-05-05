@@ -21,16 +21,17 @@ class MainViewModel(
     private val _historyClicked = MutableLiveData<Pair<String, Long>>()
     val historyClicked: LiveData<Pair<String, Long>> = _historyClicked
 
-    val recentFiles = MediatorLiveData<List<Recents>>()
+    val recents = MediatorLiveData<List<Recents>>()
     val recentFilePromos = MutableLiveData<List<RecentPromo>>()
 
     val collections = collectionRepo.loadCollections()
 
     init {
-        // This empty live data prevents 'Failed to call observer method' error.
-        recentFiles.addSource(MutableLiveData<List<Recents>>(listOf())) { recentFiles.value = it }
-        //recentFiles.addSource(historyRepo.loadAsRecentHistory()) { recentFiles.value = it }
-        recentFiles.addSource(recentFilePromos) {
+        /*recents.addSource(
+            bookRepo.getRecentBooks()
+                .asLiveData(Dispatchers.Default + viewModelScope.coroutineContext)
+        ) { recents.value = it }*/
+        /*recentFiles.addSource(recentFilePromos) {
             // Called when all ads has been loaded.
             recentFiles.value = sequence {
                 recentFiles.value?.let { files ->
@@ -44,7 +45,7 @@ class MainViewModel(
                     }
                 }
             }.toList()
-        }
+        }*/
     }
 
     /**

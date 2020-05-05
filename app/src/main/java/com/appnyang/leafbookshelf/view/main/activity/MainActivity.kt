@@ -104,7 +104,7 @@ class MainActivity : AppCompatActivity() {
      * Subscribe observers of ViewModel.
      */
     private fun subscribeObservers() {
-        viewModel.recentFiles.observe(this, Observer { recentFiles ->
+        viewModel.recents.observe(this, Observer { recentFiles ->
             showEmptyBookshelf(recentFiles.isEmpty())
             if (!adLoader.isLoading && recentFiles.none { it is RecentPromo }) {
                 requestAds()
