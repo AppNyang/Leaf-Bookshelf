@@ -22,9 +22,9 @@ import com.appnyang.leafbookshelf.data.repository.BookRepository
 import com.appnyang.leafbookshelf.data.repository.BookmarkRepository
 import com.appnyang.leafbookshelf.service.TtsService
 import com.appnyang.leafbookshelf.util.SharedPreferenceLiveData
-import com.appnyang.leafbookshelf.util.SingleLiveEvent
 import com.appnyang.leafbookshelf.util.icu.CharsetDetector
 import com.appnyang.leafbookshelf.util.styler.DefaultStyler
+import com.appnyang.leafbookshelf.view.page.PageAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -58,10 +58,6 @@ class PageViewModel(
     private val _pagedBook = MutableLiveData<LinkedList<Spanned>>()
     val pagedBook: LiveData<LinkedList<Spanned>> = _pagedBook
 
-    // This event is called after each chunk of text has been paginated.
-    private val _chunkPaged = SingleLiveEvent<Any>()
-    val chunkPaged: LiveData<Any> = _chunkPaged
-
     // Showing menu flags.
     private val _showMenu = MutableLiveData(false)
     val showMenu: LiveData<Boolean> = _showMenu
@@ -79,6 +75,21 @@ class PageViewModel(
 
     val bTts = MutableLiveData(false)
     val bAuto = MutableLiveData(false)
+
+    // Page touch listener.
+    val onTouchUpListener: (touchUpPosition: PageAdapter.TouchUpPosition) -> Unit = { touchUpPosition ->
+        if (isAnyMenuOpened()) {
+            // Close all menu.
+            displayMenu()
+        }
+        else {
+            when (touchUpPosition) {
+                PageAdapter.TouchUpPosition.LEFT -> goToPage(currentPage.value!! - 1)
+                PageAdapter.TouchUpPosition.MIDDLE -> onShowMenuClicked()
+                PageAdapter.TouchUpPosition.RIGHT -> goToPage(currentPage.value!! + 1)
+            }
+        }
+    }
 
     // TTS Service.
     private lateinit var ttsService: TtsService
@@ -308,10 +319,10 @@ class PageViewModel(
             else {
                 if (chunkIndex > chunkStart) {
                     _pagedBook.value?.addAll(pagedCharSequence.toList())
-                    _chunkPaged.postCall()
+                    _pagedBook.notify()
                 } else {
                     pagedCharSequence.reversed().asSequence().forEach { _pagedBook.value?.addFirst(it) }
-                    _chunkPaged.postCall()
+                    _pagedBook.notify()
                     bScrollAnim.set(false)
                     currentPage.postValue(currentPage.value?.plus(pagedCharSequence.size))
                 }
@@ -414,7 +425,7 @@ class PageViewModel(
      * @param list A first list of paginated text.
      * @param index Character position.
      */
-    private fun postCurrentPageToIndex(list: List<CharSequence> ,index: Long) {
+    private fun postCurrentPageToIndex(list: List<CharSequence>, index: Long) {
         var page = list.size - 1
         var sum = 0
 
@@ -641,6 +652,15 @@ class PageViewModel(
     private fun getReadingProgress(): Float =
         ((currentPage.value?.toFloat() ?: 0f) / (pagedBook.value?.size?.toFloat() ?: 1f))
             .coerceAtMost(1.0f)
+
+    /**
+     * Extension function to notify the data is changed.
+     * eg) List item has been added.
+     */
+    @WorkerThread
+    private fun <T> MutableLiveData<T>.notify() {
+        this.postValue(this.value)
+    }
 
     /**
      * This data class used for build StaticLayout.

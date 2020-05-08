@@ -16,7 +16,10 @@
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            app:paged_book="@{viewModel.pagedBook}"
+            app:page_text_appearance="@{viewModel.pageTextAppearance}"
+            app:touch_up_listener="@{viewModel.onTouchUpListener}" />
 
         <!-- Top Menu -->
         <LinearLayout

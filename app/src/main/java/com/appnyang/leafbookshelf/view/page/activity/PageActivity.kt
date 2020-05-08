@@ -27,7 +27,6 @@ import com.appnyang.leafbookshelf.databinding.ActivityPageBinding
 import com.appnyang.leafbookshelf.util.afterMeasured
 import com.appnyang.leafbookshelf.util.transformer.DepthPageTransformer
 import com.appnyang.leafbookshelf.view.book.activity.BookActivity
-import com.appnyang.leafbookshelf.view.page.PageAdapter
 import com.appnyang.leafbookshelf.view.page.fragment.TextAppearancePreferenceFragment
 import com.appnyang.leafbookshelf.viewmodel.PageViewModel
 import com.google.android.gms.ads.AdRequest
@@ -216,33 +215,10 @@ class PageActivity : AppCompatActivity() {
             }
         })
 
-        // Called when the first chunk is paginated.
+        // Called when each chunk is paginated.
         viewModel.pagedBook.observe(this, Observer {
-            // Setup ViewPager.
-            pager.adapter = PageAdapter(it, viewModel.pageTextAppearance) { touchUpPosition ->
-                if (viewModel.isAnyMenuOpened()) {
-                    // Close all menu.
-                    viewModel.displayMenu()
-                }
-                else {
-                    when (touchUpPosition) {
-                        PageAdapter.TouchUpPosition.LEFT -> viewModel.goToPage(viewModel.currentPage.value!! - 1)
-                        PageAdapter.TouchUpPosition.MIDDLE -> viewModel.onShowMenuClicked()
-                        PageAdapter.TouchUpPosition.RIGHT -> viewModel.goToPage(viewModel.currentPage.value!! + 1)
-                    }
-                }
-            }
-
             textPages.text = getPageCountString()
             seekPages.max = it.size - 1
-        })
-
-        // Called rest of chunks is paginated.
-        viewModel.chunkPaged.observe(this, Observer {
-            pager.adapter?.notifyDataSetChanged()
-
-            textPages.text = getPageCountString()
-            seekPages.max = viewModel.pagedBook.value!!.size - 1
         })
 
         // Called the user has navigated to the page.

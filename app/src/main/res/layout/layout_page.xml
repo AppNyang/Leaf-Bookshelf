@@ -6,7 +6,7 @@
 
     <data>
         <variable name="content" type="String" />
-        <variable name="pageTextAppearance" type="androidx.lifecycle.LiveData&lt;com.appnyang.leafbookshelf.viewmodel.PageViewModel.PageTextAppearance&gt;" />
+        <variable name="pageTextAppearance" type="com.appnyang.leafbookshelf.viewmodel.PageViewModel.PageTextAppearance" />
     </data>
 
     <FrameLayout

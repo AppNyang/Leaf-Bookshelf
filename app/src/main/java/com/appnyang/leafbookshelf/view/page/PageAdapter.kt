@@ -5,7 +5,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.appnyang.leafbookshelf.R
 import com.appnyang.leafbookshelf.databinding.LayoutPageBinding
@@ -18,8 +17,8 @@ import kotlinx.android.synthetic.main.layout_page.view.*
  * @author Sangwoo <sangwoo@yesang.com> on 2020-05-08.
  */
 class PageAdapter(
-    private var pagedBook: List<CharSequence>,
-    private val pageTextAppearance: LiveData<PageViewModel.PageTextAppearance>,
+    var pagedBook: List<CharSequence>,
+    var pageTextAppearance: PageViewModel.PageTextAppearance,
     private val onTouchUpListener: (touchUpPosition: TouchUpPosition) -> Unit
 ) : RecyclerView.Adapter<PageAdapter.PageViewHolder>() {
 
