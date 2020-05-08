@@ -139,7 +139,9 @@ class PageActivity : AppCompatActivity() {
         // Save a bookmark.
         viewModel.bookmarkCurrentPage(getString(R.string.last_read), BookmarkType.LAST_READ)
 
-        viewModel.updateBookBeforeClose()
+        if (viewModel.bookWithBookmarks.value != null) {
+            viewModel.updateBookBeforeClose()
+        }
     }
 
     /**
@@ -208,7 +210,10 @@ class PageActivity : AppCompatActivity() {
      */
     private fun subscribeObservers() {
         viewModel.bookWithBookmarks.observe(this, Observer {
-
+            // If bookWithBookmarks is null, it means the book has been deleted.
+            if (it == null) {
+                finish()
+            }
         })
 
         // Called when the first chunk is paginated.
