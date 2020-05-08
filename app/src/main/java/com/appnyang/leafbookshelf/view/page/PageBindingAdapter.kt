@@ -32,7 +32,7 @@ fun setPagedBook(
     }
 }
 
-@BindingAdapter("pageTextAppearance")
+@BindingAdapter("page_text_appearance")
 fun setPageTextAppearance(view: TextView, pageTextAppearance: PageViewModel.PageTextAppearance?) {
     if (pageTextAppearance != null) {
         view.typeface = pageTextAppearance.fontFamily

@@ -23,7 +23,7 @@
             android:scrollbars="none"
             android:includeFontPadding="false"
             android:text="@{content}"
-            app:pageTextAppearance="@{pageTextAppearance}" />
+            app:page_text_appearance="@{pageTextAppearance}" />
 
     </FrameLayout>
 </layout>
