@@ -1,6 +1,7 @@
 package com.appnyang.leafbookshelf.view.page
 
 import android.util.TypedValue
+import android.widget.SeekBar
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.viewpager2.widget.ViewPager2
@@ -39,5 +40,12 @@ fun setPageTextAppearance(view: TextView, pageTextAppearance: PageViewModel.Page
         view.setTextSize(TypedValue.COMPLEX_UNIT_SP, pageTextAppearance.fontSize)
         view.setTextColor(pageTextAppearance.fontColor)
         view.setLineSpacing(0f, pageTextAppearance.lineSpacing)
+    }
+}
+
+@BindingAdapter("pages")
+fun setPages(view: SeekBar, pagedBook: List<CharSequence>?) {
+    if (pagedBook != null) {
+        view.max = pagedBook.size - 1
     }
 }

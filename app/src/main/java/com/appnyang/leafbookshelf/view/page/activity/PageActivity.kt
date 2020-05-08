@@ -218,7 +218,7 @@ class PageActivity : AppCompatActivity() {
         // Called when each chunk is paginated.
         viewModel.pagedBook.observe(this, Observer {
             textPages.text = getPageCountString()
-            seekPages.max = it.size - 1
+            //seekPages.max = it.size - 1
         })
 
         // Called the user has navigated to the page.
