@@ -215,12 +215,6 @@ class PageActivity : AppCompatActivity() {
             }
         })
 
-        // Called when each chunk is paginated.
-        viewModel.pagedBook.observe(this, Observer {
-            textPages.text = getPageCountString()
-            //seekPages.max = it.size - 1
-        })
-
         // Called the user has navigated to the page.
         viewModel.currentPage.observe(this, Observer {
             // Avoid infinite loop.
@@ -228,8 +222,6 @@ class PageActivity : AppCompatActivity() {
                 pager.setCurrentItem(it, viewModel.bScrollAnim.get())
                 viewModel.bScrollAnim.set(true)
             }
-
-            textPages.text = getPageCountString()
         })
 
         // Called when the middle of page is clicked.
@@ -438,9 +430,6 @@ class PageActivity : AppCompatActivity() {
             }
         }
     }
-
-    private fun getPageCountString() =
-        getString(R.string.page_counter, pager.currentItem + 1, pager.adapter?.itemCount ?: 0)
 
     companion object {
         const val KEY_FILE_URI = "KEY_FILE_URI"

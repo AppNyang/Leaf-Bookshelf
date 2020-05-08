@@ -104,7 +104,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:paged_book="@{viewModel.pagedBook}"
+                app:current_page="@{viewModel.currentPage}" />
 
             <SeekBar
                 style="@style/SeekBar.Page"
