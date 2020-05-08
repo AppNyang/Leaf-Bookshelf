@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".view.page.fragment.PageFragment">
 
     <data>
-        <variable name="viewModel" type="com.appnyang.leafbookshelf.viewmodel.PageViewModel" />
+        <variable name="content" type="String" />
+        <variable name="pageTextAppearance" type="androidx.lifecycle.LiveData&lt;com.appnyang.leafbookshelf.viewmodel.PageViewModel.PageTextAppearance&gt;" />
     </data>
 
     <FrameLayout
@@ -19,8 +21,9 @@
             android:layout_height="match_parent"
             android:layout_margin="@dimen/page_margin"
             android:scrollbars="none"
-            android:textAppearance="@style/TextAppearance.Page"
-            android:includeFontPadding="false" />
+            android:includeFontPadding="false"
+            android:text="@{content}"
+            app:pageTextAppearance="@{pageTextAppearance}" />
 
     </FrameLayout>
 </layout>

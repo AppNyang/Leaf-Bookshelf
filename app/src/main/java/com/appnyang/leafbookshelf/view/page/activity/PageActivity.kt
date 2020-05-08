@@ -16,11 +16,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
-import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.appnyang.leafbookshelf.BuildConfig
 import com.appnyang.leafbookshelf.R
@@ -29,7 +27,7 @@ import com.appnyang.leafbookshelf.databinding.ActivityPageBinding
 import com.appnyang.leafbookshelf.util.afterMeasured
 import com.appnyang.leafbookshelf.util.transformer.DepthPageTransformer
 import com.appnyang.leafbookshelf.view.book.activity.BookActivity
-import com.appnyang.leafbookshelf.view.page.fragment.PageFragment
+import com.appnyang.leafbookshelf.view.page.PageAdapter
 import com.appnyang.leafbookshelf.view.page.fragment.TextAppearancePreferenceFragment
 import com.appnyang.leafbookshelf.viewmodel.PageViewModel
 import com.google.android.gms.ads.AdRequest
@@ -61,6 +59,9 @@ class PageActivity : AppCompatActivity() {
             lifecycleOwner = this@PageActivity
         }
 
+        // Read preference values.
+        readPreferences()
+
         // Initialize settings fragment.
         supportFragmentManager
             .beginTransaction()
@@ -78,15 +79,9 @@ class PageActivity : AppCompatActivity() {
             }
         })
 
-        // Read preference values.
-        readPreferences()
-
-        // TODO: Handle the screen orientation changes.
         // Open files depends on file type.
-        if (savedInstanceState == null) {
-            pager.afterMeasured {
-                openBook()
-            }
+        pager.afterMeasured {
+            openBook()
         }
 
         subscribeObservers()
@@ -153,7 +148,7 @@ class PageActivity : AppCompatActivity() {
     private fun readPreferences() {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
 
-        viewModel.fontFamily = sharedPreferences.getString(getString(R.string.pref_key_font), "").let {
+        val fontFamily = sharedPreferences.getString(getString(R.string.pref_key_font), "").let {
             when (it) {
                 "bon_gothic" -> ResourcesCompat.getFont(this@PageActivity, R.font.noto_sans_cjk_r)!!
                 "nanum_square" -> ResourcesCompat.getFont(this@PageActivity, R.font.nanum_square)!!
@@ -162,15 +157,17 @@ class PageActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.fontSize = sharedPreferences.getString(getString(R.string.pref_key_font_size), "18").let {
+        val fontSize = sharedPreferences.getString(getString(R.string.pref_key_font_size), "18").let {
             it?.toFloat() ?: 18f
         }
-        viewModel.fontColor = sharedPreferences.getString(getString(R.string.pref_key_font_color), "#2A2A2A").let {
+        val fontColor = sharedPreferences.getString(getString(R.string.pref_key_font_color), "#2A2A2A").let {
             Color.parseColor(it)
         }
-        viewModel.lineSpacing = sharedPreferences.getString(getString(R.string.pref_key_line_spacing), "1.8").let {
+        val lineSpacing = sharedPreferences.getString(getString(R.string.pref_key_line_spacing), "1.8").let {
             it?.toFloat() ?: 1.8f
         }
+
+        viewModel.updatePageTextAppearance(PageViewModel.PageTextAppearance(fontFamily, fontSize, fontColor, lineSpacing))
     }
 
     /**
@@ -194,14 +191,14 @@ class PageActivity : AppCompatActivity() {
         val textPaint = TextPaint().apply {
             style = Paint.Style.FILL
             isAntiAlias = true
-            typeface = viewModel.fontFamily
-            textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, viewModel.fontSize, resources.displayMetrics)
+            typeface = viewModel.pageTextAppearance.value!!.fontFamily
+            textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, viewModel.pageTextAppearance.value!!.fontSize, resources.displayMetrics)
         }
 
         return PageViewModel.StaticLayoutParam(pager.width - (2f * resources.getDimension(R.dimen.page_margin)).toInt(),
             pager.height - (2f * resources.getDimension(R.dimen.page_margin)).toInt(),
             textPaint,
-            viewModel.lineSpacing,
+            viewModel.pageTextAppearance.value!!.lineSpacing,
             0f,
             false)
     }
@@ -217,7 +214,19 @@ class PageActivity : AppCompatActivity() {
         // Called when the first chunk is paginated.
         viewModel.pagedBook.observe(this, Observer {
             // Setup ViewPager.
-            pager.adapter = TextPagerAdapter(it)
+            pager.adapter = PageAdapter(it, viewModel.pageTextAppearance) { touchUpPosition ->
+                if (viewModel.isAnyMenuOpened()) {
+                    // Close all menu.
+                    viewModel.displayMenu()
+                }
+                else {
+                    when (touchUpPosition) {
+                        PageAdapter.TouchUpPosition.LEFT -> viewModel.goToPage(viewModel.currentPage.value!! - 1)
+                        PageAdapter.TouchUpPosition.MIDDLE -> viewModel.onShowMenuClicked()
+                        PageAdapter.TouchUpPosition.RIGHT -> viewModel.goToPage(viewModel.currentPage.value!! + 1)
+                    }
+                }
+            }
 
             textPages.text = getPageCountString()
             seekPages.max = it.size - 1
@@ -457,17 +466,6 @@ class PageActivity : AppCompatActivity() {
         const val KEY_CHAR_INDEX = "KEY_CHAR_INDEX"
 
         const val REQUEST_NOTIFICATION_CLICK = 5000
-    }
-
-    /**
-     * A Text binder for ViewPager2.
-     */
-    private inner class TextPagerAdapter(val texts: List<CharSequence>) : FragmentStateAdapter(this) {
-        override fun getItemCount(): Int = texts.size
-
-        override fun createFragment(position: Int): Fragment {
-            return PageFragment(position)
-        }
     }
 }
 

@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.IBinder
 import android.provider.OpenableColumns
 import android.text.*
+import androidx.annotation.MainThread
 import androidx.annotation.WorkerThread
 import androidx.core.text.toSpanned
 import androidx.lifecycle.*
@@ -50,6 +51,9 @@ class PageViewModel(
 
     private val _bookWithBookmarks = MutableLiveData<BookWithBookmarks>()
     val bookWithBookmarks: LiveData<BookWithBookmarks> = _bookWithBookmarks
+
+    private val _pageTextAppearance = MutableLiveData<PageTextAppearance>()
+    val pageTextAppearance: LiveData<PageTextAppearance> = _pageTextAppearance
 
     private val _pagedBook = MutableLiveData<LinkedList<Spanned>>()
     val pagedBook: LiveData<LinkedList<Spanned>> = _pagedBook
@@ -97,12 +101,14 @@ class PageViewModel(
         }
     }
 
-    // Preferences.
-    // These values are set in readPreferences@PageActivity
-    lateinit var fontFamily: Typeface
-    var fontSize = 0f
-    var fontColor = 0
-    var lineSpacing = 1.0f
+    /**
+     * Update text appearances like text-size, type-face, color ...
+     *
+     * @param pageTextAppearance PageTextAppearance.
+     */
+    fun updatePageTextAppearance(pageTextAppearance: PageTextAppearance) {
+        _pageTextAppearance.value = pageTextAppearance
+    }
 
     /**
      * Read text file from uri.
@@ -428,6 +434,7 @@ class PageViewModel(
      *
      * @param page
      */
+    @MainThread
     fun goToPage(page: Int) {
         if (page in _pagedBook.value!!.indices && page != currentPage.value) {
             currentPage.value = page
@@ -652,5 +659,15 @@ class PageViewModel(
         val spacingMult: Float,
         val spacingExtra: Float,
         val includePad: Boolean
+    )
+
+    /**
+     * Text appearance class to decorate page text view.
+     */
+    data class PageTextAppearance(
+        val fontFamily: Typeface,
+        val fontSize: Float = 0f,
+        val fontColor: Int = 0,
+        val lineSpacing: Float = 1.0f
     )
 }

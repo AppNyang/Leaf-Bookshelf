@@ -49,7 +49,6 @@
                 android:layout_weight="1"
                 android:layout_marginStart="12dp"
                 android:singleLine="true"
-                android:textAppearance="@style/TextAppearance.Page"
                 android:textSize="16sp"
                 android:text="@{viewModel.bookWithBookmarks.book.displayName}" />
 
