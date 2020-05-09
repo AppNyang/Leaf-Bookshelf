@@ -153,12 +153,9 @@ class PageViewModel(
                             var loadIndex = charIndex
                             // The charIndex less than 0 means "Open recently read page".
                             if (charIndex < 0) {
-                                loadIndex = 0
-                                bookWithBookmarks.value?.let { bookWithBookmarks ->
-                                    loadIndex = bookWithBookmarks.bookmarks
-                                        .firstOrNull { bookmark -> bookmark.type == BookmarkType.LAST_READ.name }?.index
-                                        ?: 0
-                                }
+                                loadIndex = it.bookmarks
+                                    .firstOrNull { bookmark -> bookmark.type == BookmarkType.LAST_READ.name }?.index
+                                    ?: 0
                             }
 
                             paginateBook(chunkedText, layoutParam, loadIndex)
