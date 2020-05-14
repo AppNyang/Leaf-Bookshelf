@@ -58,6 +58,8 @@ class PageViewModel(
     private val _pagedBook = MutableLiveData<LinkedList<Spanned>>()
     val pagedBook: LiveData<LinkedList<Spanned>> = _pagedBook
 
+    val currentPage = MutableLiveData(CurrentPage(0))
+
     // Showing menu flags.
     private val _showMenu = MutableLiveData(false)
     val showMenu: LiveData<Boolean> = _showMenu
@@ -69,8 +71,6 @@ class PageViewModel(
     private val _bookmarks = MediatorLiveData<List<Bookmark>>()
     val bookmarks: LiveData<List<Bookmark>> = _bookmarks
 
-    val currentPage = MutableLiveData(0)
-    val bScrollAnim = AtomicBoolean(true)
     val isPaginating = AtomicBoolean(false)
 
     val bTts = MutableLiveData(false)
@@ -84,9 +84,9 @@ class PageViewModel(
         }
         else {
             when (touchUpPosition) {
-                PageAdapter.TouchUpPosition.LEFT -> goToPage(currentPage.value!! - 1)
+                PageAdapter.TouchUpPosition.LEFT -> goToPage(currentPage.value!!.page - 1)
                 PageAdapter.TouchUpPosition.MIDDLE -> onShowMenuClicked()
-                PageAdapter.TouchUpPosition.RIGHT -> goToPage(currentPage.value!! + 1)
+                PageAdapter.TouchUpPosition.RIGHT -> goToPage(currentPage.value!!.page + 1)
             }
         }
     }
@@ -96,15 +96,15 @@ class PageViewModel(
     private var isBound = false
     private val ttsServiceConnection = object: ServiceConnection {
         override fun onServiceConnected(name: ComponentName, binder: IBinder) {
-            ttsService = (binder as TtsService.LocalBinder).getService()
+            /*ttsService = (binder as TtsService.LocalBinder).getService()
             isBound = true
 
             setOnUserCancelReadListener()
 
             val title = ""
             pagedBook.value?.let { book ->
-                ttsService.read(title, book, currentPage)
-            }
+                ttsService.read(title, book, _currentPage)
+            }*/
         }
         override fun onServiceDisconnected(name: ComponentName) {
             isBound = false
@@ -309,7 +309,6 @@ class PageViewModel(
 
                 // If the user load the book with bookmark, go to the bookmark.
                 if (charIndexInChunk != 0L) {
-                    bScrollAnim.set(false)
                     postCurrentPageToIndex(list, charIndexInChunk)
                 }
             }
@@ -320,8 +319,7 @@ class PageViewModel(
                 } else {
                     pagedCharSequence.reversed().asSequence().forEach { _pagedBook.value?.addFirst(it) }
                     _pagedBook.notify()
-                    bScrollAnim.set(false)
-                    currentPage.postValue(currentPage.value?.plus(pagedCharSequence.size))
+                    currentPage.postValue(CurrentPage(currentPage.value!!.page.plus(pagedCharSequence.size), false))
                 }
             }
 
@@ -433,7 +431,7 @@ class PageViewModel(
                 sum += text.length
             }
 
-        currentPage.postValue(page)
+        currentPage.postValue(CurrentPage(page, false))
     }
 
     /**
@@ -444,8 +442,18 @@ class PageViewModel(
      */
     @MainThread
     fun goToPage(page: Int) {
-        if (page in _pagedBook.value!!.indices && page != currentPage.value) {
-            currentPage.value = page
+        if (page in _pagedBook.value!!.indices && page != currentPage.value?.page) {
+            currentPage.value = CurrentPage(page)
+        }
+    }
+
+    /**
+     * Set lastOpenedAt to now. This function called when open the file or resume reading.
+     */
+    @MainThread
+    fun setLastOpenedToNow() {
+        bookWithBookmarks.value?.let {
+            it.book.lastOpenedAt = DateTime.now()
         }
     }
 
@@ -525,7 +533,7 @@ class PageViewModel(
      */
     fun getCurrentTextIndex(): Long = pagedBook.value?.run {
         asSequence()
-            .filterIndexed { index, _ -> index < (currentPage.value ?: 0) }
+            .filterIndexed { index, _ -> index < (currentPage.value!!.page ?: 0) }
             .sumBy { it.length }
             .toLong()
     } ?: 0L
@@ -554,7 +562,7 @@ class PageViewModel(
                 // Show loading screen or sth.
             }
 
-            currentPage.postValue(page)
+            currentPage.postValue(CurrentPage(page))
         }
     }
 
@@ -565,10 +573,10 @@ class PageViewModel(
      */
     @WorkerThread
     fun goToNextPage(): Boolean {
-        val hasNext = currentPage.value ?: 0 < pagedBook.value?.size?.minus(1) ?: -1
+        val hasNext = currentPage.value?.page ?: 0 < pagedBook.value?.size?.minus(1) ?: -1
 
         if (hasNext) {
-            currentPage.postValue(currentPage.value?.plus(1))
+            currentPage.postValue(CurrentPage(currentPage.value!!.page.plus(1)))
         }
 
         return hasNext
@@ -635,7 +643,7 @@ class PageViewModel(
      * @return Two lines string of current page.
      */
     private fun getQuote(): String =
-        (pagedBook.value?.get(currentPage.value ?: 0)?.toString() ?: "")
+        (pagedBook.value?.get(currentPage.value!!.page)?.toString() ?: "")
             .trim()
             .splitToSequence("\n", limit = 3)
             .filterIndexed { index, _ -> index < 2 }
@@ -647,7 +655,7 @@ class PageViewModel(
      * @return Float value of reading progress.
      */
     private fun getReadingProgress(): Float =
-        ((currentPage.value?.toFloat() ?: 0f) / (pagedBook.value?.size?.toFloat() ?: 1f))
+        ((currentPage.value!!.page.toFloat()) / (pagedBook.value?.size?.toFloat() ?: 1f))
             .coerceAtMost(1.0f)
 
     /**
@@ -658,6 +666,14 @@ class PageViewModel(
     private fun <T> MutableLiveData<T>.notify() {
         this.postValue(this.value)
     }
+
+    /**
+     * Data class for currentPage.
+     */
+    data class CurrentPage(
+        val page: Int,
+        val bSmoothScroll: Boolean = true
+    )
 
     /**
      * This data class used for build StaticLayout.

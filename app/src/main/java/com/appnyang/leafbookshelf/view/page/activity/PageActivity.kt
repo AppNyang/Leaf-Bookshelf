@@ -19,7 +19,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
-import androidx.viewpager2.widget.ViewPager2
 import com.appnyang.leafbookshelf.BuildConfig
 import com.appnyang.leafbookshelf.R
 import com.appnyang.leafbookshelf.data.model.bookmark.BookmarkType
@@ -71,12 +70,6 @@ class PageActivity : AppCompatActivity() {
 
         // Initialize ViewPager2.
         pager.setPageTransformer(DepthPageTransformer())
-        pager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                viewModel.currentPage.value = position
-            }
-        })
 
         // Open files depends on file type.
         pager.afterMeasured {
@@ -132,15 +125,21 @@ class PageActivity : AppCompatActivity() {
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-
-        // Save a bookmark.
-        viewModel.bookmarkCurrentPage(getString(R.string.last_read), BookmarkType.LAST_READ)
+    override fun onPause() {
+        super.onPause()
 
         if (viewModel.bookWithBookmarks.value != null) {
+            // Save a bookmark.
+            viewModel.bookmarkCurrentPage(getString(R.string.last_read), BookmarkType.LAST_READ)
+
             viewModel.updateBookBeforeClose()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        viewModel.setLastOpenedToNow()
     }
 
     /**
@@ -212,15 +211,6 @@ class PageActivity : AppCompatActivity() {
             // If bookWithBookmarks is null, it means the book has been deleted.
             if (it == null) {
                 finish()
-            }
-        })
-
-        // Called the user has navigated to the page.
-        viewModel.currentPage.observe(this, Observer {
-            // Avoid infinite loop.
-            if (pager.currentItem != it) {
-                pager.setCurrentItem(it, viewModel.bScrollAnim.get())
-                viewModel.bScrollAnim.set(true)
             }
         })
 

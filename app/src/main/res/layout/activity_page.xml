@@ -18,6 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:paged_book="@{viewModel.pagedBook}"
+            app:current_page="@={viewModel.currentPage}"
             app:page_text_appearance="@{viewModel.pageTextAppearance}"
             app:touch_up_listener="@{viewModel.onTouchUpListener}" />
 
@@ -113,7 +114,7 @@
                 android:id="@+id/seekPages"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:progress="@={viewModel.currentPage}"
+                app:current_page="@={viewModel.CurrentPage}"
                 app:pages="@{viewModel.pagedBook}"
                 app:layout_constraintTop_toBottomOf="@id/textPages" />
             
