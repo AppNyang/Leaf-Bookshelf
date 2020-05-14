@@ -139,15 +139,21 @@ class PageViewModel(
             // Read a Book with Bookmarks.
             bookRepo.getBookWithBookmarks(uri).collect {
                 if (it == null) {
-                    // Create a new Book.
-                    val displayName = fetchBookNameFromUri(uri, contentResolver)
-                    val book = Book(uri, displayName, Uri.parse("color:red"), "", 0, DateTime.now())
-                    bookRepo.saveBook(book)
+                    if (!isBookLoaded.get()) {
+                        // Create a new Book.
+                        val displayName = fetchBookNameFromUri(uri, contentResolver)
+                        val book = Book(uri, displayName, Uri.parse("color:red"), "", 0, DateTime.now())
+                        bookRepo.saveBook(book)
+                    }
+                    else {
+                        // Book had been loaded and deleted.
+                        _bookWithBookmarks.postValue(null)
+                    }
                 }
                 else {
                     if (!isBookLoaded.getAndSet(true)) {
                         launch {
-                            it.book.lastOpenedAt = DateTime.now()
+                            setLastOpenedToNow()
 
                             val chunkedText = fetchBookFromUri(uri, contentResolver)
                             var loadIndex = charIndex
