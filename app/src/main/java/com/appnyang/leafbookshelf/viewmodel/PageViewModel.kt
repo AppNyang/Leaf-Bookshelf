@@ -151,10 +151,16 @@ class PageViewModel(
                     }
                 }
                 else {
-                    if (!isBookLoaded.getAndSet(true)) {
-                        launch {
-                            setLastOpenedToNow()
+                    launch(Dispatchers.Main) {
+                        _bookWithBookmarks.value = it
+                    }
 
+                    if (!isBookLoaded.getAndSet(true)) {
+                        launch(Dispatchers.Main) {
+                            setLastOpenedToNow()
+                        }
+
+                        launch {
                             val chunkedText = fetchBookFromUri(uri, contentResolver)
                             var loadIndex = charIndex
                             // The charIndex less than 0 means "Open recently read page".
@@ -167,8 +173,6 @@ class PageViewModel(
                             paginateBook(chunkedText, layoutParam, loadIndex)
                         }
                     }
-
-                    _bookWithBookmarks.postValue(it)
                 }
             }
         }
