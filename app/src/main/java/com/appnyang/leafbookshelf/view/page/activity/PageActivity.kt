@@ -19,12 +19,14 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
+import androidx.viewpager2.widget.ViewPager2
 import com.appnyang.leafbookshelf.BuildConfig
 import com.appnyang.leafbookshelf.R
 import com.appnyang.leafbookshelf.data.model.bookmark.BookmarkType
 import com.appnyang.leafbookshelf.databinding.ActivityPageBinding
 import com.appnyang.leafbookshelf.util.afterMeasured
 import com.appnyang.leafbookshelf.util.transformer.DepthPageTransformer
+import com.appnyang.leafbookshelf.util.transformer.DepthPageTransformerVertical
 import com.appnyang.leafbookshelf.view.book.activity.BookActivity
 import com.appnyang.leafbookshelf.view.page.fragment.TextAppearancePreferenceFragment
 import com.appnyang.leafbookshelf.viewmodel.PageViewModel
@@ -67,9 +69,6 @@ class PageActivity : AppCompatActivity() {
             .commit()
 
         registerSystemUiChangeListener()
-
-        // Initialize ViewPager2.
-        pager.setPageTransformer(DepthPageTransformer())
 
         // Open files depends on file type.
         pager.afterMeasured {
@@ -227,6 +226,11 @@ class PageActivity : AppCompatActivity() {
         // Called when the bookmark button of top-menu clicked.
         viewModel.showBookmark.observe(this, Observer {
             showBookmarksMenu(it)
+        })
+
+        // Called when the checked of ChipHorizontal has been changed.
+        viewModel.bHorizontal.observe(this, Observer {
+            changePageOrientation(it)
         })
 
         // Called when TTS chip is clicked.
@@ -418,6 +422,22 @@ class PageActivity : AppCompatActivity() {
                     start()
                 }
             }
+        }
+    }
+
+    /**
+     * Change ViewPager's orientation and transformer.
+     *
+     * @param isHorizontal Set orientation to horizontal if true.
+     */
+    private fun changePageOrientation(isHorizontal: Boolean) {
+        if (isHorizontal) {
+            pager.setPageTransformer(DepthPageTransformer())
+            pager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        }
+        else {
+            pager.setPageTransformer(DepthPageTransformerVertical())
+            pager.orientation = ViewPager2.ORIENTATION_VERTICAL
         }
     }
 

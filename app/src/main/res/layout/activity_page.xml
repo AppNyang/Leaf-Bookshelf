@@ -130,8 +130,9 @@
                     style="@style/Chip.Page"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="@={viewModel.bHorizontal}"
                     android:textColor="@color/chip_text"
-                    android:text="@string/chip_page" />
+                    android:text="@string/chip_horizontal" />
                 <com.google.android.material.chip.Chip
                     style="@style/Chip.Page"
                     android:layout_width="wrap_content"

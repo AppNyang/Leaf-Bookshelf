@@ -60,6 +60,11 @@ class PageViewModel(
 
     val currentPage = MutableLiveData(CurrentPage(0))
 
+    // Chips.
+    val bHorizontal = MutableLiveData(true)
+    val bTts = MutableLiveData(false)
+    val bAuto = MutableLiveData(false)
+
     // Showing menu flags.
     private val _showMenu = MutableLiveData(false)
     val showMenu: LiveData<Boolean> = _showMenu
@@ -72,9 +77,6 @@ class PageViewModel(
     val bookmarks: LiveData<List<Bookmark>> = _bookmarks
 
     val isPaginating = AtomicBoolean(false)
-
-    val bTts = MutableLiveData(false)
-    val bAuto = MutableLiveData(false)
 
     // Page touch listener.
     val onTouchUpListener: (touchUpPosition: PageAdapter.TouchUpPosition) -> Unit = { touchUpPosition ->
