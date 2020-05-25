@@ -228,13 +228,8 @@ class PageActivity : AppCompatActivity() {
                     BottomSheetBehavior.from(layoutBottomMenu).state = BottomSheetBehavior.STATE_EXPANDED
                 }
                 PageViewModel.MenuState.Settings -> BottomSheetBehavior.from(layoutSettingsMenu).state = BottomSheetBehavior.STATE_EXPANDED
-                PageViewModel.MenuState.Bookmarks -> {}
+                PageViewModel.MenuState.Bookmarks -> BottomSheetBehavior.from(layoutBookmarkMenu).state = BottomSheetBehavior.STATE_EXPANDED
             }
-        })
-
-        // Called when the bookmark button of top-menu clicked.
-        viewModel.showBookmark.observe(this, Observer {
-            showBookmarksMenu(it)
         })
 
         // Called when the checked of ChipHorizontal has been changed.
@@ -366,30 +361,7 @@ class PageActivity : AppCompatActivity() {
 
         BottomSheetBehavior.from(layoutBottomMenu).state = BottomSheetBehavior.STATE_HIDDEN
         BottomSheetBehavior.from(layoutSettingsMenu).state = BottomSheetBehavior.STATE_HIDDEN
-    }
-
-    /**
-     * Show or hide bookmarks menu.
-     *
-     * @param bShow true to show the bookmarks menu.
-     */
-    private fun showBookmarksMenu(bShow: Boolean) {
-        if (layoutBookmarkMenu.height != 0) {
-            val animationDuration = 200L
-
-            if (bShow) {
-                ObjectAnimator.ofFloat(layoutBookmarkMenu, "translationY", 0f).apply {
-                    duration = animationDuration
-                    start()
-                }
-            }
-            else {
-                ObjectAnimator.ofFloat(layoutBookmarkMenu, "translationY", layoutBookmarkMenu.height.toFloat() * 1.5f).apply {
-                    duration = animationDuration
-                    start()
-                }
-            }
-        }
+        BottomSheetBehavior.from(layoutBookmarkMenu).state = BottomSheetBehavior.STATE_HIDDEN
     }
 
     /**

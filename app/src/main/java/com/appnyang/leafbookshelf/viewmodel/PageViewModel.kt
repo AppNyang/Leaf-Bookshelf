@@ -69,10 +69,6 @@ class PageViewModel(
     private val _menuState = MutableLiveData(MenuState.Default)
     val menuState: LiveData<MenuState> = _menuState
 
-    // Showing menu flags.
-    private val _showBookmark = MutableLiveData(false)
-    val showBookmark: LiveData<Boolean> = _showBookmark
-
     private val _bookmarks = MediatorLiveData<List<Bookmark>>()
     val bookmarks: LiveData<List<Bookmark>> = _bookmarks
 
@@ -483,13 +479,6 @@ class PageViewModel(
      */
     fun changeMenuState(menuState: MenuState) {
         _menuState.value = menuState
-    }
-
-    /**
-     * Show bookmarks menu.
-     */
-    fun onBookmarkClicked() {
-
     }
 
     /**
