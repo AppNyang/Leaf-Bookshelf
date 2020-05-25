@@ -8,84 +8,166 @@
         <variable name="viewModel" type="com.appnyang.leafbookshelf.viewmodel.PageViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:keepScreenOn="true">
+        android:layout_height="match_parent">
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/pager"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:paged_book="@{viewModel.pagedBook}"
-            app:current_page="@={viewModel.currentPage}"
-            app:page_text_appearance="@{viewModel.pageTextAppearance}"
-            app:touch_up_listener="@{viewModel.onTouchUpListener}" />
+            android:keepScreenOn="true">
 
-        <!-- Top Menu -->
-        <LinearLayout
-            android:id="@+id/layoutTopMenu"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:background="@color/menuBackground"
-            android:translationY="-55dp"
-            android:elevation="@dimen/page_menu_elevation"
-            android:focusable="true"
-            android:clickable="true"
-            app:layout_constraintTop_toTopOf="parent">
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:paged_book="@{viewModel.pagedBook}"
+                app:current_page="@={viewModel.currentPage}"
+                app:page_text_appearance="@{viewModel.pageTextAppearance}"
+                app:touch_up_listener="@{viewModel.onTouchUpListener}" />
 
-            <com.google.android.material.button.MaterialButton
-                style="@style/Widget.App.Button.Icon"
-                android:id="@+id/buttonBack"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="20dp"
-                android:backgroundTint="@color/menuBackground"
-                android:onClick="onTopMenuClicked"
-                app:iconSize="24dp"
-                app:icon="@drawable/ic_back" />
+            <!-- Top Menu -->
+            <LinearLayout
+                android:id="@+id/layoutTopMenu"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:background="@color/menuBackground"
+                android:translationY="-55dp"
+                android:elevation="@dimen/page_menu_elevation"
+                android:focusable="true"
+                android:clickable="true"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:layout_width="0dp"
+                <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.App.Button.Icon"
+                    android:id="@+id/buttonBack"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="20dp"
+                    android:backgroundTint="@color/menuBackground"
+                    android:onClick="onTopMenuClicked"
+                    app:iconSize="24dp"
+                    app:icon="@drawable/ic_back" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="12dp"
+                    android:singleLine="true"
+                    android:textSize="16sp"
+                    android:text="@{viewModel.bookWithBookmarks.book.displayName}" />
+
+                <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.App.Button.Icon"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:backgroundTint="@color/menuBackground"
+                    android:onClick="@{() -> viewModel.onSettingsClicked()}"
+                    app:iconSize="24dp"
+                    app:icon="@drawable/ic_settings" />
+
+                <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.App.Button.Icon"
+                    android:id="@+id/buttonAddBookmark"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:backgroundTint="@color/menuBackground"
+                    android:onClick="onTopMenuClicked"
+                    app:iconSize="24dp"
+                    app:icon="@drawable/ic_bookmark" />
+
+                <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.App.Button.Icon"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="20dp"
+                    android:backgroundTint="@color/menuBackground"
+                    android:onClick="@{() -> viewModel.onBookmarkClicked()}"
+                    app:iconSize="24dp"
+                    app:icon="@drawable/ic_list" />
+
+            </LinearLayout>
+
+            <!-- Bottom Bookmarks Menu -->
+            <LinearLayout
+                android:id="@+id/layoutBookmarkMenu"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="12dp"
-                android:singleLine="true"
-                android:textSize="16sp"
-                android:text="@{viewModel.bookWithBookmarks.book.displayName}" />
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="24dp"
+                android:paddingBottom="24dp"
+                android:background="@color/menuBackground"
+                android:orientation="vertical"
+                android:translationY="250dp"
+                android:elevation="@dimen/page_menu_elevation"
+                android:focusable="true"
+                android:clickable="true"
+                app:layout_constraintBottom_toBottomOf="parent">
 
-            <com.google.android.material.button.MaterialButton
-                style="@style/Widget.App.Button.Icon"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:backgroundTint="@color/menuBackground"
-                android:onClick="@{() -> viewModel.onSettingsClicked()}"
-                app:iconSize="24dp"
-                app:icon="@drawable/ic_settings" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Page.Menu.Title"
+                    android:text="@string/bookmarks" />
 
-            <com.google.android.material.button.MaterialButton
-                style="@style/Widget.App.Button.Icon"
-                android:id="@+id/buttonAddBookmark"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:backgroundTint="@color/menuBackground"
-                android:onClick="onTopMenuClicked"
-                app:iconSize="24dp"
-                app:icon="@drawable/ic_bookmark" />
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:scrollbars="none">
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chipGroupBookmarks"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:singleLine="true" />
+                </HorizontalScrollView>
 
-            <com.google.android.material.button.MaterialButton
-                style="@style/Widget.App.Button.Icon"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginEnd="20dp"
-                android:backgroundTint="@color/menuBackground"
-                android:onClick="@{() -> viewModel.onBookmarkClicked()}"
-                app:iconSize="24dp"
-                app:icon="@drawable/ic_list" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:textAppearance="@style/TextAppearance.Page.Menu.Title"
+                    android:text="@string/auto_generated_bookmarks" />
 
-        </LinearLayout>
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:scrollbars="none">
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chipGroupAutoGeneratedBookmarks"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:singleLine="true" />
+                </HorizontalScrollView>
+
+            </LinearLayout>
+
+            <!-- Settings Menu -->
+            <LinearLayout
+                android:id="@+id/layoutSettingsMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/menuBackground"
+                android:translationY="-600dp"
+                android:elevation="@dimen/page_menu_elevation"
+                android:focusable="true"
+                android:clickable="true"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/preferenceContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- Bottom Menu -->
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -94,11 +176,11 @@
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:background="@color/menuBackground"
-            android:translationY="150dp"
             android:elevation="@dimen/page_menu_elevation"
             android:focusable="true"
             android:clickable="true"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:behavior_hideable="true"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
             <TextView
                 android:id="@+id/textPages"
@@ -121,7 +203,7 @@
                 android:valueTo="100"
                 android:stepSize="1" />
 
-            
+
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chipGroup"
                 android:layout_width="wrap_content"
@@ -153,81 +235,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- Bottom Bookmarks Menu -->
-        <LinearLayout
-            android:id="@+id/layoutBookmarkMenu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:paddingTop="24dp"
-            android:paddingBottom="24dp"
-            android:background="@color/menuBackground"
-            android:orientation="vertical"
-            android:translationY="250dp"
-            android:elevation="@dimen/page_menu_elevation"
-            android:focusable="true"
-            android:clickable="true"
-            app:layout_constraintBottom_toBottomOf="parent">
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.Page.Menu.Title"
-                android:text="@string/bookmarks" />
-
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:scrollbars="none">
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chipGroupBookmarks"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:singleLine="true" />
-            </HorizontalScrollView>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:textAppearance="@style/TextAppearance.Page.Menu.Title"
-                android:text="@string/auto_generated_bookmarks" />
-            
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:scrollbars="none">
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chipGroupAutoGeneratedBookmarks"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:singleLine="true" />
-            </HorizontalScrollView>
-
-        </LinearLayout>
-
-        <!-- Settings Menu -->
-        <LinearLayout
-            android:id="@+id/layoutSettingsMenu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/menuBackground"
-            android:translationY="-600dp"
-            android:elevation="@dimen/page_menu_elevation"
-            android:focusable="true"
-            android:clickable="true"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/preferenceContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        </LinearLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

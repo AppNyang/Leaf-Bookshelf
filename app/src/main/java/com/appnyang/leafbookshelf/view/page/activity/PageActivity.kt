@@ -32,6 +32,7 @@ import com.appnyang.leafbookshelf.view.page.fragment.TextAppearancePreferenceFra
 import com.appnyang.leafbookshelf.viewmodel.PageViewModel
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.activity_page.*
 import kotlinx.android.synthetic.main.dialog_add_bookmark.view.*
 import kotlinx.coroutines.Dispatchers
@@ -111,8 +112,8 @@ class PageActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (viewModel.isAnyMenuOpened()) {
-            viewModel.displayMenu()
+        if (viewModel.menuState.value != PageViewModel.MenuState.Default) {
+            viewModel.closeAllMenu()
         }
         else {
             // Before exit this activity.
@@ -213,9 +214,22 @@ class PageActivity : AppCompatActivity() {
             }
         })
 
-        // Called when the middle of page is clicked.
-        viewModel.showMenu.observe(this, Observer {
-            showMenu(it)
+        // Called when the state is changed.
+        viewModel.menuState.observe(this, Observer {
+            hideAllMenu()
+
+            when (it!!) {
+                PageViewModel.MenuState.Default -> {}
+                PageViewModel.MenuState.TopBottom -> {
+                    ObjectAnimator.ofFloat(layoutTopMenu, "translationY", 0f).apply {
+                        duration =  200L
+                        start()
+                    }
+                    BottomSheetBehavior.from(layoutBottomMenu).state = BottomSheetBehavior.STATE_EXPANDED
+                }
+                PageViewModel.MenuState.Bookmarks -> {}
+                PageViewModel.MenuState.Settings -> {}
+            }
         })
 
         // Called when settings button of top-menu clicked.
@@ -328,7 +342,7 @@ class PageActivity : AppCompatActivity() {
     fun onTopMenuClicked(view: View) {
         when (view.id) {
             R.id.buttonBack -> {
-                viewModel.displayMenu()
+                viewModel.closeAllMenu()
                 onBackPressed()
             }
             R.id.buttonAddBookmark -> {
@@ -347,34 +361,15 @@ class PageActivity : AppCompatActivity() {
     }
 
     /**
-     * Show or hide menus based on bShow
-     *
-     * @param bShow true to show the menus.
+     * Hide all menus.
      */
-    private fun showMenu(bShow: Boolean) {
-        if (layoutTopMenu.height != 0 || layoutBottomMenu.height != 0) {
-            val animationDuration = 200L
-
-            if (bShow) {
-                ObjectAnimator.ofFloat(layoutTopMenu, "translationY", 0f).apply {
-                    duration = animationDuration
-                    start()
-                }
-                ObjectAnimator.ofFloat(layoutBottomMenu, "translationY", 0f).apply {
-                    duration = animationDuration
-                    start()
-                }
-            } else {
-                ObjectAnimator.ofFloat(layoutTopMenu, "translationY", -layoutTopMenu.height.toFloat()).apply {
-                    duration = animationDuration
-                    start()
-                }
-                ObjectAnimator.ofFloat(layoutBottomMenu, "translationY", layoutBottomMenu.height.toFloat()).apply {
-                    duration = animationDuration
-                    start()
-                }
-            }
+    private fun hideAllMenu() {
+        ObjectAnimator.ofFloat(layoutTopMenu, "translationY", -300f).apply {
+            duration = 200L
+            start()
         }
+
+        BottomSheetBehavior.from(layoutBottomMenu).state = BottomSheetBehavior.STATE_HIDDEN
     }
 
     /**

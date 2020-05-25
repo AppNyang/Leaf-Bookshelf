@@ -65,9 +65,11 @@ class PageViewModel(
     val bTts = MutableLiveData(false)
     val bAuto = MutableLiveData(false)
 
+    // Menu state.
+    private val _menuState = MutableLiveData(MenuState.Default)
+    val menuState: LiveData<MenuState> = _menuState
+
     // Showing menu flags.
-    private val _showMenu = MutableLiveData(false)
-    val showMenu: LiveData<Boolean> = _showMenu
     private val _showSettings = MutableLiveData(false)
     val showSettings: LiveData<Boolean> = _showSettings
     private val _showBookmark = MutableLiveData(false)
@@ -80,14 +82,14 @@ class PageViewModel(
 
     // Page touch listener.
     val onTouchUpListener: (touchUpPosition: PageAdapter.TouchUpPosition) -> Unit = { touchUpPosition ->
-        if (isAnyMenuOpened()) {
-            // Close all menu.
-            displayMenu()
+        // Hide menus if any menu is displayed.
+        if (menuState.value != MenuState.Default) {
+            _menuState.value = MenuState.Default
         }
         else {
             when (touchUpPosition) {
                 PageAdapter.TouchUpPosition.LEFT -> goToPage(currentPage.value!!.page - 1)
-                PageAdapter.TouchUpPosition.MIDDLE -> onShowMenuClicked()
+                PageAdapter.TouchUpPosition.MIDDLE -> _menuState.value = MenuState.TopBottom
                 PageAdapter.TouchUpPosition.RIGHT -> goToPage(currentPage.value!!.page + 1)
             }
         }
@@ -470,43 +472,24 @@ class PageViewModel(
     }
 
     /**
-     * Show menu. It is called when the user click the middle of the page.
+     * Set menuState to Default to close all menu.
      */
-    fun onShowMenuClicked() {
-        if (isAnyMenuOpened()) {
-            displayMenu()
-        }
-        else {
-            displayMenu(menu = _showMenu.value?.not() ?: false)
-        }
+    fun closeAllMenu() {
+        _menuState.value = MenuState.Default
     }
 
     /**
      * Show settings menu.
      */
     fun onSettingsClicked() {
-        displayMenu(settings = true)
+
     }
 
     /**
      * Show bookmarks menu.
      */
     fun onBookmarkClicked() {
-        displayMenu(bookmark = true)
-    }
 
-    /**
-     * Return true if any menu is opened.
-     */
-    fun isAnyMenuOpened(): Boolean = showMenu.value?.or(showSettings.value?.or(showBookmark.value ?: false) ?: false) ?: false
-
-    /**
-     * Open menu panel.
-     */
-    fun displayMenu(menu: Boolean = false, settings: Boolean = false, bookmark: Boolean = false) {
-        _showMenu.value = menu
-        _showSettings.value = settings
-        _showBookmark.value = bookmark
     }
 
     /**
@@ -715,4 +698,11 @@ class PageViewModel(
         val fontColor: Int = 0,
         val lineSpacing: Float = 1.0f
     )
+
+    enum class MenuState {
+        Default,
+        TopBottom,
+        Bookmarks,
+        Settings
+    }
 }
