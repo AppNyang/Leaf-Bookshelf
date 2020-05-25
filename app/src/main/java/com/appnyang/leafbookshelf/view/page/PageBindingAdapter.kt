@@ -1,7 +1,6 @@
 package com.appnyang.leafbookshelf.view.page
 
 import android.util.TypedValue
-import android.widget.SeekBar
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
@@ -9,6 +8,7 @@ import androidx.databinding.InverseBindingListener
 import androidx.viewpager2.widget.ViewPager2
 import com.appnyang.leafbookshelf.R
 import com.appnyang.leafbookshelf.viewmodel.PageViewModel
+import com.google.android.material.slider.Slider
 
 /**
  * Binding adapter for Page.
@@ -65,33 +65,31 @@ fun setPageTextAppearance(view: TextView, pageTextAppearance: PageViewModel.Page
 }
 
 @BindingAdapter("pages")
-fun setPages(view: SeekBar, pagedBook: List<CharSequence>?) {
+fun setPages(view: Slider, pagedBook: List<CharSequence>?) {
     if (pagedBook != null) {
-        view.max = pagedBook.size - 1
+        view.valueTo = pagedBook.size.toFloat()
     }
 }
 
 @BindingAdapter("current_page")
-fun setCurrentPage(view: SeekBar, currentPage: PageViewModel.CurrentPage) {
-    if (view.progress != currentPage.page) {
-        view.progress = currentPage.page
+fun setCurrentPage(view: Slider, currentPage: PageViewModel.CurrentPage) {
+    if (view.value.toInt() != currentPage.page + 1) {
+        view.value = currentPage.page + 1f
     }
 }
 
 @InverseBindingAdapter(attribute = "current_page", event = "pageAttrChanged")
-fun getCurrentPage(view: SeekBar): PageViewModel.CurrentPage {
-    return PageViewModel.CurrentPage(view.progress)
+fun getCurrentPage(view: Slider): PageViewModel.CurrentPage {
+    return PageViewModel.CurrentPage(view.value.toInt() - 1)
 }
 
 @BindingAdapter("pageAttrChanged")
-fun setOnPageChangeListener(view: SeekBar, pageAttrChanged: InverseBindingListener) {
-    view.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
-        override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+fun setOnPageChangeListener(view: Slider, pageAttrChanged: InverseBindingListener) {
+    view.addOnChangeListener { _, _, fromUser ->
+        if (fromUser) {
             pageAttrChanged.onChange()
         }
-        override fun onStartTrackingTouch(p0: SeekBar?) {}
-        override fun onStopTrackingTouch(p0: SeekBar?) {}
-    })
+    }
 }
 
 @BindingAdapter("paged_book", "current_page")

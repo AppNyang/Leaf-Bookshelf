@@ -20,11 +20,9 @@
         <item name="android:statusBarColor">@color/white</item>
     </style>
 
-    <!-- Page seek bar -->
-    <style name="SeekBar.Page" parent="Theme.App">
-        <item name="android:progressTint">@color/darkLeaf</item>
-        <item name="android:thumbTint">@color/darkLeaf</item>
-        <item name="android:progressBackgroundTint">#B7B7B7</item>
+    <!-- Slider -->
+    <style name="ThemeOverlay.App.Slider" parent="ThemeOverlay.MaterialComponents">
+        <item name="colorPrimary">@color/darkEmerald</item>
     </style>
 
     <!-- Page chips -->

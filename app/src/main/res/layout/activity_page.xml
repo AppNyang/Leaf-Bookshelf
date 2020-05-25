@@ -109,21 +109,25 @@
                 app:paged_book="@{viewModel.pagedBook}"
                 app:current_page="@{viewModel.currentPage}" />
 
-            <SeekBar
-                style="@style/SeekBar.Page"
-                android:id="@+id/seekPages"
+            <com.google.android.material.slider.Slider
+                android:id="@+id/sliderPage"
+                android:theme="@style/ThemeOverlay.App.Slider"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:current_page="@={viewModel.CurrentPage}"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toBottomOf="@id/textPages"
                 app:pages="@{viewModel.pagedBook}"
-                app:layout_constraintTop_toBottomOf="@id/textPages" />
+                app:current_page="@={viewModel.currentPage}"
+                android:valueFrom="1"
+                android:valueTo="100"
+                android:stepSize="1" />
+
             
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chipGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:singleLine="true"
-                app:layout_constraintTop_toBottomOf="@id/seekPages"
+                app:layout_constraintTop_toBottomOf="@id/sliderPage"
                 app:layout_constraintEnd_toEndOf="parent">
 
                 <com.google.android.material.chip.Chip
