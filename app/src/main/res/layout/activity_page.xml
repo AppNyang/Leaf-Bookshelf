@@ -131,24 +131,21 @@
                 app:layout_constraintEnd_toEndOf="parent">
 
                 <com.google.android.material.chip.Chip
-                    style="@style/Chip.Page"
+                    style="@style/Widget.App.Chip.Page"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="@={viewModel.bHorizontal}"
-                    android:textColor="@color/chip_text"
                     android:text="@string/chip_horizontal" />
                 <com.google.android.material.chip.Chip
-                    style="@style/Chip.Page"
+                    style="@style/Widget.App.Chip.Page"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/chip_text"
                     android:checked="@={viewModel.bTts}"
                     android:text="@string/chip_tts" />
                 <com.google.android.material.chip.Chip
-                    style="@style/Chip.Page"
+                    style="@style/Widget.App.Chip.Page"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/chip_text"
                     android:checked="@={viewModel.bAuto}"
                     android:text="@string/chip_auto" />
 

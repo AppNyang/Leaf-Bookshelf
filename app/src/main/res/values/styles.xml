@@ -26,13 +26,14 @@
     </style>
 
     <!-- Page chips -->
-    <style name="Chip.Page" parent="@style/Widget.MaterialComponents.Chip.Choice">
+    <style name="Widget.App.Chip.Page" parent="Widget.MaterialComponents.Chip.Choice">
         <item name="chipStartPadding">@dimen/page_chip_horizontal_padding</item>
         <item name="chipEndPadding">@dimen/page_chip_horizontal_padding</item>
         <item name="chipBackgroundColor">@color/chip_background</item>
-        <item name="chipStrokeColor">@color/darkLeaf</item>
+        <item name="chipStrokeColor">@color/darkEmerald</item>
         <item name="chipStrokeWidth">1dp</item>
-        <item name="rippleColor">@color/darkLeaf</item>
+        <item name="rippleColor">@color/lightEmerald</item>
+        <item name="android:textColor">@color/chip_text</item>
         <item name="android:textAppearance">@style/TextAppearance.Chip.Page</item>
     </style>
 
