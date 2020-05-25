@@ -70,8 +70,6 @@ class PageViewModel(
     val menuState: LiveData<MenuState> = _menuState
 
     // Showing menu flags.
-    private val _showSettings = MutableLiveData(false)
-    val showSettings: LiveData<Boolean> = _showSettings
     private val _showBookmark = MutableLiveData(false)
     val showBookmark: LiveData<Boolean> = _showBookmark
 
@@ -479,10 +477,12 @@ class PageViewModel(
     }
 
     /**
-     * Show settings menu.
+     * Change menu state to given value.
+     *
+     * @param menuState Menu state to set.
      */
-    fun onSettingsClicked() {
-
+    fun changeMenuState(menuState: MenuState) {
+        _menuState.value = menuState
     }
 
     /**

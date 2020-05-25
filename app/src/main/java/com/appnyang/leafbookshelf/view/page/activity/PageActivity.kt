@@ -227,14 +227,9 @@ class PageActivity : AppCompatActivity() {
                     }
                     BottomSheetBehavior.from(layoutBottomMenu).state = BottomSheetBehavior.STATE_EXPANDED
                 }
+                PageViewModel.MenuState.Settings -> BottomSheetBehavior.from(layoutSettingsMenu).state = BottomSheetBehavior.STATE_EXPANDED
                 PageViewModel.MenuState.Bookmarks -> {}
-                PageViewModel.MenuState.Settings -> {}
             }
-        })
-
-        // Called when settings button of top-menu clicked.
-        viewModel.showSettings.observe(this, Observer {
-            showSettingsMenu(it)
         })
 
         // Called when the bookmark button of top-menu clicked.
@@ -370,6 +365,7 @@ class PageActivity : AppCompatActivity() {
         }
 
         BottomSheetBehavior.from(layoutBottomMenu).state = BottomSheetBehavior.STATE_HIDDEN
+        BottomSheetBehavior.from(layoutSettingsMenu).state = BottomSheetBehavior.STATE_HIDDEN
     }
 
     /**
@@ -389,30 +385,6 @@ class PageActivity : AppCompatActivity() {
             }
             else {
                 ObjectAnimator.ofFloat(layoutBookmarkMenu, "translationY", layoutBookmarkMenu.height.toFloat() * 1.5f).apply {
-                    duration = animationDuration
-                    start()
-                }
-            }
-        }
-    }
-
-    /**
-     * Show or hide settings menu.
-     *
-     * @param bShow true to show the settings menu.
-     */
-    private fun showSettingsMenu(bShow: Boolean) {
-        if (layoutSettingsMenu.height != 0) {
-            val animationDuration = 200L
-
-            if (bShow) {
-                ObjectAnimator.ofFloat(layoutSettingsMenu, "translationY", 0f).apply {
-                    duration = animationDuration
-                    start()
-                }
-            }
-            else {
-                ObjectAnimator.ofFloat(layoutSettingsMenu, "translationY", -layoutSettingsMenu.height.toFloat()).apply {
                     duration = animationDuration
                     start()
                 }

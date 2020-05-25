@@ -65,7 +65,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:backgroundTint="@color/menuBackground"
-                    android:onClick="@{() -> viewModel.onSettingsClicked()}"
+                    android:onClick="@{() -> viewModel.changeMenuState(viewModel.MenuState.Settings)}"
                     app:iconSize="24dp"
                     app:icon="@drawable/ic_settings" />
 
@@ -147,26 +147,6 @@
 
             </LinearLayout>
 
-            <!-- Settings Menu -->
-            <LinearLayout
-                android:id="@+id/layoutSettingsMenu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@color/menuBackground"
-                android:translationY="-600dp"
-                android:elevation="@dimen/page_menu_elevation"
-                android:focusable="true"
-                android:clickable="true"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <androidx.fragment.app.FragmentContainerView
-                    android:id="@+id/preferenceContainer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- Bottom Menu -->
@@ -234,6 +214,26 @@
             </com.google.android.material.chip.ChipGroup>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Settings Menu -->
+        <LinearLayout
+            android:id="@+id/layoutSettingsMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/menuBackground"
+            android:elevation="@dimen/page_menu_elevation"
+            android:focusable="true"
+            android:clickable="true"
+            app:behavior_hideable="true"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/preferenceContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
