@@ -7,7 +7,7 @@
         <variable name="item" type="com.appnyang.leafbookshelf.viewmodel.RecentFile" />
     </data>
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
@@ -16,6 +16,8 @@
         android:focusable="true"
         android:clickable="true"
         android:onClick="@{() -> listener.onItemClicked(item)}"
+        app:rippleColor="@color/darkEmerald"
+        app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="0dp"
         app:cardElevation="0dp">
 
@@ -107,5 +109,5 @@
                 android:text="@{item.quote}" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 </layout>
