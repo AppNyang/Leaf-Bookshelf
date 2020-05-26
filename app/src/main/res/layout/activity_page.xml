@@ -33,7 +33,7 @@
                 android:layout_height="55dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:background="@color/menuBackground"
+                android:background="@color/white"
                 android:translationY="-55dp"
                 android:elevation="@dimen/page_menu_elevation"
                 android:focusable="true"
