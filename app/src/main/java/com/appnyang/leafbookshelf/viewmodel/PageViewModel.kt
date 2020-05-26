@@ -447,12 +447,17 @@ class PageViewModel(
      * Called when the user click the left or right side of the page.
      *
      * @param page
+     * @return true if the book has next page.
      */
     @MainThread
-    fun goToPage(page: Int) {
+    fun goToPage(page: Int): Boolean {
+        var hasNextPage = false
         if (page in _pagedBook.value!!.indices && page != currentPage.value?.page) {
             currentPage.value = CurrentPage(page)
+            hasNextPage = true
         }
+
+        return hasNextPage
     }
 
     /**
@@ -548,22 +553,6 @@ class PageViewModel(
 
             currentPage.postValue(CurrentPage(page))
         }
-    }
-
-    /**
-     * Go to the next page.
-     *
-     * @return true if current page is not the last page.
-     */
-    @WorkerThread
-    fun goToNextPage(): Boolean {
-        val hasNext = currentPage.value?.page ?: 0 < pagedBook.value?.size?.minus(1) ?: -1
-
-        if (hasNext) {
-            currentPage.postValue(CurrentPage(currentPage.value!!.page.plus(1)))
-        }
-
-        return hasNext
     }
 
     /**

@@ -307,8 +307,12 @@ class PageActivity : AppCompatActivity() {
                     val tickerChannel = ticker(delayMillis = 35000)
                     try {
                         for (event in tickerChannel) {
-                            if (!viewModel.goToNextPage()) {
-                                viewModel.bAuto.postValue(false)
+                            // Goto next page or stop auto read.
+                            launch(Dispatchers.Main) {
+                                val currentPage = viewModel.currentPage.value?.page ?: 0
+                                if (!viewModel.goToPage(currentPage + 1)) {
+                                    viewModel.bAuto.postValue(false)
+                                }
                             }
                         }
                     } finally {
