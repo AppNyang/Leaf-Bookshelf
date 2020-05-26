@@ -12,6 +12,7 @@
     
     <dimen name="icon_button_size">48dp</dimen>
     <dimen name="icon_button_icon_size">28dp</dimen>
+    <dimen name="icon_button_icon_size_page">24dp</dimen>
 
     <dimen name="fab_layout_margin">16dp</dimen>
     <dimen name="fab_elevation">48dp</dimen>

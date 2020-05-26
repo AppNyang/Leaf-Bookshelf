@@ -43,12 +43,12 @@
                 <com.google.android.material.button.MaterialButton
                     style="@style/Widget.App.Button.Icon"
                     android:id="@+id/buttonBack"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/icon_button_size"
+                    android:layout_height="@dimen/icon_button_size"
                     android:layout_marginStart="20dp"
                     android:backgroundTint="@color/menuBackground"
                     android:onClick="onTopMenuClicked"
-                    app:iconSize="24dp"
+                    app:iconSize="@dimen/icon_button_icon_size_page"
                     app:icon="@drawable/ic_back" />
 
                 <TextView
@@ -62,31 +62,31 @@
 
                 <com.google.android.material.button.MaterialButton
                     style="@style/Widget.App.Button.Icon"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/icon_button_size"
+                    android:layout_height="@dimen/icon_button_size"
                     android:backgroundTint="@color/menuBackground"
                     android:onClick="@{() -> viewModel.changeMenuState(viewModel.MenuState.Settings)}"
-                    app:iconSize="24dp"
+                    app:iconSize="@dimen/icon_button_icon_size_page"
                     app:icon="@drawable/ic_settings" />
 
                 <com.google.android.material.button.MaterialButton
                     style="@style/Widget.App.Button.Icon"
                     android:id="@+id/buttonAddBookmark"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/icon_button_size"
+                    android:layout_height="@dimen/icon_button_size"
                     android:backgroundTint="@color/menuBackground"
                     android:onClick="onTopMenuClicked"
-                    app:iconSize="24dp"
+                    app:iconSize="@dimen/icon_button_icon_size_page"
                     app:icon="@drawable/ic_bookmark" />
 
                 <com.google.android.material.button.MaterialButton
                     style="@style/Widget.App.Button.Icon"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/icon_button_size"
+                    android:layout_height="@dimen/icon_button_size"
                     android:layout_marginEnd="20dp"
                     android:backgroundTint="@color/menuBackground"
                     android:onClick="@{() -> viewModel.changeMenuState(viewModel.MenuState.Bookmarks)}"
-                    app:iconSize="24dp"
+                    app:iconSize="@dimen/icon_button_icon_size_page"
                     app:icon="@drawable/ic_list" />
 
             </LinearLayout>
