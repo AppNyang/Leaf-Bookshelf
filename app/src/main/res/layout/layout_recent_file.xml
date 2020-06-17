@@ -34,6 +34,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:shapeAppearance="@style/ShapeAppearance.App.SmallBookCover"
                 app:cover="@{item.coverUri}"
+                android:elevation="@dimen/recent_book_elevation"
                 android:scaleType="centerCrop"
                 android:contentDescription="@string/book_cover" />
 
@@ -43,6 +44,7 @@
                 app:layout_constraintTop_toTopOf="@id/imageCover"
                 app:layout_constraintStart_toStartOf="@id/imageCover"
                 android:layout_marginStart="10dp"
+                android:elevation="@dimen/recent_book_elevation"
                 android:background="@color/recentBookLine" />
 
             <View
@@ -52,6 +54,7 @@
                 android:layout_marginEnd="10dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/imageCover"
+                android:elevation="@dimen/recent_book_elevation"
                 app:reading_progress="@{item.readingProgress}"
                 android:background="@drawable/ic_book_progress" />
 

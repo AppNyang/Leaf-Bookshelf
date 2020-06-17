@@ -25,6 +25,7 @@
 
     <dimen name="recent_book_width">70dp</dimen>
     <dimen name="recent_book_height">105dp</dimen>
+    <dimen name="recent_book_elevation">6dp</dimen>
 
     <dimen name="page_margin">16dp</dimen>
     <dimen name="page_menu_elevation">5dp</dimen>
