@@ -2,6 +2,7 @@ package com.appnyang.leafbookshelf.data.model.bookmark
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.appnyang.leafbookshelf.data.model.book.Book
 import org.joda.time.DateTime
@@ -12,7 +13,7 @@ import org.joda.time.DateTime
  *
  * @author Sangwoo <sangwoo@yesang.com> on 2020-02-14.
  */
-@Entity(foreignKeys = [ForeignKey(entity = Book::class, parentColumns = ["bookId"], childColumns = ["ownerBookId"], onDelete = ForeignKey.CASCADE)])
+@Entity(foreignKeys = [ForeignKey(entity = Book::class, parentColumns = ["bookId"], childColumns = ["ownerBookId"], onDelete = ForeignKey.CASCADE)], indices = [Index(value = ["ownerBookId"])])
 data class Bookmark(
     val ownerBookId: Long,
     val displayName: String,

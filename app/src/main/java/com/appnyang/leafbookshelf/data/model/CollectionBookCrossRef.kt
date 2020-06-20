@@ -17,7 +17,8 @@ import kotlinx.coroutines.flow.Flow
     foreignKeys = [
         ForeignKey(entity = Collection::class, parentColumns = ["collectionId"], childColumns = ["collectionId"], onDelete = ForeignKey.CASCADE),
         ForeignKey(entity = Book::class, parentColumns = ["bookId"], childColumns = ["bookId"], onDelete = ForeignKey.CASCADE)
-    ])
+    ],
+    indices = [Index(value = ["collectionId"]), Index(value = ["bookId"])])
 data class CollectionBookCrossRef(
     val collectionId: Long,
     val bookId: Long
