@@ -44,8 +44,10 @@ fun setCover(view: ShapeableImageView, cover: Uri?) {
                             if (resource != null) {
                                 Palette.from(resource).generate { palette ->
                                     val defaultColor = ContextCompat.getColor(view.context, R.color.darkEmerald)
+                                    palette?.getVibrantColor(defaultColor).let { vibrantColor ->
+                                        view.outlineAmbientShadowColor = vibrantColor ?: defaultColor
+                                    }
                                     palette?.getMutedColor(defaultColor).let { mutedColor ->
-                                        view.outlineAmbientShadowColor = mutedColor ?: defaultColor
                                         view.outlineSpotShadowColor = mutedColor ?: defaultColor
                                     }
                                 }
