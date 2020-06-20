@@ -24,6 +24,8 @@ fun setCover(view: ShapeableImageView, cover: Uri?) {
     if (cover != null) {
         Glide.with(view.context)
             .asBitmap()
+            .override(view.width, view.height)
+            .centerCrop()
             .run {
                 // Load the image according to the cover scheme.
                 if (cover.scheme == "color") {
