@@ -25,10 +25,9 @@ import com.appnyang.leafbookshelf.util.SharedPreferenceLiveData
 import com.appnyang.leafbookshelf.util.icu.CharsetDetector
 import com.appnyang.leafbookshelf.util.styler.DefaultStyler
 import com.appnyang.leafbookshelf.view.page.PageAdapter
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.ticker
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
 import org.joda.time.Interval
 import java.io.BufferedReader
@@ -88,6 +87,11 @@ class PageViewModel(
             }
         }
     }
+
+    // Job that manages auto-reading.
+    private var autoReadJob: Job = Job()
+    private val _autoReadTick = MutableLiveData(0f)
+    val autoReadTick: LiveData<Float> = _autoReadTick
 
     // TTS Service.
     private lateinit var ttsService: TtsService
@@ -630,6 +634,53 @@ class PageViewModel(
     private fun getReadingProgress(): Float =
         ((currentPage.value!!.page.toFloat()) / (pagedBook.value?.size?.toFloat() ?: 1f))
             .coerceAtMost(1.0f)
+
+    /**
+     * Run auto-read feature.
+     *
+     * @param bStart If true, start the auto-read.
+     */
+    fun runAutoRead(bStart: Boolean) {
+        viewModelScope.launch(Dispatchers.Default) {
+            if (bStart) {
+                autoReadJob = launch {
+                    val tickTime = 500L
+                    val tickerChannel = ticker(delayMillis = tickTime)
+                    try {
+                        var totalTime = pagedBook.value?.get(currentPage.value?.page ?: 0)?.length?.times(200)?.toLong() ?: 30000L
+                        var timePassed = 0L
+                        for (event in tickerChannel) {
+                            // Goto next page or stop auto read.
+                            if (totalTime <= timePassed) {
+                                launch(Dispatchers.Main) {
+                                    val currentPage = currentPage.value?.page ?: 0
+                                    if (!goToPage(currentPage + 1)) {
+                                        bAuto.value = false
+                                    }
+                                    else {
+                                        // Set the totalTime with the number of characters ot the next page.
+                                        totalTime = pagedBook.value?.get(currentPage)?.length?.times(200)?.toLong() ?: 30000L
+                                        timePassed = 0
+                                    }
+                                }
+                            }
+                            else {
+                                timePassed += tickTime
+                                _autoReadTick.postValue(timePassed.toFloat() / totalTime.toFloat())
+                            }
+                        }
+                    } finally {
+                        tickerChannel.cancel()
+                    }
+                }
+            }
+            else {
+                if (autoReadJob.isActive) {
+                    autoReadJob.cancelAndJoin()
+                }
+            }
+        }
+    }
 
     /**
      * Extension function to notify the data is changed.

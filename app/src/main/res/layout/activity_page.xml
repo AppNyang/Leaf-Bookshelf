@@ -5,6 +5,7 @@
     tools:context=".view.page.activity.PageActivity">
 
     <data>
+        <import type="android.view.View" />
         <variable name="viewModel" type="com.appnyang.leafbookshelf.viewmodel.PageViewModel" />
     </data>
 
@@ -25,6 +26,16 @@
                 app:current_page="@={viewModel.currentPage}"
                 app:page_text_appearance="@{viewModel.pageTextAppearance}"
                 app:touch_up_listener="@{viewModel.onTouchUpListener}" />
+
+            <!-- Auto read timer progress -->
+            <View
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:auto_reading_progress="@{viewModel.autoReadTick}"
+                android:visibility="@{viewModel.bAuto ? View.VISIBLE : View.GONE}"
+                android:background="@color/lightEmerald" />
 
             <!-- Top Menu -->
             <LinearLayout

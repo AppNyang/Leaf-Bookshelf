@@ -17,7 +17,6 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.viewpager2.widget.ViewPager2
 import com.appnyang.leafbookshelf.BuildConfig
@@ -35,18 +34,11 @@ import com.google.android.gms.ads.InterstitialAd
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.activity_page.*
 import kotlinx.android.synthetic.main.dialog_add_bookmark.view.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancelAndJoin
-import kotlinx.coroutines.channels.ticker
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PageActivity : AppCompatActivity() {
 
     private val viewModel by viewModel<PageViewModel>()
-
-    private var autoReadJob: Job = Job()
 
     private lateinit var interstitialAd: InterstitialAd
 
@@ -127,6 +119,9 @@ class PageActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
+
+        // Stop auto-reading.
+        viewModel.runAutoRead(false)
 
         if (viewModel.bookWithBookmarks.value != null) {
             // Save a bookmark.
@@ -244,7 +239,7 @@ class PageActivity : AppCompatActivity() {
 
         // Called when Auto chip is clicked.
         viewModel.bAuto.observe(this, Observer {
-            runAutoRead(it)
+            viewModel.runAutoRead(it)
         })
 
         // Called when bookmarks from database is updated.
@@ -293,39 +288,6 @@ class PageActivity : AppCompatActivity() {
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN or
                 View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-    }
-
-    /**
-     * Run auto-read feature.
-     *
-     * @param bStart If true, start the auto-read.
-     */
-    private fun runAutoRead(bStart: Boolean) {
-        lifecycleScope.launch(Dispatchers.Default) {
-            if (bStart) {
-                autoReadJob = launch {
-                    val tickerChannel = ticker(delayMillis = 35000)
-                    try {
-                        for (event in tickerChannel) {
-                            // Goto next page or stop auto read.
-                            launch(Dispatchers.Main) {
-                                val currentPage = viewModel.currentPage.value?.page ?: 0
-                                if (!viewModel.goToPage(currentPage + 1)) {
-                                    viewModel.bAuto.postValue(false)
-                                }
-                            }
-                        }
-                    } finally {
-                        tickerChannel.cancel()
-                    }
-                }
-            }
-            else {
-                if (autoReadJob.isActive) {
-                    autoReadJob.cancelAndJoin()
-                }
-            }
-        }
     }
 
     /**
