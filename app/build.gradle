@@ -22,7 +22,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "RECENT_FILE_PROMO_ID", RELEASE_RECENT_FILE_PROMO_ID
             buildConfigField "String", "AFTER_READING_PROMO_ID", RELEASE_AFTER_READING_PROMO_ID
